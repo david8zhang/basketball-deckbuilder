@@ -9,6 +9,8 @@ enum CardType {
 
 @export var card_type: CardType
 @export var card_name := ""
+@export var card_description := ""
 @export var cost := 0
 @export var power := 0
-@export var bonuses := []
+@export var bonuses: Array[CardStatBonus] = []
+@export var requirements: Array[CardRequirement] = []

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=4 format=3 uid="uid://cqn1kll230gf8"]
+
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/CardStat.gd" id="1_g6k8c"]
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/CardStatBonus.gd" id="1_te22t"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/CardRequirement.gd" id="2_c1aes"]
+
+[resource]
+script = ExtResource("1_g6k8c")
+card_type = 0
+card_name = "Crossover"
+card_description = "Deal {power} damage to enemy defense"
+cost = 2
+power = 6
+bonuses = Array[ExtResource("1_te22t")]([])
+requirements = Array[ExtResource("2_c1aes")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=4 format=3 uid="uid://dl0nkf4mb44j3"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/CardStatBonus.gd" id="1_2vph6"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/CardRequirement.gd" id="2_vcp8n"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/CardStat.gd" id="3_3rtox"]
+
+[resource]
+script = ExtResource("3_3rtox")
+card_type = 1
+card_name = "On Ball Pressure"
+card_description = "Gain {power} defense score"
+cost = 1
+power = 4
+bonuses = Array[ExtResource("1_2vph6")]([])
+requirements = Array[ExtResource("2_vcp8n")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=4 format=3 uid="uid://ch20sou0q7sue"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/CardStatBonus.gd" id="1_k35i0"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/CardRequirement.gd" id="2_ahwtv"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/CardStat.gd" id="3_773uc"]
+
+[resource]
+script = ExtResource("3_773uc")
+card_type = 1
+card_name = "Help Defense"
+card_description = "Gain {power} defense score. If CPU intent is a 2 pointer, your defense score persists into the next tick."
+cost = 2
+power = 7
+bonuses = Array[ExtResource("1_k35i0")]([])
+requirements = Array[ExtResource("2_ahwtv")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"
