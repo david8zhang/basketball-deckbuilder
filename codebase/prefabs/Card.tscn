@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://c8dc8ln86s5ss"]
+
+[node name="Card" type="Control"]
+custom_minimum_size = Vector2(135, 175)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -67.5
+offset_top = -87.5
+offset_right = 67.5
+offset_bottom = 87.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Placeholder"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="Description" type="RichTextLabel" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 14
+text = "Some Description Here"
+fit_content = true
+
+[node name="Play" type="Button" parent="PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Play"
+
+[node name="Cost" type="Label" parent="."]
+layout_mode = 2
+offset_left = -7.0
+offset_top = -20.0
+offset_right = 10.0
+offset_bottom = 22.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 30
+text = "3"

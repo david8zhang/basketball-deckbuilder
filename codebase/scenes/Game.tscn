@@ -1,3 +1,162 @@
-[gd_scene format=3 uid="uid://ckvn22s1adegw"]
+[gd_scene load_steps=2 format=3 uid="uid://ckvn22s1adegw"]
+
+[ext_resource type="Script" uid="uid://dce2tgt7ui4r3" path="res://scripts/Game.gd" id="1_ibkli"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_ibkli")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+custom_minimum_size = Vector2(150, 0)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = 140.0
+offset_bottom = 171.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Next Tick"
+
+[node name="StaminaSkill" type="Label" parent="CanvasLayer"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = 140.0
+offset_right = 46.0
+offset_bottom = 182.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "3/3"
+
+[node name="PlayerHand" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_right = 350.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+mouse_filter = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 8
+mouse_filter = 2
+alignment = 1
+
+[node name="DrawContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 130)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/DrawContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Amount" type="Label" parent="CanvasLayer/HBoxContainer/DrawContainer/VBoxContainer"]
+layout_mode = 2
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/DrawContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control2" type="Control" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="DiscardContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 130)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/DiscardContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Amount" type="Label" parent="CanvasLayer/HBoxContainer/DiscardContainer/VBoxContainer"]
+layout_mode = 2
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/DiscardContainer/VBoxContainer"]
+layout_mode = 2
+text = "Discard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyDefense" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -54.5
+offset_right = -162.0
+offset_bottom = 54.5
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 1
+
+[node name="DefenseLabel" type="Label" parent="CanvasLayer/EnemyDefense"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Defense"
+
+[node name="DefenseScore" type="Label" parent="CanvasLayer/EnemyDefense"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerDefense" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = -54.5
+offset_right = 268.0
+offset_bottom = 54.5
+grow_vertical = 2
+alignment = 1
+
+[node name="DefenseLabel" type="Label" parent="CanvasLayer/PlayerDefense"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Defense"
+
+[node name="DefenseScore" type="Label" parent="CanvasLayer/PlayerDefense"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
