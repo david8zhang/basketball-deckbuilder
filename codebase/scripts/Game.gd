@@ -1,9 +1,13 @@
 class_name Game
 extends Node2D
 
-enum EnemyScoreIntent {
+enum EnemyAttackIntent {
 	TWO_POINTER,
 	THREE_POINTER
+}
+
+enum EnemyDefendIntent {
+	DEFENSE_BOOST
 }
 
 enum Phase {
@@ -32,9 +36,11 @@ static var DRAW_PER_TURN := 2
 static var STARTING_DECK_SIZE := 10
 
 # Enemy stats
-var enmey_score := 0
+var cpu_score := 0
 var curr_enemy_defense_score := 0
-var curr_enemy_score_intent: EnemyScoreIntent
+var curr_enemy_attack_intent: EnemyAttackIntent
+var curr_enemy_defend_intent: EnemyDefendIntent
+var next_enemy_defense_boost := 0
 var curr_enemy_attack_power := 0
 
 # Counters
@@ -46,9 +52,16 @@ static var SHOT_CLOCK_TICKS := 3
 # UI stuff
 @onready var tick_shot_clock_button = $CanvasLayer/Button as Button
 @onready var player_hand = $CanvasLayer/PlayerHand/HBoxContainer as HBoxContainer
+# Enemy defense
 @onready var enemy_defense_container = $CanvasLayer/EnemyDefense as VBoxContainer
-@onready var enemy_defense_label = $CanvasLayer/EnemyDefense/DefenseLabel as Label
-@onready var enemy_defense_score_label = $CanvasLayer/EnemyDefense/DefenseScore as Label
+@onready var enemy_defense_label = $CanvasLayer/EnemyDefense/Label as Label
+@onready var enemy_defense_score_label = $CanvasLayer/EnemyDefense/Score as Label
+@onready var enemy_defense_intent_label = $CanvasLayer/EnemyDefense/Intent as Label
+# Enemy attack
+@onready var enemy_attack_container = $CanvasLayer/EnemyAttack as VBoxContainer
+@onready var enemy_attack_label = $CanvasLayer/EnemyAttack/Label as Label
+@onready var enemy_attack_power_label = $CanvasLayer/EnemyAttack/Value as Label
+# Player Defense
 @onready var player_defense_container = $CanvasLayer/PlayerDefense as VBoxContainer
 @onready var player_defense_score_label = $CanvasLayer/PlayerDefense/DefenseScore as Label
 @onready var skill_stamina_label = $CanvasLayer/StaminaSkill as Label
@@ -78,10 +91,27 @@ func init_resource_points():
 		curr_stamina_points = BASE_STAMINA_POINTS
 		skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
 
+func set_enemy_attack_intent():
+	curr_enemy_attack_power = randi_range(5, 15)
+	curr_enemy_attack_intent = EnemyAttackIntent.TWO_POINTER if randi_range(0, 1) == 0 else EnemyAttackIntent.THREE_POINTER
+	enemy_attack_label.text = "2-Pointer" if curr_enemy_attack_intent == EnemyAttackIntent.TWO_POINTER else "3-Pointer"
+	enemy_attack_power_label.text = str(curr_enemy_attack_power)
+
 func init_enemy_defense_score():
-	curr_enemy_defense_score = randi_range(10, 20)
+	curr_enemy_defense_score = randi_range(5, 15)
 	enemy_defense_label.text = "Defense"
 	enemy_defense_score_label.text = str(curr_enemy_defense_score)
+	set_enemy_defend_intent()
+
+func set_enemy_defend_intent():
+	var will_boost = randi_range(0, 2) == 0
+	if will_boost:
+		next_enemy_defense_boost = randi_range(0, 5)
+		enemy_defense_intent_label.show()
+		enemy_defense_intent_label.text = "(Next: +" + str(next_enemy_defense_boost) + " Defense)"
+	else:
+		next_enemy_defense_boost = 0
+		enemy_defense_intent_label.hide()
 
 func init_player_defense_score():
 	curr_defense_score = 0
@@ -130,20 +160,38 @@ func update_shot_clock(amount: int):
 	shot_clock_label.text = str(shot_clock)
 
 func handle_enemy_turn(on_complete: Callable):
-	print("Handle enemy turn here!")
-	on_complete.call()
+	var is_enemy_on_offense = curr_phase == Phase.DEFENSE
+	if is_enemy_on_offense:
+		update_player_defense(-curr_enemy_attack_power)
+		if curr_defense_score == 0:
+			var score_amount = 2 if curr_enemy_attack_intent == EnemyAttackIntent.TWO_POINTER else 3
+			update_cpu_score(score_amount)
+			switch_phases()
+		else:
+			set_enemy_attack_intent()
+			on_complete.call()
+	else:
+		match curr_enemy_defend_intent:
+			EnemyDefendIntent.DEFENSE_BOOST:
+				update_enemy_defense(next_enemy_defense_boost)
+		set_enemy_defend_intent()
+		on_complete.call()
 	
 func switch_phases():
 	curr_phase = Phase.DEFENSE if curr_phase == Phase.OFFENSE else Phase.OFFENSE
 	# Init scores based on defense vs. offense
 	if curr_phase == Phase.DEFENSE:
 		enemy_defense_container.hide()
+		enemy_attack_container.show()
 		player_defense_container.show()
 		init_player_defense_score()
+		set_enemy_attack_intent()
 	elif curr_phase == Phase.OFFENSE:
-		player_defense_container.hide()
 		enemy_defense_container.show()
+		enemy_attack_container.hide()
+		player_defense_container.hide()
 		init_enemy_defense_score()
+		set_enemy_defend_intent()
 	# Clear out hand, draw new cards
 	for c in player_hand.get_children():
 		c.queue_free()
@@ -223,6 +271,10 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 func update_player_score(amount: int):
 	player_score += amount
 	player_score_label.text = str(player_score)
+
+func update_cpu_score(amount: int):
+	cpu_score += amount
+	cpu_score_label.text = str(cpu_score)	
 
 func update_skill_points(amount: int):
 	curr_skill_points = max(0, curr_skill_points + amount)

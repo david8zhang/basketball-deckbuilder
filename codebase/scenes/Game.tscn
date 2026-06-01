@@ -134,12 +134,47 @@ grow_horizontal = 0
 grow_vertical = 2
 alignment = 1
 
-[node name="DefenseLabel" type="Label" parent="CanvasLayer/EnemyDefense"]
+[node name="Label" type="Label" parent="CanvasLayer/EnemyDefense"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Defense"
+horizontal_alignment = 1
 
-[node name="DefenseScore" type="Label" parent="CanvasLayer/EnemyDefense"]
+[node name="Score" type="Label" parent="CanvasLayer/EnemyDefense"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 45
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Intent" type="Label" parent="CanvasLayer/EnemyDefense"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "(Next: +10 Def)"
+horizontal_alignment = 1
+
+[node name="EnemyAttack" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -54.5
+offset_right = -162.0
+offset_bottom = 54.5
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/EnemyAttack"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "2-Pointer"
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="CanvasLayer/EnemyAttack"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 45
 text = "50"
