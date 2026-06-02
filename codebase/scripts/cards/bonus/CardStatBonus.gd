@@ -7,7 +7,11 @@ enum BonusType {
 	STAMINA_REGEN,
 	OFF_POWER_BOOST,
 	DEF_POWER_BOOST,
-	STATIC_POWER
+	STATIC_POWER,
+	PERSIST_DEF,
+	INCR_SHOT_CLOCK,
+	REDUCE_SPEC_CARD_COST,
+	REDUCE_CARD_TYPE_COST
 }
 
 # TODO: currently, all bonuses last the duration of the phase. Add bonuses that only apply for current tick

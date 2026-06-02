@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8dc8ln86s5ss"]
 
-[ext_resource type="Script" uid="uid://bki2s74pl7ho0" path="res://scripts/Card.gd" id="1_231n0"]
+[ext_resource type="Script" uid="uid://bki2s74pl7ho0" path="res://scripts/cards/Card.gd" id="1_231n0"]
 [ext_resource type="Resource" uid="uid://dl0nkf4mb44j3" path="res://resources/cards/defense/OnBallPressure.tres" id="2_ranrt"]
 
 [node name="Card" type="Control"]
@@ -52,7 +52,8 @@ layout_mode = 2
 [node name="Description" type="RichTextLabel" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 12
-text = "Some Description Here"
+bbcode_enabled = true
+text = "Some [color=green]Description[/color] Here"
 fit_content = true
 
 [node name="Play" type="Button" parent="PanelContainer"]

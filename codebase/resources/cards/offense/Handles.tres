@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=5 format=3 uid="uid://bsdrhx7u8o3to"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_oplm1"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_te044"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_ldh4g"]
+
+[sub_resource type="Resource" id="Resource_oplm1"]
+script = ExtResource("1_oplm1")
+card_requirements = Array[ExtResource("2_te044")]([])
+bonus_type = 0
+bonus_amt = 1
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[resource]
+script = ExtResource("3_ldh4g")
+card_type = 0
+card_name = "Handles"
+card_description = "Gain 1 skill point."
+cost = 0
+power = 0
+bonuses = Array[ExtResource("1_oplm1")]([SubResource("Resource_oplm1")])
+requirements = Array[ExtResource("2_te044")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

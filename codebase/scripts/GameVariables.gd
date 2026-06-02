@@ -3,9 +3,13 @@ extends Node
 var off_card_names = [
 	"AnkleBreaker",
 	"Crossover",
+	"Drive",
 	"DriveAndKick",
+	"Handles",
+	"Pass",
 	"PickAndRoll",
-	"TripleThreat"
+	"PumpFake",
+	"TripleThreat",
 ]
 var def_card_names = [
 	"HelpDefense",
@@ -53,10 +57,10 @@ func get_all_shot_cards():
 func generate_player_off_deck():
 	var off_cards = get_all_offensive_cards()
 	var shot_cards = get_all_shot_cards()
-	for i in range(0, 5):
+	for i in range(0, 7):
 		var rand_off_card = off_cards.pick_random() as CardStat
 		player_off_deck.append(rand_off_card.card_name)
-	for i in range(0, 5):
+	for i in range(0, 3):
 		var rand_shot_card = shot_cards.pick_random() as CardStat
 		player_off_deck.append(rand_shot_card.card_name)
 

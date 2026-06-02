@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="ShotCardStat" load_steps=5 format=3 uid="uid://bf1clq8mhv8u3"]
+[gd_resource type="Resource" script_class="ShotCardStat" load_steps=6 format=3 uid="uid://bf1clq8mhv8u3"]
 
-[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/CardStatBonus.gd" id="1_db2t3"]
-[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/CardRequirement.gd" id="3_k2gwa"]
-[ext_resource type="Script" uid="uid://cttf1rt1d55b5" path="res://scripts/ShotCardStat.gd" id="4_iume5"]
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_db2t3"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_e5rwa"]
+[ext_resource type="Script" uid="uid://csgyycc5hprd" path="res://scripts/cards/ThresholdCardRequirement.gd" id="3_k2gwa"]
+[ext_resource type="Script" uid="uid://cttf1rt1d55b5" path="res://scripts/cards/ShotCardStat.gd" id="4_iume5"]
 
 [sub_resource type="Resource" id="Resource_uhh1f"]
 script = ExtResource("3_k2gwa")
-requirement_type = 2
 comparator = 4
 threshold = 2
-metadata/_custom_type_script = "uid://ifl64h3acjxt"
+requirement_type = 2
+metadata/_custom_type_script = "uid://csgyycc5hprd"
 
 [resource]
 script = ExtResource("4_iume5")
@@ -20,5 +21,5 @@ card_description = "Scores 3 Points. Can only be played if off. advantage is 2 o
 cost = 2
 power = 0
 bonuses = Array[ExtResource("1_db2t3")]([])
-requirements = Array[ExtResource("3_k2gwa")]([SubResource("Resource_uhh1f")])
+requirements = Array[ExtResource("2_e5rwa")]([SubResource("Resource_uhh1f")])
 metadata/_custom_type_script = "uid://cttf1rt1d55b5"

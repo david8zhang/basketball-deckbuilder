@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=7 format=3 uid="uid://04wnp24lak37"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_d37xu"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_sheju"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_ej0tu"]
+[ext_resource type="Script" uid="uid://cj1thfn1eb4fe" path="res://scripts/cards/requirement/DefIntentRequirement.gd" id="3_sheju"]
+
+[sub_resource type="Resource" id="Resource_sheju"]
+script = ExtResource("1_d37xu")
+card_requirements = Array[ExtResource("2_sheju")]([])
+bonus_type = 3
+bonus_amt = 3
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[sub_resource type="Resource" id="Resource_ej0tu"]
+script = ExtResource("3_sheju")
+target_defend_intent = 0
+requirement_type = 4
+metadata/_custom_type_script = "uid://cj1thfn1eb4fe"
+
+[resource]
+script = ExtResource("3_ej0tu")
+card_type = 0
+card_name = "Pump Fake"
+card_description = "If the enemy intends to boost their defense next turn, boost all offensive card power by 2"
+cost = 1
+power = 0
+bonuses = Array[ExtResource("1_d37xu")]([SubResource("Resource_sheju")])
+requirements = Array[ExtResource("2_sheju")]([SubResource("Resource_ej0tu")])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

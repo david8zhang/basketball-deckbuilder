@@ -1,23 +1,53 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=5 format=3 uid="uid://bemcsjl36op0k"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=13 format=3 uid="uid://bemcsjl36op0k"]
 
-[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/CardStat.gd" id="1_4upsu"]
-[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/CardStatBonus.gd" id="1_uy35e"]
-[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/CardRequirement.gd" id="2_4qlor"]
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_4qlor"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_0goc4"]
+[ext_resource type="Resource" uid="uid://cwgsohtwcyiiy" path="res://resources/cards/shot/MidRangeJumper.tres" id="3_0goc4"]
+[ext_resource type="Script" uid="uid://sthymdkvqxb5" path="res://scripts/cards/bonus/ReduceSpecificCardCostBonus.gd" id="3_4qlor"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_2p8lm"]
+[ext_resource type="Resource" uid="uid://bf1clq8mhv8u3" path="res://resources/cards/shot/3PointJumper.tres" id="5_lmg2c"]
+[ext_resource type="Resource" uid="uid://c14fid6oxbsuc" path="res://resources/cards/offense/Pass.tres" id="6_2p8lm"]
+[ext_resource type="Resource" uid="uid://o5ckul2f2w5c" path="res://resources/cards/offense/Drive.tres" id="7_klqr6"]
 
-[sub_resource type="Resource" id="Resource_uy35e"]
-script = ExtResource("2_4qlor")
-requirement_type = 0
-comparator = 2
-threshold = 0
-metadata/_custom_type_script = "uid://ifl64h3acjxt"
+[sub_resource type="Resource" id="Resource_0goc4"]
+script = ExtResource("3_4qlor")
+card_to_match = ExtResource("3_0goc4")
+card_requirements = Array[ExtResource("2_0goc4")]([])
+bonus_type = 8
+bonus_amt = 1
+metadata/_custom_type_script = "uid://sthymdkvqxb5"
+
+[sub_resource type="Resource" id="Resource_2p8lm"]
+script = ExtResource("3_4qlor")
+card_to_match = ExtResource("5_lmg2c")
+card_requirements = Array[ExtResource("2_0goc4")]([])
+bonus_type = 8
+bonus_amt = 1
+metadata/_custom_type_script = "uid://sthymdkvqxb5"
+
+[sub_resource type="Resource" id="Resource_klqr6"]
+script = ExtResource("3_4qlor")
+card_to_match = ExtResource("6_2p8lm")
+card_requirements = Array[ExtResource("2_0goc4")]([])
+bonus_type = 8
+bonus_amt = 1
+metadata/_custom_type_script = "uid://sthymdkvqxb5"
+
+[sub_resource type="Resource" id="Resource_trqxv"]
+script = ExtResource("3_4qlor")
+card_to_match = ExtResource("7_klqr6")
+card_requirements = Array[ExtResource("2_0goc4")]([])
+bonus_type = 8
+bonus_amt = 1
+metadata/_custom_type_script = "uid://sthymdkvqxb5"
 
 [resource]
-script = ExtResource("1_4upsu")
+script = ExtResource("4_2p8lm")
 card_type = 0
 card_name = "Triple Threat"
-card_description = "Add {power} offensive advantage if CPU defense is 0"
+card_description = "Deal {power} damage to enemy defense. Reduce the cost of Pass, Jumpers, and Drive by 1 "
 cost = 1
 power = 3
-bonuses = Array[ExtResource("1_uy35e")]([])
-requirements = Array[ExtResource("2_4qlor")]([SubResource("Resource_uy35e")])
+bonuses = Array[ExtResource("1_4qlor")]([SubResource("Resource_0goc4"), SubResource("Resource_2p8lm"), SubResource("Resource_klqr6"), SubResource("Resource_trqxv")])
+requirements = Array[ExtResource("2_0goc4")]([])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"

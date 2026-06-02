@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=4 format=3 uid="uid://o5ckul2f2w5c"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_x4u5e"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_vdete"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_1vb0g"]
+
+[resource]
+script = ExtResource("3_1vb0g")
+card_type = 0
+card_name = "Drive"
+card_description = "Deal {power} to enemy defense."
+cost = 1
+power = 4
+bonuses = Array[ExtResource("1_x4u5e")]([])
+requirements = Array[ExtResource("2_vdete")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

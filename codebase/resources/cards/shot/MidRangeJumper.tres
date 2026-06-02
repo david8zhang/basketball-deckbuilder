@@ -1,15 +1,16 @@
-[gd_resource type="Resource" script_class="ShotCardStat" load_steps=5 format=3 uid="uid://cwgsohtwcyiiy"]
+[gd_resource type="Resource" script_class="ShotCardStat" load_steps=6 format=3 uid="uid://cwgsohtwcyiiy"]
 
-[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/CardStatBonus.gd" id="1_nopqe"]
-[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/CardRequirement.gd" id="3_2fpgi"]
-[ext_resource type="Script" uid="uid://cttf1rt1d55b5" path="res://scripts/ShotCardStat.gd" id="4_nl4fx"]
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_nopqe"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_8k6qj"]
+[ext_resource type="Script" uid="uid://csgyycc5hprd" path="res://scripts/cards/ThresholdCardRequirement.gd" id="3_2fpgi"]
+[ext_resource type="Script" uid="uid://cttf1rt1d55b5" path="res://scripts/cards/ShotCardStat.gd" id="4_nl4fx"]
 
-[sub_resource type="Resource" id="Resource_nopqe"]
+[sub_resource type="Resource" id="Resource_4wwbq"]
 script = ExtResource("3_2fpgi")
-requirement_type = 0
 comparator = 3
 threshold = 1
-metadata/_custom_type_script = "uid://ifl64h3acjxt"
+requirement_type = 0
+metadata/_custom_type_script = "uid://csgyycc5hprd"
 
 [resource]
 script = ExtResource("4_nl4fx")
@@ -20,5 +21,5 @@ card_description = "Score 2 points. Can only be played if CPU defense is 1 or le
 cost = 2
 power = 0
 bonuses = Array[ExtResource("1_nopqe")]([])
-requirements = Array[ExtResource("3_2fpgi")]([SubResource("Resource_nopqe")])
+requirements = Array[ExtResource("2_8k6qj")]([SubResource("Resource_4wwbq")])
 metadata/_custom_type_script = "uid://cttf1rt1d55b5"
