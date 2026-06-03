@@ -25,18 +25,19 @@ func update_card():
 
 func apply_off_boost():
 	if card_stat.card_type == CardStat.CardType.OFFENSE:
-		if game.curr_off_boost > 0:
+		if game.curr_off_boost != 0:
 			var new_power = card_stat.power + game.curr_off_boost
-			print("Card Name: " + card_stat.card_name + ", New power: " + str(new_power))
-			description_label.text = card_stat.card_description.replace("{power}", "[color=green]" + str(new_power) + "[/color]")
+			var color = "red" if new_power < card_stat.power else "green"
+			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(new_power) + "[/color]")
 		else:
 			description_label.text = card_stat.card_description.replace("{power}", str(card_stat.power))
 
 func apply_def_boost():
 	if card_stat.card_type == CardStat.CardType.DEFENSE:
-		if game.curr_def_boost > 0:
+		if game.curr_def_boost != 0:
 			var new_power = card_stat.power + game.curr_def_boost
-			description_label.text = card_stat.card_description.replace("{power}", "[color=green]" + str(new_power) + "[/color]")
+			var color = "red" if new_power < card_stat.power else "green"
+			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(new_power) + "[/color]")
 		else:
 			description_label.text = card_stat.card_description.replace("{power}", str(card_stat.power))
 

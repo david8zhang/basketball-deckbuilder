@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://56xnah3egtaa"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_stri6"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_qcq3n"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="3_2vvqb"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_fnvev"]
+
+[sub_resource type="Resource" id="Resource_stri6"]
+script = ExtResource("1_stri6")
+card_requirements = Array[ExtResource("3_2vvqb")]([])
+bonus_type = 7
+bonus_amt = -1
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[resource]
+script = ExtResource("4_fnvev")
+card_type = 1
+card_name = "Active Hands"
+card_description = "Gain {power} defense. Reduce shot clock by 1"
+cost = 2
+power = 2
+bonuses = Array[ExtResource("1_stri6")]([SubResource("Resource_stri6")])
+penalties = Array[ExtResource("2_qcq3n")]([])
+requirements = Array[ExtResource("3_2vvqb")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

@@ -1,5 +1,5 @@
-class_name ThresholdCardRequirement
+class_name RelativeDefenseCardRequirement
 extends CardRequirement
 
 @export var comparator: CardRequirement.ReqComparator
-@export var threshold := 0
+

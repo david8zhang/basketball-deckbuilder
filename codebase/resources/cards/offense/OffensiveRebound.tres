@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://dwdspk0ndql8n"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_qmf1w"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_6cy4o"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="3_ccbhq"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_7crqy"]
+
+[sub_resource type="Resource" id="Resource_qmf1w"]
+script = ExtResource("1_qmf1w")
+card_requirements = Array[ExtResource("3_ccbhq")]([])
+bonus_type = 7
+bonus_amt = 1
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[resource]
+script = ExtResource("4_7crqy")
+card_type = 0
+card_name = "Offensive Rebound"
+card_description = "Gain 1 shot clock tick."
+cost = 2
+power = 0
+bonuses = Array[ExtResource("1_qmf1w")]([SubResource("Resource_qmf1w")])
+penalties = Array[ExtResource("2_6cy4o")]([])
+requirements = Array[ExtResource("3_ccbhq")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

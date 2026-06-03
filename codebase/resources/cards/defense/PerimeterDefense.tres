@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=7 format=3 uid="uid://c5j4f23q7p2rf"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_ij840"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_7d1an"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="3_05csw"]
+[ext_resource type="Script" uid="uid://c7vnsf1inbdgp" path="res://scripts/cards/requirement/AtkIntentRequirement.gd" id="4_7d1an"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_8qvbj"]
+
+[sub_resource type="Resource" id="Resource_05csw"]
+script = ExtResource("4_7d1an")
+target_attack_intent = 1
+requirement_type = 3
+metadata/_custom_type_script = "uid://c7vnsf1inbdgp"
+
+[resource]
+script = ExtResource("4_8qvbj")
+card_type = 1
+card_name = "Perimeter Defense"
+card_description = "If the enemy intends to score 3 points, gain {power} defense."
+cost = 1
+power = 10
+bonuses = Array[ExtResource("1_ij840")]([])
+penalties = Array[ExtResource("2_7d1an")]([])
+requirements = Array[ExtResource("3_05csw")]([SubResource("Resource_05csw")])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

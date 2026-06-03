@@ -6,14 +6,24 @@ var off_card_names = [
 	"Drive",
 	"DriveAndKick",
 	"Handles",
+	"OffensiveRebound",
 	"Pass",
 	"PickAndRoll",
 	"PumpFake",
 	"TripleThreat",
 ]
 var def_card_names = [
+	"ActiveHands",
+	"Block",
+	"Conditioning",
+	"Deflect",
+	"FastBreak",
 	"HelpDefense",
-	"OnBallPressure"
+	"OnBallPressure",
+	"PerimeterDefense",
+	"RimProtector",
+	"Steal",
+	"Switch"
 ]
 var shot_card_names = [
 	"3PointJumper",
@@ -57,15 +67,15 @@ func get_all_shot_cards():
 func generate_player_off_deck():
 	var off_cards = get_all_offensive_cards()
 	var shot_cards = get_all_shot_cards()
-	for i in range(0, 7):
+	for i in range(0, 10):
 		var rand_off_card = off_cards.pick_random() as CardStat
 		player_off_deck.append(rand_off_card.card_name)
-	for i in range(0, 3):
+	for i in range(0, 5):
 		var rand_shot_card = shot_cards.pick_random() as CardStat
 		player_off_deck.append(rand_shot_card.card_name)
 
 func generate_player_def_deck():
 	var def_cards = get_all_defensive_cards()
-	for i in range(0, 10):
+	for i in range(0, 15):
 		var rand_def_card = def_cards.pick_random() as CardStat
 		player_def_deck.append(rand_def_card.card_name)

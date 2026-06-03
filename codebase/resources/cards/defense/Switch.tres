@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://625brgybdbln"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_l7dmb"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_ivc0j"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="3_t68sn"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_6ranf"]
+
+[sub_resource type="Resource" id="Resource_l7dmb"]
+script = ExtResource("1_l7dmb")
+card_requirements = Array[ExtResource("3_t68sn")]([])
+bonus_type = 1
+bonus_amt = 2
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[resource]
+script = ExtResource("4_6ranf")
+card_type = 1
+card_name = "Switch"
+card_description = "Draw 2 cards"
+cost = 1
+power = 0
+bonuses = Array[ExtResource("1_l7dmb")]([SubResource("Resource_l7dmb")])
+penalties = Array[ExtResource("2_ivc0j")]([])
+requirements = Array[ExtResource("3_t68sn")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://qncgs7irqyry"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_13f0o"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_lv1t4"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_cm547"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_lv1t4"]
+
+[sub_resource type="Resource" id="Resource_13f0o"]
+script = ExtResource("1_13f0o")
+card_requirements = Array[ExtResource("2_lv1t4")]([])
+bonus_type = 2
+bonus_amt = 1
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[resource]
+script = ExtResource("3_cm547")
+card_type = 1
+card_name = "Conditioning"
+card_description = "Gain 1 stamina point."
+cost = 0
+power = 0
+bonuses = Array[ExtResource("1_13f0o")]([SubResource("Resource_13f0o")])
+penalties = Array[ExtResource("3_lv1t4")]([])
+requirements = Array[ExtResource("2_lv1t4")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

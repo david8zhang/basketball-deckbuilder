@@ -8,7 +8,10 @@ enum PenaltyType {
 	REDUCE_DEF,
 	REDUCE_ATK,
 	INCR_ENEMY_DEF,
-	INCR_ENEMY_ATK
+	INCR_ENEMY_ATK,
+	FUTURE_REDUCE_SKILL,
+	FUTURE_REDUCE_STAM,
+	CONCEDE_POINTS
 }
 
 @export var penalty_type: PenaltyType

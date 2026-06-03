@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=7 format=3 uid="uid://dan7qbmss7lm8"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_bm7eu"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_u2pg4"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="3_3b64g"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_bbxr3"]
+[ext_resource type="Script" uid="uid://c7vnsf1inbdgp" path="res://scripts/cards/requirement/AtkIntentRequirement.gd" id="4_u2pg4"]
+
+[sub_resource type="Resource" id="Resource_3b64g"]
+script = ExtResource("4_u2pg4")
+target_attack_intent = 0
+requirement_type = 3
+metadata/_custom_type_script = "uid://c7vnsf1inbdgp"
+
+[resource]
+script = ExtResource("4_bbxr3")
+card_type = 1
+card_name = "Rim Protector"
+card_description = "If the enemy intends to score 2 points, gain {power} defense."
+cost = 1
+power = 10
+bonuses = Array[ExtResource("1_bm7eu")]([])
+penalties = Array[ExtResource("2_u2pg4")]([])
+requirements = Array[ExtResource("3_3b64g")]([SubResource("Resource_3b64g")])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=7 format=3 uid="uid://ckh472vlmcgor"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_i7dv6"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_usvsh"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_dnfd1"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_usvsh"]
+
+[sub_resource type="Resource" id="Resource_dnfd1"]
+script = ExtResource("1_i7dv6")
+card_requirements = Array[ExtResource("2_usvsh")]([])
+bonus_type = 11
+bonus_amt = 100000
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[sub_resource type="Resource" id="Resource_usvsh"]
+script = ExtResource("3_usvsh")
+penalty_type = 8
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[resource]
+script = ExtResource("3_dnfd1")
+card_type = 1
+card_name = "Block"
+card_description = "Reduce enemy attack to 0 this turn. Lose 1 stamina point the next turn."
+cost = 3
+power = 0
+bonuses = Array[ExtResource("1_i7dv6")]([SubResource("Resource_dnfd1")])
+penalties = Array[ExtResource("3_usvsh")]([SubResource("Resource_usvsh")])
+requirements = Array[ExtResource("2_usvsh")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

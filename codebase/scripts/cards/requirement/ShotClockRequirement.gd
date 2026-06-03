@@ -1,5 +1,5 @@
-class_name ThresholdCardRequirement
+class_name ShotClockRequirement
 extends CardRequirement
 
 @export var comparator: CardRequirement.ReqComparator
-@export var threshold := 0
+@export var shot_clock_value := 0
