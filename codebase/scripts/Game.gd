@@ -41,11 +41,15 @@ var curr_off_boost := 0
 var curr_def_boost := 0
 var future_skill_gain := 0
 var future_stam_gain := 0
+var future_off_boost := 0
+var future_def_boost := 0
 
 # Penalty trackers
 var future_skill_reduce := 0
 var future_stam_reduce := 0
 var future_draw_reduce := 0
+var future_off_penalty := 0
+var future_def_penalty := 0
 
 # Enemy stats
 var cpu_score := 0
@@ -299,13 +303,17 @@ func play_card(card: Card):
 	if card_cost <= resource and meets_requirements(card_stat.requirements):
 		match card_stat.card_type:
 			CardStat.CardType.OFFENSE:
-				var amount = card_stat.power + curr_off_boost
+				var amount = card_stat.power + curr_off_boost + future_off_boost - future_off_penalty
+				future_off_boost = 0
+				future_off_penalty = 0
 				update_enemy_defense(-amount)
 				handle_card_bonuses(card_stat.bonuses)
 				handle_card_penalties(card_stat.penalties)
 				update_skill_points(-card_cost)
 			CardStat.CardType.DEFENSE:
-				var amount = card_stat.power + curr_def_boost
+				var amount = card_stat.power + curr_def_boost + future_def_boost - future_def_penalty
+				future_off_boost = 0
+				future_off_penalty = 0				
 				update_player_defense(amount)
 				handle_card_bonuses(card_stat.bonuses)
 				handle_card_penalties(card_stat.penalties)
@@ -352,6 +360,10 @@ func handle_card_penalties(penalties: Array[CardPenalty]):
 			CardPenalty.PenaltyType.CONCEDE_POINTS:
 				update_cpu_score(penalty.amount)
 				switch_phases()
+			CardPenalty.PenaltyType.FUTURE_REDUCE_OFF_POWER:
+				future_off_penalty = penalty.amount
+			CardPenalty.PenaltyType.FUTURE_REDUCE_DEF_POWER:
+				future_def_penalty = penalty.amount
 
 func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 	for bonus in bonuses:
@@ -385,6 +397,10 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 					switch_phases()
 				CardStatBonus.BonusType.REDUCE_ENEMY_OFF_POWER:
 					update_enemy_offense(-bonus.bonus_amt)
+				CardStatBonus.BonusType.FUTURE_OFF_BOOST:
+					future_off_boost = bonus.bonus_amt
+				CardStatBonus.BonusType.FUTURE_DEF_BOOST:
+					future_def_boost = bonus.bonus_amt
 
 func update_all_cards():
 	for c in player_hand.get_children():

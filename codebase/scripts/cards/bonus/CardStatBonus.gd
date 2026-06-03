@@ -15,7 +15,9 @@ enum BonusType {
 	SWITCH_PHASE,
 	REDUCE_ENEMY_OFF_POWER,
 	FUTURE_SKILL_GAIN,
-	FUTURE_STAMINA_GAIN
+	FUTURE_STAMINA_GAIN,
+	FUTURE_OFF_BOOST,
+	FUTURE_DEF_BOOST
 }
 
 # TODO: currently, all bonuses last the duration of the phase. Add bonuses that only apply for current tick
