@@ -1,13 +1,14 @@
-[gd_resource type="Resource" script_class="ShotCardStat" load_steps=6 format=3 uid="uid://dj6kid745e4ue"]
+[gd_resource type="Resource" script_class="ShotCardStat" load_steps=7 format=3 uid="uid://dj6kid745e4ue"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_r6bln"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_5fjgo"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_v3ddx"]
 [ext_resource type="Script" uid="uid://csgyycc5hprd" path="res://scripts/cards/ThresholdCardRequirement.gd" id="3_v3ddx"]
 [ext_resource type="Script" uid="uid://cttf1rt1d55b5" path="res://scripts/cards/ShotCardStat.gd" id="4_fqjlh"]
 
 [sub_resource type="Resource" id="Resource_fjbke"]
 script = ExtResource("3_v3ddx")
-comparator = 2
+comparator = 3
 threshold = 0
 requirement_type = 0
 metadata/_custom_type_script = "uid://csgyycc5hprd"
@@ -21,5 +22,6 @@ card_description = "Scores 2 points. Can only be played if enemy defense is 0"
 cost = 0
 power = 0
 bonuses = Array[ExtResource("1_r6bln")]([])
+penalties = Array[ExtResource("2_v3ddx")]([])
 requirements = Array[ExtResource("2_5fjgo")]([SubResource("Resource_fjbke")])
 metadata/_custom_type_script = "uid://cttf1rt1d55b5"

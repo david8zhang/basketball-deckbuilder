@@ -182,17 +182,19 @@ func draw_cards(draw_amount: int):
 			card.card_stat = card_stat
 			player_hand.add_child(card)
 	draw_amount_label.text = str(draw_pile.size())
+	update_all_cards()
 
 func tick_shot_clock():
 	update_game_clock(-1)
 	# Reset bonuses after ending current turn
 	card_name_to_cost_reduce_map = {}
 	card_type_to_cost_reduce_map = {}
-	curr_off_boost = 0
-	curr_def_boost = 0
-	update_all_cards()
+	curr_off_boost = future_off_boost
+	curr_def_boost = future_def_boost
 	if shot_clock == 1:
-		switch_phases()
+		var on_complete = func _on_complete():
+			switch_phases()
+		handle_enemy_turn(on_complete)
 	else:
 		update_shot_clock(-1)
 		var on_complete = func _on_complete():
