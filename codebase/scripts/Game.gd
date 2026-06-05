@@ -29,8 +29,7 @@ var curr_defense_score := 0
 var curr_phase := Phase.OFFENSE
 static var BASE_SKILL_POINTS := 3
 static var BASE_STAMINA_POINTS := 3
-static var STARTING_DRAW_AMOUNT := 5
-static var DRAW_PER_TURN := 2
+static var DRAW_PER_TURN := 5
 static var STARTING_DECK_SIZE := 10
 
 # Bonus trackers
@@ -63,7 +62,7 @@ var curr_enemy_attack_power := 0
 var total_poss_rem := 0
 var shot_clock := 0
 var game_clock := 0
-static var GAME_CLOCK_TICKS := 40
+static var GAME_CLOCK_TICKS := 30
 static var SHOT_CLOCK_TICKS := 3
 
 # UI stuff
@@ -158,22 +157,35 @@ func init_deck():
 	discard_amount_label.text = str(discard_pile.size())
 
 func start_player_turn(is_first_turn: bool):
-	if is_first_turn:
-		var draw_amt = max(0, STARTING_DRAW_AMOUNT - future_draw_reduce)
-		future_draw_reduce = 0
-		draw_cards(draw_amt)
-	else:
-		var draw_amt = max(0, DRAW_PER_TURN - future_draw_reduce)
-		future_draw_reduce = 0
-		draw_cards(draw_amt)
+	if !is_first_turn:
+		discard_current_hand()
+	var draw_amount = max(0, DRAW_PER_TURN - future_draw_reduce)
+	draw_cards(draw_amount)
 	reset_resource_points()
 	if curr_phase == Phase.DEFENSE:
 		if !persist_defense:
 			persist_defense = false
 			init_player_defense_score()
 
+func discard_current_hand():
+	for c in player_hand.get_children():
+		if is_instance_valid(c):
+			var card = c as Card
+			discard_pile.append(card.card_stat.card_name)
+			c.queue_free()
+	discard_amount_label.text = str(discard_pile.size())
+
+func shuffle_discard_into_draw_pile():
+	draw_pile.append_array(discard_pile)
+	discard_pile = []
+	draw_pile.shuffle()
+	discard_amount_label.text = str(discard_pile.size())
+	draw_amount_label.text = str(draw_pile.size())
+
 func draw_cards(draw_amount: int):
 	for i in range(0, draw_amount):
+		if draw_pile.is_empty():
+			shuffle_discard_into_draw_pile()
 		var next_card_name = draw_pile.pop_front()
 		if next_card_name != null:
 			var card_stat = GameVariables.load_card_stat_from_name(next_card_name)
@@ -242,7 +254,7 @@ func switch_phases():
 		player_defense_container.hide()
 		init_enemy_defense_score()
 		set_enemy_defend_intent()
-	# Clear out hand, draw new cards
+	# Clear out hand and discard pile, draw new cards
 	for c in player_hand.get_children():
 		c.queue_free()
 	init_deck()
