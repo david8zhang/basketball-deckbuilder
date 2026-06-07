@@ -19,9 +19,7 @@ enum Phase {
 @export var card_scene: PackedScene
 
 # Player stats
-var player_score := 0
 var draw_pile: Array[String] = []
-var hand: Array[Card] = []
 var discard_pile: Array[String] = []
 var curr_skill_points := 0
 var curr_stamina_points := 0
@@ -51,7 +49,6 @@ var future_off_penalty := 0
 var future_def_penalty := 0
 
 # Enemy stats
-var cpu_score := 0
 var curr_enemy_defense_score := 0
 var curr_enemy_attack_intent: EnemyAttackIntent
 var curr_enemy_defend_intent: EnemyDefendIntent
@@ -62,7 +59,7 @@ var curr_enemy_attack_power := 0
 var total_poss_rem := 0
 var shot_clock := 0
 var game_clock := 0
-static var GAME_CLOCK_TICKS := 30
+static var GAME_CLOCK_TICKS := 3
 static var SHOT_CLOCK_TICKS := 3
 
 # UI stuff
@@ -85,15 +82,20 @@ static var SHOT_CLOCK_TICKS := 3
 @onready var discard_amount_label = $CanvasLayer/HBoxContainer/DiscardContainer/VBoxContainer/Amount as Label
 @onready var shot_clock_label = $CanvasLayer/ShotClock/Value as Label
 @onready var game_clock_label = $CanvasLayer/GameClock/Value as Label
-@onready var player_score_label = $CanvasLayer/Scoreboard/PlayerScore/Score as Label
-@onready var cpu_score_label = $CanvasLayer/Scoreboard/EnemyScore/Score as Label
+@onready var scoreboard = $CanvasLayer/Scoreboard as Scoreboard
+@onready var quarter_number_label = $CanvasLayer/Quarter/Value as Label
 
 func _ready() -> void:
 	init_shot_clock()
 	init_game_clock()
 	init_deck()
 	init_enemy_defense_score()
+	init_scoreboard()
+	init_quarter_number()
 	start_player_turn(true)
+
+func init_scoreboard():
+	scoreboard.set_scores(GameVariables.curr_player_score, GameVariables.curr_cpu_score)
 
 func init_shot_clock():
 	shot_clock = SHOT_CLOCK_TICKS
@@ -127,6 +129,9 @@ func init_enemy_defense_score():
 	enemy_defense_label.text = "Defense"
 	enemy_defense_score_label.text = str(curr_enemy_defense_score)
 	set_enemy_defend_intent()
+
+func init_quarter_number():
+	quarter_number_label.text = str(GameVariables.quarter_number)
 
 func set_enemy_defend_intent():
 	var will_boost = randi_range(0, 2) == 0
@@ -193,25 +198,32 @@ func draw_cards(draw_amount: int):
 			var card = card_scene.instantiate() as Card
 			card.card_stat = card_stat
 			player_hand.add_child(card)
+			card.card_button.visible = false
 	draw_amount_label.text = str(draw_pile.size())
 	update_all_cards()
 
 func tick_shot_clock():
 	update_game_clock(-1)
-	# Reset bonuses after ending current turn
-	card_name_to_cost_reduce_map = {}
-	card_type_to_cost_reduce_map = {}
-	curr_off_boost = future_off_boost
-	curr_def_boost = future_def_boost
-	if shot_clock == 1:
-		var on_complete = func _on_complete():
-			switch_phases()
-		handle_enemy_turn(on_complete)
+	if game_clock == 0:
+		handle_end_of_quarter()
 	else:
-		update_shot_clock(-1)
-		var on_complete = func _on_complete():
-			start_player_turn(false)
-		handle_enemy_turn(on_complete)
+		# Reset bonuses after ending current turn
+		card_name_to_cost_reduce_map = {}
+		card_type_to_cost_reduce_map = {}
+		curr_off_boost = future_off_boost
+		curr_def_boost = future_def_boost
+		if shot_clock == 1:
+			var on_complete = func _on_complete():
+				switch_phases()
+			handle_enemy_turn(on_complete)
+		else:
+			update_shot_clock(-1)
+			var on_complete = func _on_complete():
+				start_player_turn(false)
+			handle_enemy_turn(on_complete)
+
+func handle_end_of_quarter():
+	get_tree().change_scene_to_file("res://scenes/QuarterEnd.tscn")
 
 func update_shot_clock(amount: int):
 	shot_clock = max(0, shot_clock + amount)
@@ -227,7 +239,7 @@ func handle_enemy_turn(on_complete: Callable):
 		update_player_defense(-curr_enemy_attack_power)
 		if curr_defense_score < 0:
 			var score_amount = 2 if curr_enemy_attack_intent == EnemyAttackIntent.TWO_POINTER else 3
-			update_cpu_score(score_amount)
+			scoreboard.update_cpu_score(score_amount)
 			switch_phases()
 		else:
 			set_enemy_attack_intent()
@@ -320,25 +332,26 @@ func play_card(card: Card):
 				var amount = card_stat.power + curr_off_boost + future_off_boost - future_off_penalty
 				future_off_boost = 0
 				future_off_penalty = 0
+				update_skill_points(-card_cost)
 				update_enemy_defense(-amount)
 				handle_card_bonuses(card_stat.bonuses)
 				handle_card_penalties(card_stat.penalties)
-				update_skill_points(-card_cost)
 			CardStat.CardType.DEFENSE:
 				var amount = card_stat.power + curr_def_boost + future_def_boost - future_def_penalty
 				future_off_boost = 0
-				future_off_penalty = 0				
+				future_off_penalty = 0
+				update_stamina_points(-card_cost)
 				update_player_defense(amount)
 				handle_card_bonuses(card_stat.bonuses)
 				handle_card_penalties(card_stat.penalties)
-				update_stamina_points(-card_cost)
 			CardStat.CardType.SHOT:
 				var shot_card_stat = card_stat as ShotCardStat
-				update_player_score(shot_card_stat.points)
+				scoreboard.update_player_score(shot_card_stat.points)
+				tick_shot_clock()
 		discard_pile.append(card_stat.card_name)
 		card.queue_free()		
 		discard_amount_label.text = str(discard_pile.size())
-		if card_stat.card_type == CardStat.CardType.SHOT or shot_clock == 0:
+		if game_clock != 0 and card_stat.card_type == CardStat.CardType.SHOT or shot_clock == 0:
 			switch_phases()
 
 func get_card_cost(card_stat: CardStat):
@@ -372,7 +385,7 @@ func handle_card_penalties(penalties: Array[CardPenalty]):
 			CardPenalty.PenaltyType.FUTURE_REDUCE_STAM:
 				future_stam_reduce += penalty.amount
 			CardPenalty.PenaltyType.CONCEDE_POINTS:
-				update_cpu_score(penalty.amount)
+				scoreboard.update_cpu_score(penalty.amount)
 				switch_phases()
 			CardPenalty.PenaltyType.FUTURE_REDUCE_OFF_POWER:
 				future_off_penalty = penalty.amount
@@ -420,14 +433,6 @@ func update_all_cards():
 	for c in player_hand.get_children():
 		var card = c as Card
 		card.update_card()
-
-func update_player_score(amount: int):
-	player_score += amount
-	player_score_label.text = str(player_score)
-
-func update_cpu_score(amount: int):
-	cpu_score += amount
-	cpu_score_label.text = str(cpu_score)	
 
 func update_skill_points(amount: int):
 	curr_skill_points = max(0, curr_skill_points + amount)

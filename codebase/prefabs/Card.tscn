@@ -61,6 +61,14 @@ layout_mode = 2
 size_flags_vertical = 10
 text = "Play"
 
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+offset_left = 5.0
+offset_top = 7.5
+offset_right = 155.0
+offset_bottom = 207.5
+flat = true
+
 [node name="Cost" type="Label" parent="."]
 layout_mode = 1
 offset_left = -2.0

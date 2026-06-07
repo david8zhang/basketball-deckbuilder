@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://i0wdgloe23eo"]
+
+[ext_resource type="Script" uid="uid://b1rf14str8s2p" path="res://scripts/QuarterEnd.gd" id="1_rxear"]
+[ext_resource type="PackedScene" uid="uid://c8dc8ln86s5ss" path="res://prefabs/Card.tscn" id="2_n1arf"]
+[ext_resource type="PackedScene" uid="uid://cf8lce6kalxy0" path="res://prefabs/Scoreboard.tscn" id="3_66s3w"]
+[ext_resource type="PackedScene" uid="uid://d3pvdoauee6lc" path="res://prefabs/ScoreBreakdown.tscn" id="4_am4rd"]
+
+[node name="QuarterEnd" type="Node2D"]
+script = ExtResource("1_rxear")
+card_scene = ExtResource("2_n1arf")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Scoreboard" parent="CanvasLayer" instance=ExtResource("3_66s3w")]
+
+[node name="EndOfQuarter" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -37.5
+offset_top = 65.0
+offset_right = 37.5
+offset_bottom = 88.0
+grow_horizontal = 2
+text = "End of Q1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Skip" type="Button" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -39.5
+offset_top = -31.0
+offset_right = 39.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Skip"
+
+[node name="ScoreBreakdown" parent="CanvasLayer" instance=ExtResource("4_am4rd")]

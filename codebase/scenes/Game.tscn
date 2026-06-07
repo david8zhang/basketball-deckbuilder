@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckvn22s1adegw"]
+[gd_scene load_steps=4 format=3 uid="uid://ckvn22s1adegw"]
 
 [ext_resource type="Script" uid="uid://dce2tgt7ui4r3" path="res://scripts/Game.gd" id="1_ibkli"]
 [ext_resource type="PackedScene" uid="uid://c8dc8ln86s5ss" path="res://prefabs/Card.tscn" id="2_qbsmt"]
+[ext_resource type="PackedScene" uid="uid://cf8lce6kalxy0" path="res://prefabs/Scoreboard.tscn" id="3_cpr0p"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ibkli")
@@ -243,47 +244,27 @@ text = "30"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Scoreboard" type="HBoxContainer" parent="CanvasLayer"]
+[node name="Scoreboard" parent="CanvasLayer" instance=ExtResource("3_cpr0p")]
+
+[node name="Quarter" type="HBoxContainer" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -84.0
-offset_right = 84.0
-offset_bottom = 55.0
+offset_left = -20.0
+offset_top = 54.0
+offset_right = 20.0
+offset_bottom = 94.0
 grow_horizontal = 2
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="PlayerScore" type="HBoxContainer" parent="CanvasLayer/Scoreboard"]
+[node name="Label" type="Label" parent="CanvasLayer/Quarter"]
 layout_mode = 2
+text = "Q"
+horizontal_alignment = 2
+vertical_alignment = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/Scoreboard/PlayerScore"]
+[node name="Value" type="Label" parent="CanvasLayer/Quarter"]
 layout_mode = 2
-text = "Player"
-
-[node name="Control" type="Control" parent="CanvasLayer/Scoreboard/PlayerScore"]
-custom_minimum_size = Vector2(10, 0)
-layout_mode = 2
-
-[node name="Score" type="Label" parent="CanvasLayer/Scoreboard/PlayerScore"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "0"
-
-[node name="Control" type="Control" parent="CanvasLayer/Scoreboard"]
-custom_minimum_size = Vector2(25, 0)
-layout_mode = 2
-
-[node name="EnemyScore" type="HBoxContainer" parent="CanvasLayer/Scoreboard"]
-layout_mode = 2
-
-[node name="Score" type="Label" parent="CanvasLayer/Scoreboard/EnemyScore"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "0"
-
-[node name="Control" type="Control" parent="CanvasLayer/Scoreboard/EnemyScore"]
-custom_minimum_size = Vector2(10, 0)
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Scoreboard/EnemyScore"]
-layout_mode = 2
-text = "CPU"
+text = "1"
+vertical_alignment = 1

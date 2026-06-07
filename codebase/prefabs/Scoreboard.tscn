@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://cf8lce6kalxy0"]
+
+[ext_resource type="Script" uid="uid://dcul0brlb2bdr" path="res://scripts/Scoreboard.gd" id="1_agxdj"]
+
+[node name="Scoreboard" type="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 55.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+alignment = 1
+script = ExtResource("1_agxdj")
+
+[node name="PlayerScore" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 2
+
+[node name="Label" type="Label" parent="PlayerScore"]
+layout_mode = 2
+text = "Player"
+
+[node name="Score" type="Label" parent="PlayerScore"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "0"
+
+[node name="EnemyScore" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Score" type="Label" parent="EnemyScore"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "0"
+
+[node name="Label" type="Label" parent="EnemyScore"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CPU"

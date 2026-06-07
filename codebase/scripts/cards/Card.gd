@@ -6,6 +6,7 @@ extends Control
 @onready var name_label = $PanelContainer/HBoxContainer/Name as Label
 @onready var description_label = $PanelContainer/HBoxContainer/Description as RichTextLabel
 @onready var play_button = $PanelContainer/Play as Button
+@onready var card_button = $Button as Button
 @export var card_stat: CardStat
 
 func _ready() -> void:
@@ -13,6 +14,9 @@ func _ready() -> void:
 	name_label.text = card_stat.card_name
 	description_label.text = card_stat.card_description.replace("{power}", str(card_stat.power))
 	play_button.pressed.connect(play_card)
+
+func toggle_play_button(should_show: bool):
+	play_button.visible = should_show
 
 func play_card():
 	if game != null:
