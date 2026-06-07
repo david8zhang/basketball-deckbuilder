@@ -30,7 +30,7 @@ func update_card():
 func apply_off_boost():
 	if card_stat.card_type == CardStat.CardType.OFFENSE:
 		if game.curr_off_boost != 0:
-			var new_power = card_stat.power + game.curr_off_boost
+			var new_power = max(0, card_stat.power + game.curr_off_boost)
 			var color = "red" if new_power < card_stat.power else "green"
 			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(new_power) + "[/color]")
 		else:
@@ -39,7 +39,7 @@ func apply_off_boost():
 func apply_def_boost():
 	if card_stat.card_type == CardStat.CardType.DEFENSE:
 		if game.curr_def_boost != 0:
-			var new_power = card_stat.power + game.curr_def_boost
+			var new_power = max(0, card_stat.power + game.curr_def_boost)
 			var color = "red" if new_power < card_stat.power else "green"
 			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(new_power) + "[/color]")
 		else:

@@ -1,23 +1,32 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=5 format=3 uid="uid://d26v543c8pj8n"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=8 format=3 uid="uid://d26v543c8pj8n"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_n06k7"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_bkiga"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_bkiga"]
 [ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_kb8gf"]
+[ext_resource type="Script" uid="uid://nggaew6sgke6" path="res://scripts/cards/requirement/RelativeDefCardRequirement.gd" id="3_owy45"]
+
+[sub_resource type="Resource" id="Resource_31fl5"]
+script = ExtResource("3_owy45")
+comparator = 1
+requirement_type = 5
+metadata/_custom_type_script = "uid://nggaew6sgke6"
 
 [sub_resource type="Resource" id="Resource_n06k7"]
 script = ExtResource("1_n06k7")
-card_requirements = Array[ExtResource("2_bkiga")]([])
+card_requirements = Array[ExtResource("2_bkiga")]([SubResource("Resource_31fl5")])
 bonus_type = 7
-bonus_amt = -1
+bonus_amt = -2
 metadata/_custom_type_script = "uid://b5bkuxiloqoes"
 
 [resource]
 script = ExtResource("3_kb8gf")
 card_type = 1
 card_name = "Deflect"
-card_description = "If you currently have more defense than the enemy has offense, subtract 1 from the shot clock."
+card_description = "Gain {power} defense. If you currently have more defense than the enemy has offense, subtract 1 from the shot clock."
 cost = 2
-power = 0
+power = 4
 bonuses = Array[ExtResource("1_n06k7")]([SubResource("Resource_n06k7")])
+penalties = Array[ExtResource("3_bkiga")]([])
 requirements = Array[ExtResource("2_bkiga")]([])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"

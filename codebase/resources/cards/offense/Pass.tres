@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=5 format=3 uid="uid://c14fid6oxbsuc"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://c14fid6oxbsuc"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_5kyme"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_rwaar"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_rwaar"]
 [ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_xklhk"]
 
 [sub_resource type="Resource" id="Resource_5kyme"]
@@ -19,5 +20,6 @@ card_description = "Draw 2 cards."
 cost = 1
 power = 0
 bonuses = Array[ExtResource("1_5kyme")]([SubResource("Resource_5kyme")])
+penalties = Array[ExtResource("3_rwaar")]([])
 requirements = Array[ExtResource("2_rwaar")]([])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"

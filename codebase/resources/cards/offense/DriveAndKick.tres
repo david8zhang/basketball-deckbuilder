@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=5 format=3 uid="uid://r72ue2b3y10k"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://r72ue2b3y10k"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_2706f"]
 [ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="1_u6rrx"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_tid8c"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_tid8c"]
 
 [sub_resource type="Resource" id="Resource_2706f"]
 script = ExtResource("1_2706f")
@@ -19,5 +20,6 @@ card_description = "Deal {power} damage to CPU Defense. Draw 1 card"
 cost = 1
 power = 3
 bonuses = Array[ExtResource("1_2706f")]([SubResource("Resource_2706f")])
+penalties = Array[ExtResource("3_tid8c")]([])
 requirements = Array[ExtResource("2_tid8c")]([])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"

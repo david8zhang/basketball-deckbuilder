@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=7 format=3 uid="uid://04wnp24lak37"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=8 format=3 uid="uid://04wnp24lak37"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_d37xu"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_sheju"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_648rq"]
 [ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_ej0tu"]
 [ext_resource type="Script" uid="uid://cj1thfn1eb4fe" path="res://scripts/cards/requirement/DefIntentRequirement.gd" id="3_sheju"]
 
@@ -26,5 +27,6 @@ card_description = "If the enemy intends to boost their defense next turn, boost
 cost = 1
 power = 0
 bonuses = Array[ExtResource("1_d37xu")]([SubResource("Resource_sheju")])
+penalties = Array[ExtResource("3_648rq")]([])
 requirements = Array[ExtResource("2_sheju")]([SubResource("Resource_ej0tu")])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"

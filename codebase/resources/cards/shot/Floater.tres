@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ShotCardStat" load_steps=6 format=3 uid="uid://byxy6h3e0kcjj"]
+[gd_resource type="Resource" script_class="ShotCardStat" load_steps=7 format=3 uid="uid://byxy6h3e0kcjj"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_uupse"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_uejfw"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_v4bi8"]
 [ext_resource type="Script" uid="uid://csgyycc5hprd" path="res://scripts/cards/ThresholdCardRequirement.gd" id="3_v4bi8"]
 [ext_resource type="Script" uid="uid://cttf1rt1d55b5" path="res://scripts/cards/ShotCardStat.gd" id="4_p48q3"]
 
@@ -21,5 +22,6 @@ card_description = "Score 2 points. Can only be played if enemy defense is 3 or 
 cost = 3
 power = 0
 bonuses = Array[ExtResource("1_uupse")]([])
+penalties = Array[ExtResource("2_v4bi8")]([])
 requirements = Array[ExtResource("2_uejfw")]([SubResource("Resource_uyp7u")])
 metadata/_custom_type_script = "uid://cttf1rt1d55b5"

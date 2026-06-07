@@ -1,13 +1,14 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=7 format=3 uid="uid://ch20sou0q7sue"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=8 format=3 uid="uid://ch20sou0q7sue"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_ahwtv"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_773uc"]
-[ext_resource type="Script" uid="uid://c7vnsf1inbdgp" path="res://scripts/cards/requirement/AtkIntentRequirement.gd" id="3_ovv7r"]
+[ext_resource type="Script" uid="uid://c7vnsf1inbdgp" path="res://scripts/cards/requirement/ScoreIntentRequirement.gd" id="3_773uc"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="4_773uc"]
 [ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_rhuox"]
 
 [sub_resource type="Resource" id="Resource_6o3j7"]
-script = ExtResource("3_ovv7r")
-target_attack_intent = 0
+script = ExtResource("3_773uc")
+target_score_intent = 0
 requirement_type = 3
 metadata/_custom_type_script = "uid://c7vnsf1inbdgp"
 
@@ -26,5 +27,6 @@ card_description = "Gain {power} defense score. If CPU intent is a 2 pointer, yo
 cost = 2
 power = 7
 bonuses = Array[ExtResource("1_ahwtv")]([SubResource("Resource_ovv7r")])
+penalties = Array[ExtResource("4_773uc")]([])
 requirements = Array[ExtResource("2_773uc")]([])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"

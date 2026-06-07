@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=5 format=3 uid="uid://bsdrhx7u8o3to"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://bsdrhx7u8o3to"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_oplm1"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_te044"]
 [ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="3_ldh4g"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_te044"]
 
 [sub_resource type="Resource" id="Resource_oplm1"]
 script = ExtResource("1_oplm1")
@@ -19,5 +20,6 @@ card_description = "Gain 1 skill point."
 cost = 0
 power = 0
 bonuses = Array[ExtResource("1_oplm1")]([SubResource("Resource_oplm1")])
+penalties = Array[ExtResource("3_te044")]([])
 requirements = Array[ExtResource("2_te044")]([])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"
