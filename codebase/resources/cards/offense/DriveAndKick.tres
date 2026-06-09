@@ -15,7 +15,7 @@ metadata/_custom_type_script = "uid://b5bkuxiloqoes"
 [resource]
 script = ExtResource("1_u6rrx")
 card_type = 0
-card_name = "Drive And Kick"
+card_name = "Drive and Kick"
 card_description = "Deal {power} damage to CPU Defense. Draw 1 card"
 cost = 1
 power = 3

@@ -39,15 +39,15 @@ func init_card_rewards():
 		c.card_button.pressed.connect(cb)
 	
 func on_select_reward(c: Card):
-	if GameVariables.player_off_deck.is_empty():
+	if GameVariables.player_off_deck_card_names.is_empty():
 		GameVariables.generate_player_off_deck()
-	if GameVariables.player_def_deck.is_empty():
+	if GameVariables.player_def_deck_card_names.is_empty():
 		GameVariables.generate_player_def_deck()
 	match c.card_stat.card_type:
 		CardStat.CardType.OFFENSE, CardStat.CardType.SHOT:
-			GameVariables.player_off_deck.append(c.card_stat.card_name)
+			GameVariables.player_off_deck_card_names.append(c.card_stat.card_name)
 		CardStat.CardType.DEFENSE:
-			GameVariables.player_def_deck.append(c.card_stat.card_name)
+			GameVariables.player_def_deck_card_names.append(c.card_stat.card_name)
 	on_continue()
 
 func on_continue():

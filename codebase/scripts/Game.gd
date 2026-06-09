@@ -31,6 +31,7 @@ static var DRAW_PER_TURN := 5
 static var STARTING_DECK_SIZE := 10
 
 # Bonus trackers
+var switch_phase_after_card := false
 var persist_defense := false
 var card_type_to_cost_reduce_map = {}
 var card_name_to_cost_reduce_map = {}
@@ -110,6 +111,7 @@ func init_game_clock():
 
 func reset_resource_points():
 	if curr_phase == Phase.OFFENSE:
+		print(future_skill_gain)
 		curr_skill_points = max(0, BASE_SKILL_POINTS - future_skill_reduce + future_skill_gain)
 		future_skill_reduce = 0
 		future_skill_gain = 0
@@ -150,8 +152,7 @@ func init_quarter_number():
 	quarter_number_label.text = str(GameVariables.quarter_number)
 
 func set_new_enemy_defend_intent():
-	# var enemy_intent = EnemyDefendIntent.values().pick_random()
-	var enemy_intent = EnemyDefendIntent.APPLY_DEBUFF
+	var enemy_intent = EnemyDefendIntent.values().pick_random()
 	match enemy_intent:
 		EnemyDefendIntent.DEFENSE_BOOST:
 			next_enemy_defense_boost = randi_range(1, 5)
@@ -219,15 +220,15 @@ func init_player_defense_score():
 	player_defense_score_label.text = str(curr_defense_score)
 
 func init_deck():
-	if GameVariables.player_off_deck.is_empty():
+	if GameVariables.player_off_deck_card_names.is_empty():
 		GameVariables.generate_player_off_deck()
-	if GameVariables.player_def_deck.is_empty():
+	if GameVariables.player_def_deck_card_names.is_empty():
 		GameVariables.generate_player_def_deck()
 	if curr_phase == Phase.OFFENSE:
-		draw_pile = GameVariables.player_off_deck.duplicate()
+		draw_pile = GameVariables.player_off_deck_card_names.duplicate()
 		draw_pile.shuffle()
 	elif curr_phase == Phase.DEFENSE:
-		draw_pile = GameVariables.player_def_deck.duplicate()
+		draw_pile = GameVariables.player_def_deck_card_names.duplicate()
 		draw_pile.shuffle()
 	discard_pile = []
 	discard_amount_label.text = str(discard_pile.size())
@@ -375,7 +376,7 @@ func meets_requirements(requirements: Array[CardRequirement]) -> bool:
 					return false
 			CardRequirement.ReqType.OFF_ADV_AMOUNT:
 				var thres_req = req as ThresholdCardRequirement
-				if curr_enemy_defense_score < 0 and !satisfies_threshold(thres_req.comparator, thres_req.threshold, abs(curr_enemy_defense_score)):
+				if curr_enemy_defense_score > 0 or !satisfies_threshold(thres_req.comparator, thres_req.threshold, abs(curr_enemy_defense_score)):
 					return false
 			CardRequirement.ReqType.PLAYER_DEF_SCORE:
 				var thres_req = req as ThresholdCardRequirement
@@ -416,6 +417,7 @@ func play_card(card: Card):
 	var card_stat = card.card_stat as CardStat
 	var resource = curr_skill_points if curr_phase == Phase.OFFENSE else curr_stamina_points
 	var card_cost = get_card_cost(card_stat)
+	var old_phase = curr_phase
 	if card_cost <= resource and meets_requirements(card_stat.requirements):
 		match card_stat.card_type:
 			CardStat.CardType.OFFENSE:
@@ -424,24 +426,33 @@ func play_card(card: Card):
 				future_off_penalty = 0
 				update_skill_points(-card_cost)
 				update_enemy_defense(-amount)
-				handle_card_bonuses(card_stat.bonuses)
-				handle_card_penalties(card_stat.penalties)
+				if card_stat.bonus_after_penalty:
+					handle_card_penalties(card_stat.penalties)
+					handle_card_bonuses(card_stat.bonuses)
+				else:
+					handle_card_bonuses(card_stat.bonuses)
+					handle_card_penalties(card_stat.penalties)
 			CardStat.CardType.DEFENSE:
 				var amount = card_stat.power + curr_def_boost + future_def_boost - future_def_penalty
 				future_off_boost = 0
 				future_off_penalty = 0
 				update_stamina_points(-card_cost)
 				update_player_defense(amount)
-				handle_card_bonuses(card_stat.bonuses)
-				handle_card_penalties(card_stat.penalties)
+				if card_stat.bonus_after_penalty:
+					handle_card_penalties(card_stat.penalties)
+					handle_card_bonuses(card_stat.bonuses)
+				else:
+					handle_card_bonuses(card_stat.bonuses)
+					handle_card_penalties(card_stat.penalties)
 			CardStat.CardType.SHOT:
 				var shot_card_stat = card_stat as ShotCardStat
 				scoreboard.update_player_score(shot_card_stat.points)
 				tick_game_clock()
 		discard_pile.append(card_stat.card_name)
-		card.queue_free()		
+		card.queue_free()
 		discard_amount_label.text = str(discard_pile.size())
-		if game_clock != 0 and card_stat.card_type == CardStat.CardType.SHOT or shot_clock == 0:
+		if game_clock != 0 and (switch_phase_after_card or card_stat.card_type == CardStat.CardType.SHOT or shot_clock == 0):
+			switch_phase_after_card = false
 			switch_phases()
 
 func get_card_cost(card_stat: CardStat):
@@ -476,7 +487,7 @@ func handle_card_penalties(penalties: Array[CardPenalty]):
 				future_stam_reduce += penalty.amount
 			CardPenalty.PenaltyType.CONCEDE_POINTS:
 				scoreboard.update_cpu_score(penalty.amount)
-				switch_phases()
+				switch_phase_after_card = true
 			CardPenalty.PenaltyType.FUTURE_REDUCE_OFF_POWER:
 				future_off_penalty = penalty.amount
 			CardPenalty.PenaltyType.FUTURE_REDUCE_DEF_POWER:
@@ -511,13 +522,17 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 					card_type_to_cost_reduce_map[rsc_cost_bonus.card_type] = bonus.bonus_amt
 					update_all_cards()
 				CardStatBonus.BonusType.SWITCH_PHASE:
-					switch_phases()
+					switch_phase_after_card = true
 				CardStatBonus.BonusType.REDUCE_ENEMY_OFF_POWER:
 					update_enemy_offense(-bonus.bonus_amt)
 				CardStatBonus.BonusType.FUTURE_OFF_BOOST:
 					future_off_boost = bonus.bonus_amt
 				CardStatBonus.BonusType.FUTURE_DEF_BOOST:
 					future_def_boost = bonus.bonus_amt
+				CardStatBonus.BonusType.FUTURE_SKILL_GAIN:
+					future_skill_gain = bonus.bonus_amt
+				CardStatBonus.BonusType.FUTURE_STAMINA_GAIN:
+					future_stam_gain = bonus.bonus_amt		
 
 func update_all_cards():
 	for c in player_hand.get_children():

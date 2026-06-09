@@ -1,6 +1,6 @@
 extends Node
 
-var off_card_names = [
+var off_card_file_names = [
 	"AnkleBreaker",
 	"Crossover",
 	"Drive",
@@ -12,7 +12,7 @@ var off_card_names = [
 	"PumpFake",
 	"TripleThreat",
 ]
-var def_card_names = [
+var def_card_file_names = [
 	"ActiveHands",
 	"Block",
 	"Conditioning",
@@ -23,7 +23,8 @@ var def_card_names = [
 	"PerimeterDefense",
 	"RimProtector",
 	"Steal",
-	"Switch"
+	"Switch",
+	"IntentionalFoul"
 ]
 var shot_card_names = [
 	"3PointJumper",
@@ -34,8 +35,43 @@ var shot_card_names = [
 ]
 var all_card_resources: Array[CardStat] = []
 
-var player_off_deck: Array[String] = []
-var player_def_deck: Array[String] = []
+var player_off_deck_card_names: Array[String] = [
+	# Starting Offensive cards
+	"Drive",
+	"Drive",
+	"Handles",
+	"Handles",
+	"Pick and Roll",
+	"Pick and Roll",
+	"Pass",
+	"Pass",
+	"Drive and Kick",
+	"Drive and Kick",
+	# Starting shot cards
+	"Layup",
+	"Layup",
+	"Dunk",
+	"Mid Range Jumper",
+	"3-Point Jumper"
+]
+var player_def_deck_card_names: Array[String] = [
+	# Starting Defensive cards
+	"Conditioning",
+	"Conditioning",
+	"On Ball Pressure",
+	"On Ball Pressure",
+	"On Ball Pressure",
+	"On Ball Pressure",
+	"On Ball Pressure",
+	"Switch",
+	"Switch",
+	"Steal",
+	"Steal",
+	"Intentional Foul",
+	"Intentional Foul",
+	"Fast Break",
+	"Fast Break"
+]
 var quarter_number := 1
 
 var player_score_breakdown = [0, 0, 0, 0, 0]
@@ -44,10 +80,10 @@ var curr_player_score := 0
 var curr_cpu_score := 0
 
 func _ready() -> void:
-	for cname in off_card_names:
+	for cname in off_card_file_names:
 		var card = load("res://resources/cards/offense/" + cname + ".tres")
 		all_card_resources.append(card)
-	for cname in def_card_names:
+	for cname in def_card_file_names:
 		var card = load("res://resources/cards/defense/" + cname + ".tres")
 		all_card_resources.append(card)
 	for cname in shot_card_names:
@@ -75,16 +111,16 @@ func generate_player_off_deck():
 	var shot_cards = get_all_shot_cards()
 	for i in range(0, 10):
 		var rand_off_card = off_cards.pick_random() as CardStat
-		player_off_deck.append(rand_off_card.card_name)
+		player_off_deck_card_names.append(rand_off_card.card_name)
 	for i in range(0, 5):
 		var rand_shot_card = shot_cards.pick_random() as CardStat
-		player_off_deck.append(rand_shot_card.card_name)
+		player_off_deck_card_names.append(rand_shot_card.card_name)
 
 func generate_player_def_deck():
 	var def_cards = get_all_defensive_cards()
 	for i in range(0, 15):
 		var rand_def_card = def_cards.pick_random() as CardStat
-		player_def_deck.append(rand_def_card.card_name)
+		player_def_deck_card_names.append(rand_def_card.card_name)
 
 func reset_scores():
 	player_score_breakdown = []

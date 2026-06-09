@@ -12,6 +12,7 @@ enum CardType {
 @export var card_description := ""
 @export var cost := 0
 @export var power := 0
+@export var bonus_after_penalty := false
 @export var bonuses: Array[CardStatBonus] = []
 @export var penalties: Array[CardPenalty] = []
 @export var requirements: Array[CardRequirement] = []
