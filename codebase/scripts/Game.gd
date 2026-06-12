@@ -492,6 +492,8 @@ func handle_card_penalties(penalties: Array[CardPenalty]):
 				future_off_penalty = penalty.amount
 			CardPenalty.PenaltyType.FUTURE_REDUCE_DEF_POWER:
 				future_def_penalty = penalty.amount
+			CardPenalty.PenaltyType.INCR_SHOT_CLOCK:
+				update_shot_clock(penalty.amount)
 
 func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 	for bonus in bonuses:

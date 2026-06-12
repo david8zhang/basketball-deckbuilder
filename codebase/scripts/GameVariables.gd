@@ -1,5 +1,6 @@
 extends Node
 
+# Card resource file names
 var off_card_file_names = [
 	"AnkleBreaker",
 	"Crossover",
@@ -34,6 +35,9 @@ var shot_card_names = [
 	"MidRangeJumper"
 ]
 var all_card_resources: Array[CardStat] = []
+
+# CPU PlaySelector file names
+var cpu_play_selector_file_names = []
 
 var player_off_deck_card_names: Array[String] = [
 	# Starting Offensive cards

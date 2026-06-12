@@ -57,3 +57,4 @@ func on_continue():
 	else:
 		GameVariables.quarter_number = 0
 		GameVariables.reset_scores()
+		get_tree().change_scene_to_file("res://scenes/Overworld.tscn")
