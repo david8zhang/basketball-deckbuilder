@@ -105,6 +105,14 @@ func load_card_stat_from_name(card_name: String):
 			return card_stat
 	return null
 
+func load_random_cpu_play_selector():
+	var random_selector_name = cpu_play_selector_file_names.pick_random()
+	return load_cpu_play_selector(random_selector_name)
+
+func load_cpu_play_selector(selector_name):
+	var selector = load("res://resources/cpu/selectors/" + selector_name + ".tres") as PlaySelector
+	return selector
+
 func get_all_offensive_cards():
 	return all_card_resources.filter(func (cr: CardStat): return cr.card_type == CardStat.CardType.OFFENSE)
 

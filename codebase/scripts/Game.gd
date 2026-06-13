@@ -44,7 +44,6 @@ var future_def_boost := 0
 var future_shot_clock_gain := 0
 
 # Penalty trackers
-var cpu_debuffs: Array[CardPenalty] = []
 var future_skill_reduce := 0
 var future_stam_reduce := 0
 var future_draw_reduce := 0
@@ -64,6 +63,8 @@ var shot_clock := 0
 var game_clock := 0
 static var GAME_CLOCK_TICKS := 30
 static var SHOT_CLOCK_TICKS := 3
+
+@onready var cpu_handler = $CPUHandler as CPUHandler
 
 # UI stuff
 @onready var tick_shot_clock_button = $CanvasLayer/Button as Button
@@ -93,7 +94,7 @@ func _ready() -> void:
 	init_shot_clock()
 	init_game_clock()
 	init_deck()
-	init_enemy_defense_score()
+	cpu_handler.init_enemy_def_play_and_score()
 	init_scoreboard()
 	init_quarter_number()
 	start_player_turn(true)
@@ -123,27 +124,6 @@ func reset_resource_points():
 		future_stam_gain = 0
 		skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
 
-func set_new_enemy_score_and_attack_intent():
-	var should_debuff = randi_range(1, 3) == 1
-	curr_enemy_score_intent = EnemyScoreIntent.values().pick_random()
-	match curr_enemy_score_intent:
-		EnemyScoreIntent.THREE_POINTER:
-			var max_range = 5 if should_debuff else 10
-			curr_enemy_attack_power = randi_range(5, max_range)
-			enemy_attack_label.text = "3-Pointer"
-			enemy_attack_power_label.text = str(curr_enemy_attack_power)
-		EnemyScoreIntent.TWO_POINTER:
-			var max_range = 10 if should_debuff else 15
-			curr_enemy_attack_power = randi_range(5, max_range)
-			enemy_attack_label.text = "2-Pointer"
-			enemy_attack_power_label.text = str(curr_enemy_attack_power)
-	if should_debuff:
-		var random_penalty = generate_random_off_penalty()
-		show_penalty_preview(random_penalty, enemy_attack_intent_label)
-		cpu_debuffs.append(random_penalty)
-	else:
-		enemy_attack_intent_label.hide()
-
 func init_enemy_defense_score():
 	curr_enemy_defense_score = randi_range(5, 15)
 	enemy_defense_label.text = "Defense"
@@ -151,70 +131,6 @@ func init_enemy_defense_score():
 
 func init_quarter_number():
 	quarter_number_label.text = str(GameVariables.quarter_number)
-
-func set_new_enemy_defend_intent():
-	var enemy_intent = EnemyDefendIntent.values().pick_random()
-	match enemy_intent:
-		EnemyDefendIntent.DEFENSE_BOOST:
-			next_enemy_defense_boost = randi_range(1, 5)
-			enemy_defense_intent_label.show()
-			enemy_defense_intent_label.text = "(Next: +" + str(next_enemy_defense_boost) + " Defense)"
-		EnemyDefendIntent.APPLY_DEBUFF:
-			var random_penalty = generate_random_def_penalty()
-			show_penalty_preview(random_penalty, enemy_defense_intent_label)
-			cpu_debuffs.append(random_penalty)
-
-func generate_random_off_penalty() -> CardPenalty:
-	var penalty = CardPenalty.new()
-	var offensive_penalty_types = [
-		CardPenalty.PenaltyType.REDUCE_DEF,
-		CardPenalty.PenaltyType.FUTURE_REDUCE_STAM,
-		CardPenalty.PenaltyType.REDUCE_DRAW
-	]
-	var penalty_type = offensive_penalty_types.pick_random()
-	penalty.penalty_type = penalty_type
-	match penalty_type:
-		CardPenalty.PenaltyType.REDUCE_DEF:
-			var amount = randi_range(1, 3)
-			penalty.amount = amount
-		CardPenalty.PenaltyType.REDUCE_DRAW:
-			penalty.amount = randi_range(1, 4)
-		CardPenalty.PenaltyType.FUTURE_REDUCE_STAM:
-			penalty.amount = randi_range(1, 2)
-	return penalty	
-
-func generate_random_def_penalty() -> CardPenalty:
-	var penalty = CardPenalty.new()
-	var defensive_penalty_types = [
-		CardPenalty.PenaltyType.REDUCE_ATK,
-		CardPenalty.PenaltyType.FUTURE_REDUCE_SKILL,
-		CardPenalty.PenaltyType.REDUCE_DRAW
-	]
-	var penalty_type = defensive_penalty_types.pick_random()
-	penalty.penalty_type = penalty_type
-	match penalty_type:
-		CardPenalty.PenaltyType.REDUCE_ATK:
-			var amount = randi_range(1, 3)
-			penalty.amount = amount
-		CardPenalty.PenaltyType.REDUCE_DRAW:
-			penalty.amount = randi_range(1, 4)
-		CardPenalty.PenaltyType.FUTURE_REDUCE_SKILL:
-			penalty.amount = randi_range(1, 2)
-	return penalty
-
-func show_penalty_preview(penalty: CardPenalty, label: Label):
-	label.show()
-	match penalty.penalty_type:
-		CardPenalty.PenaltyType.REDUCE_ATK:
-			label.text = "(Next: -" + str(penalty.amount) + " Offensive card power)"
-		CardPenalty.PenaltyType.REDUCE_DEF:
-			label.text = "(Next: -" + str(penalty.amount) + " Defensive card power)"
-		CardPenalty.PenaltyType.REDUCE_DRAW:
-			label.text = "(Next: -" + str(penalty.amount) + " cards drawn)"
-		CardPenalty.PenaltyType.FUTURE_REDUCE_SKILL:
-			label.text = "(Next: -" + str(penalty.amount) + " skill points)"
-		CardPenalty.PenaltyType.FUTURE_REDUCE_STAM:
-			label.text = "(Next: -" + str(penalty.amount) + " stamina points)"			
 
 func init_player_defense_score():
 	curr_defense_score = 0
@@ -237,19 +153,14 @@ func init_deck():
 func start_player_turn(is_first_turn: bool):
 	if !is_first_turn:
 		discard_current_hand()
-		handle_cpu_debuffs()
+		cpu_handler.handle_cpu_debuffs()
 	var draw_amount = max(0, DRAW_PER_TURN - future_draw_reduce)
 	draw_cards(draw_amount)
 	reset_resource_points()
 	if curr_phase == Phase.DEFENSE:
-		set_new_enemy_score_and_attack_intent()
+		cpu_handler.set_new_enemy_score_and_attack_intent()
 	else:
-		set_new_enemy_defend_intent()
-
-# CPU Debuffs only last for 1 turn (may change in the future)
-func handle_cpu_debuffs():
-	handle_card_penalties(cpu_debuffs)
-	cpu_debuffs = []
+		cpu_handler.set_new_enemy_defend_intent()
 
 func discard_current_hand():
 	for c in player_hand.get_children():
@@ -297,12 +208,12 @@ func tick_shot_clock():
 		if shot_clock == 1:
 			var on_complete = func _on_complete():
 				switch_phases()
-			handle_enemy_turn(on_complete)
+			cpu_handler.handle_enemy_turn(on_complete)
 		else:
 			update_shot_clock(-1)
 			var on_complete = func _on_complete():
 				start_player_turn(false)
-			handle_enemy_turn(on_complete)
+			cpu_handler.handle_enemy_turn(on_complete)
 
 func handle_end_of_quarter():
 	get_tree().change_scene_to_file("res://scenes/QuarterEnd.tscn")
@@ -315,35 +226,8 @@ func update_game_clock(amount: int):
 	game_clock = max(0, game_clock + amount)
 	game_clock_label.text = str(game_clock)
 
-func handle_enemy_turn(on_complete: Callable):
-	var is_enemy_on_offense = curr_phase == Phase.DEFENSE
-	if is_enemy_on_offense:
-		update_player_defense(-curr_enemy_attack_power)
-		if curr_defense_score < 0:
-			handle_enemy_score_intent(on_complete)
-		else:
-			on_complete.call()
-	else:
-		handle_enemy_defend_intent(on_complete)
-
-func handle_enemy_score_intent(cb: Callable):
-	match curr_enemy_score_intent:
-		EnemyScoreIntent.TWO_POINTER:
-			scoreboard.update_cpu_score(2)
-			switch_phases()
-		EnemyScoreIntent.THREE_POINTER:
-			scoreboard.update_cpu_score(3)
-			switch_phases()
-		EnemyScoreIntent.NONE:
-			cb.call()
-
-func handle_enemy_defend_intent(cb: Callable):
-	if curr_enemy_defend_intent == EnemyDefendIntent.DEFENSE_BOOST:
-		update_enemy_defense(next_enemy_defense_boost)
-	cb.call()
-
 func reset_debuffs():
-	cpu_debuffs = []
+	cpu_handler.cpu_debuffs = [] as Array[CardPenalty]
 	future_off_penalty = 0
 	future_def_penalty = 0
 	future_skill_reduce = 0
@@ -358,13 +242,14 @@ func switch_phases():
 		enemy_attack_container.show()
 		player_defense_container.show()
 		init_player_defense_score()
-		set_new_enemy_score_and_attack_intent()
+		cpu_handler.init_enemy_off_play()
+		cpu_handler.set_new_enemy_score_and_attack_intent()
 	elif curr_phase == Phase.OFFENSE:
 		enemy_defense_container.show()
 		enemy_attack_container.hide()
 		player_defense_container.hide()
-		init_enemy_defense_score()
-		set_new_enemy_defend_intent()
+		cpu_handler.init_enemy_def_play_and_score()
+		cpu_handler.set_new_enemy_defend_intent()
 	# Clear out hand and discard pile, draw new cards
 	for c in player_hand.get_children():
 		c.queue_free()
@@ -433,7 +318,7 @@ func play_card(card: Card):
 				future_off_boost = 0
 				future_off_penalty = 0
 				update_skill_points(-card_cost)
-				update_enemy_defense(-amount)
+				cpu_handler.update_enemy_defense(-amount)
 				if card_stat.bonus_after_penalty:
 					handle_card_penalties(card_stat.penalties)
 					handle_card_bonuses(card_stat.bonuses)
@@ -486,9 +371,9 @@ func handle_card_penalties(penalties: Array[CardPenalty]):
 				curr_off_boost -= penalty.amount
 				update_all_cards()
 			CardPenalty.PenaltyType.INCR_ENEMY_DEF:
-				update_enemy_defense(penalty.amount)
+				cpu_handler.update_enemy_defense(penalty.amount)
 			CardPenalty.PenaltyType.INCR_ENEMY_ATK:
-				update_enemy_offense(penalty.amount)
+				cpu_handler.update_enemy_offense(penalty.amount)
 			CardPenalty.PenaltyType.FUTURE_REDUCE_SKILL:
 				future_skill_reduce += penalty.amount
 			CardPenalty.PenaltyType.FUTURE_REDUCE_STAM:
@@ -532,7 +417,7 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 				CardStatBonus.BonusType.SWITCH_PHASE:
 					switch_phase_after_card = true
 				CardStatBonus.BonusType.REDUCE_ENEMY_OFF_POWER:
-					update_enemy_offense(-bonus.bonus_amt)
+					cpu_handler.update_enemy_offense(-bonus.bonus_amt)
 				CardStatBonus.BonusType.FUTURE_OFF_BOOST:
 					future_off_boost = bonus.bonus_amt
 				CardStatBonus.BonusType.FUTURE_DEF_BOOST:
@@ -558,18 +443,5 @@ func update_stamina_points(amount: int):
 	skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
 
 func update_player_defense(amount: int):
-	curr_defense_score = max(-1, curr_defense_score + amount)
+	curr_defense_score = curr_defense_score + amount
 	player_defense_score_label.text = str(curr_defense_score)
-
-func update_enemy_defense(amount: int):
-	curr_enemy_defense_score = curr_enemy_defense_score + amount
-	if curr_enemy_defense_score < 0:
-		enemy_defense_label.text = "Off. Advantage"
-		enemy_defense_score_label.text = str(abs(curr_enemy_defense_score))
-	else:
-		enemy_defense_label.text = "Defense"
-		enemy_defense_score_label.text = str(curr_enemy_defense_score)
-
-func update_enemy_offense(amount: int):
-	curr_enemy_attack_power = max(0, curr_enemy_attack_power + amount)
-	enemy_attack_power_label.text = str(curr_enemy_attack_power)
