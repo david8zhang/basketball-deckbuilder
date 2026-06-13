@@ -21,7 +21,7 @@ metadata/_custom_type_script = "uid://d3s7xebxk26vg"
 [sub_resource type="Resource" id="Resource_2nf18"]
 script = ExtResource("2_2nf18")
 penalty_type = 2
-amount = 0
+amount = 1
 metadata/_custom_type_script = "uid://d3s7xebxk26vg"
 
 [sub_resource type="Resource" id="Resource_4odlm"]

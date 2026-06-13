@@ -26,7 +26,6 @@ func handle_cpu_debuffs():
 func init_enemy_off_play():
 	play_action_index = 0
 	curr_play = play_selector.default_off_plays.pick_random() as Play
-	print(curr_play.resource_path)
 
 func set_new_enemy_score_and_attack_intent():
 	play_action_index = play_action_index % curr_play.play_actions.size()
@@ -40,6 +39,7 @@ func set_new_enemy_score_and_attack_intent():
 				var is_three = randi_range(1, 100) < rand_pa.three_point_chance
 				curr_enemy_score_intent = Game.EnemyScoreIntent.THREE_POINTER if is_three else Game.EnemyScoreIntent.TWO_POINTER
 				game.enemy_attack_intent_label.hide()
+				handle_play_action_debuffs(rand_pa, game.enemy_attack_intent_label)
 			RandomOffPlayAction.RandomType.RANDOM_DEBUFF:
 				var random_debuff = play_action.debuffs.pick_random() as CardPenalty
 				show_penalty_preview(random_debuff, game.enemy_attack_intent_label)
@@ -47,14 +47,17 @@ func set_new_enemy_score_and_attack_intent():
 				cpu_debuffs.append(random_debuff)
 	else:
 		curr_enemy_score_intent = play_action.score_intent
-		if !play_action.debuffs.is_empty():
-			var debuff = play_action.debuffs[0]
-			show_penalty_preview(debuff, game.enemy_attack_intent_label)
-			cpu_debuffs.append(debuff)
-		else:
-			game.enemy_attack_intent_label.hide()
+		handle_play_action_debuffs(play_action, game.enemy_attack_intent_label)		
 	update_enemy_attack_label()
 	update_enemy_attack_power_label()
+
+func handle_play_action_debuffs(play_action: PlayAction, label: Label):
+	if !play_action.debuffs.is_empty():
+		var debuff = play_action.debuffs[0]
+		show_penalty_preview(debuff, label)
+		cpu_debuffs.append(debuff)
+	else:
+		game.enemy_attack_intent_label.hide()
 
 func update_enemy_attack_label():
 	match curr_enemy_score_intent:
@@ -113,7 +116,9 @@ func show_penalty_preview(penalty: CardPenalty, label: Label):
 		CardPenalty.PenaltyType.FUTURE_REDUCE_SKILL:
 			label.text = "(Next: -" + str(penalty.amount) + " skill points)"
 		CardPenalty.PenaltyType.FUTURE_REDUCE_STAM:
-			label.text = "(Next: -" + str(penalty.amount) + " stamina points)"			
+			label.text = "(Next: -" + str(penalty.amount) + " stamina points)"
+		CardPenalty.PenaltyType.INCR_SHOT_CLOCK:
+			label.text = "(Next: +" + str(penalty.amount) + " shot clock)"
 
 func update_enemy_defense(amount: int):
 	curr_enemy_defense_score = curr_enemy_defense_score + amount
