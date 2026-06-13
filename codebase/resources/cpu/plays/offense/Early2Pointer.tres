@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="Play" load_steps=8 format=3 uid="uid://ctxy37h46ghdb"]
+
+[ext_resource type="Script" uid="uid://bsjustje0eywv" path="res://scripts/cpu/PlayAction.gd" id="1_apjih"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_ig1pd"]
+[ext_resource type="Script" uid="uid://cow5spg8iigeb" path="res://scripts/cpu/OffensivePlayAction.gd" id="3_v1t6a"]
+[ext_resource type="Script" uid="uid://cicv4g20wmput" path="res://scripts/cpu/Play.gd" id="4_6ntqp"]
+
+[sub_resource type="Resource" id="Resource_usjxi"]
+script = ExtResource("3_v1t6a")
+base_power_low = 10
+base_power_high = 15
+score_intent = 1
+debuffs = Array[ExtResource("2_ig1pd")]([])
+metadata/_custom_type_script = "uid://cow5spg8iigeb"
+
+[sub_resource type="Resource" id="Resource_ty7ne"]
+script = ExtResource("3_v1t6a")
+base_power_low = 5
+base_power_high = 10
+score_intent = 1
+debuffs = Array[ExtResource("2_ig1pd")]([])
+metadata/_custom_type_script = "uid://cow5spg8iigeb"
+
+[sub_resource type="Resource" id="Resource_42qhs"]
+script = ExtResource("3_v1t6a")
+base_power_low = 2
+base_power_high = 6
+score_intent = 1
+debuffs = Array[ExtResource("2_ig1pd")]([])
+metadata/_custom_type_script = "uid://cow5spg8iigeb"
+
+[resource]
+script = ExtResource("4_6ntqp")
+play_type = 0
+play_actions = Array[ExtResource("1_apjih")]([SubResource("Resource_usjxi"), SubResource("Resource_ty7ne"), SubResource("Resource_42qhs")])
+metadata/_custom_type_script = "uid://cicv4g20wmput"

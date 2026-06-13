@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="DefensivePlay" load_steps=12 format=3 uid="uid://csfwvdfy6i83q"]
+
+[ext_resource type="Script" uid="uid://bsjustje0eywv" path="res://scripts/cpu/PlayAction.gd" id="1_5u62i"]
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="2_5u62i"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_asvpg"]
+[ext_resource type="Script" uid="uid://dr5wbm5rtpor0" path="res://scripts/cpu/BoostDefensePlayAction.gd" id="3_asvpg"]
+[ext_resource type="Script" uid="uid://whwvyytyy6f" path="res://scripts/cpu/ApplyDebuffDefensePlayAction.gd" id="4_4dqmo"]
+
+[sub_resource type="Resource" id="Resource_asvpg"]
+script = ExtResource("3_asvpg")
+boost_amount_low = 1
+boost_amount_high = 5
+defend_intent = 0
+debuffs = Array[ExtResource("2_asvpg")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_4dqmo"]
+script = ExtResource("2_asvpg")
+penalty_type = 7
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_8jwq0"]
+script = ExtResource("2_asvpg")
+penalty_type = 2
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_ibvai"]
+script = ExtResource("2_asvpg")
+penalty_type = 4
+amount = 3
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_hf77v"]
+script = ExtResource("4_4dqmo")
+random_select = true
+defend_intent = 1
+debuffs = Array[ExtResource("2_asvpg")]([SubResource("Resource_4dqmo"), SubResource("Resource_8jwq0"), SubResource("Resource_ibvai")])
+metadata/_custom_type_script = "uid://whwvyytyy6f"
+
+[sub_resource type="Resource" id="Resource_lwj1u"]
+script = ExtResource("3_asvpg")
+boost_amount_low = 1
+boost_amount_high = 5
+defend_intent = 0
+debuffs = Array[ExtResource("2_asvpg")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[resource]
+script = ExtResource("2_5u62i")
+starting_def_low = 8
+starting_def_high = 12
+play_type = 1
+play_actions = Array[ExtResource("1_5u62i")]([SubResource("Resource_asvpg"), SubResource("Resource_hf77v"), SubResource("Resource_lwj1u")])
+metadata/_custom_type_script = "uid://ce4aoo1aetsif"

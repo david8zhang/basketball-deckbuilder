@@ -15,17 +15,18 @@ metadata/_custom_type_script = "uid://c7vnsf1inbdgp"
 [sub_resource type="Resource" id="Resource_ovv7r"]
 script = ExtResource("1_ahwtv")
 card_requirements = Array[ExtResource("2_773uc")]([SubResource("Resource_6o3j7")])
-bonus_type = 6
-bonus_amt = 0
+bonus_type = 2
+bonus_amt = 1
 metadata/_custom_type_script = "uid://b5bkuxiloqoes"
 
 [resource]
 script = ExtResource("4_rhuox")
 card_type = 1
 card_name = "Help Defense"
-card_description = "Gain {power} defense score. If CPU intent is a 2 pointer, your defense score persists into the next tick."
+card_description = "Gain {power} defense score. If CPU intent is a 2 pointer, gain an additional stamina point."
 cost = 2
 power = 7
+bonus_after_penalty = false
 bonuses = Array[ExtResource("1_ahwtv")]([SubResource("Resource_ovv7r")])
 penalties = Array[ExtResource("4_773uc")]([])
 requirements = Array[ExtResource("2_773uc")]([])

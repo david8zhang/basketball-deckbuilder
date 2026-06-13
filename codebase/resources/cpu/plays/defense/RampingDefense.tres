@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="DefensivePlay" load_steps=8 format=3 uid="uid://d0uerpoiadixb"]
+
+[ext_resource type="Script" uid="uid://bsjustje0eywv" path="res://scripts/cpu/PlayAction.gd" id="1_ufm1j"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_21v8k"]
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="2_xpk4v"]
+[ext_resource type="Script" uid="uid://dr5wbm5rtpor0" path="res://scripts/cpu/BoostDefensePlayAction.gd" id="3_y37tx"]
+
+[sub_resource type="Resource" id="Resource_4dr6g"]
+script = ExtResource("3_y37tx")
+boost_amount_low = 1
+boost_amount_high = 5
+defend_intent = 0
+debuffs = Array[ExtResource("2_21v8k")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_21v8k"]
+script = ExtResource("3_y37tx")
+boost_amount_low = 3
+boost_amount_high = 8
+defend_intent = 0
+debuffs = Array[ExtResource("2_21v8k")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_y37tx"]
+script = ExtResource("3_y37tx")
+boost_amount_low = 5
+boost_amount_high = 10
+defend_intent = 0
+debuffs = Array[ExtResource("2_21v8k")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[resource]
+script = ExtResource("2_xpk4v")
+starting_def_low = 5
+starting_def_high = 10
+play_type = 1
+play_actions = Array[ExtResource("1_ufm1j")]([SubResource("Resource_4dr6g"), SubResource("Resource_21v8k"), SubResource("Resource_y37tx")])
+metadata/_custom_type_script = "uid://ce4aoo1aetsif"

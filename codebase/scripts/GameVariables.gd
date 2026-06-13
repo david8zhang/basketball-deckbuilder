@@ -37,7 +37,11 @@ var shot_card_names = [
 var all_card_resources: Array[CardStat] = []
 
 # CPU PlaySelector file names
-var cpu_play_selector_file_names = []
+var cpu_play_selector_file_names = [
+	"BasicOffensive",
+	"BasicDefensive",
+	"BasicBalanced"
+]
 
 var player_off_deck_card_names: Array[String] = [
 	# Starting Offensive cards

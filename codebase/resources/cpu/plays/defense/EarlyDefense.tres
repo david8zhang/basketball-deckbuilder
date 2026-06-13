@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="DefensivePlay" load_steps=11 format=3 uid="uid://d0vbsmj5uwh8l"]
+
+[ext_resource type="Script" uid="uid://bsjustje0eywv" path="res://scripts/cpu/PlayAction.gd" id="1_68hwp"]
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="2_8nboe"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_47522"]
+[ext_resource type="Script" uid="uid://whwvyytyy6f" path="res://scripts/cpu/ApplyDebuffDefensePlayAction.gd" id="3_xpmak"]
+[ext_resource type="Script" uid="uid://dr5wbm5rtpor0" path="res://scripts/cpu/BoostDefensePlayAction.gd" id="4_xpmak"]
+
+[sub_resource type="Resource" id="Resource_sc7n1"]
+script = ExtResource("2_47522")
+penalty_type = 7
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_rgtwi"]
+script = ExtResource("2_47522")
+penalty_type = 2
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_10yd0"]
+script = ExtResource("3_xpmak")
+random_select = true
+defend_intent = 0
+debuffs = Array[ExtResource("2_47522")]([SubResource("Resource_sc7n1"), SubResource("Resource_rgtwi")])
+metadata/_custom_type_script = "uid://whwvyytyy6f"
+
+[sub_resource type="Resource" id="Resource_1fxgw"]
+script = ExtResource("4_xpmak")
+boost_amount_low = 1
+boost_amount_high = 3
+defend_intent = 0
+debuffs = Array[ExtResource("2_47522")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_xpmak"]
+script = ExtResource("4_xpmak")
+boost_amount_low = 1
+boost_amount_high = 3
+defend_intent = 0
+debuffs = Array[ExtResource("2_47522")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[resource]
+script = ExtResource("2_8nboe")
+starting_def_low = 15
+starting_def_high = 20
+play_type = 1
+play_actions = Array[ExtResource("1_68hwp")]([SubResource("Resource_10yd0"), SubResource("Resource_1fxgw"), SubResource("Resource_xpmak")])
+metadata/_custom_type_script = "uid://ce4aoo1aetsif"

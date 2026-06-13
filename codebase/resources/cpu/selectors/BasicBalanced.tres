@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="PlaySelector" load_steps=13 format=3 uid="uid://it15p56mvvjl"]
+
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="1_012vj"]
+[ext_resource type="Resource" uid="uid://kbjfaqbrmkvh" path="res://resources/cpu/plays/defense/DefenseToOffense.tres" id="2_pmmt3"]
+[ext_resource type="Script" uid="uid://cicv4g20wmput" path="res://scripts/cpu/Play.gd" id="2_tmmal"]
+[ext_resource type="Script" uid="uid://db6fuuq3jq4ah" path="res://scripts/cpu/PlaySelectCompNode.gd" id="3_3gbrk"]
+[ext_resource type="Resource" uid="uid://5g612esek23v" path="res://resources/cpu/plays/defense/EarlyDebuff.tres" id="3_7xyph"]
+[ext_resource type="Resource" uid="uid://do3sdi485ih28" path="res://resources/cpu/plays/offense/EarlyShotDebuff.tres" id="3_jxi7j"]
+[ext_resource type="Resource" uid="uid://d0uerpoiadixb" path="res://resources/cpu/plays/defense/RampingDefense.tres" id="4_booe8"]
+[ext_resource type="Resource" uid="uid://bc5bh0osbf6ul" path="res://resources/cpu/plays/offense/DefaultOffense.tres" id="4_sgnve"]
+[ext_resource type="Script" uid="uid://bqj3322fo4sx3" path="res://scripts/cpu/PlaySelector.gd" id="4_vqsn1"]
+[ext_resource type="Resource" uid="uid://csfwvdfy6i83q" path="res://resources/cpu/plays/defense/DefaultDefense.tres" id="5_3q8bl"]
+[ext_resource type="Resource" uid="uid://c8rpkdhgyhifr" path="res://resources/cpu/plays/offense/ProbingOffense.tres" id="5_xmjpu"]
+[ext_resource type="Resource" uid="uid://1qwa3dlndw87" path="res://resources/cpu/plays/offense/CrashOffGlass.tres" id="6_ffx0r"]
+
+[resource]
+script = ExtResource("4_vqsn1")
+default_off_plays = Array[ExtResource("2_tmmal")]([ExtResource("3_jxi7j"), ExtResource("4_sgnve"), ExtResource("5_xmjpu"), ExtResource("6_ffx0r")])
+default_def_plays = Array[ExtResource("1_012vj")]([ExtResource("2_pmmt3"), ExtResource("3_7xyph"), ExtResource("4_booe8"), ExtResource("5_3q8bl")])
+play_select_comp_nodes = Array[ExtResource("3_3gbrk")]([])
+metadata/_custom_type_script = "uid://bqj3322fo4sx3"

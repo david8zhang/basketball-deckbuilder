@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="DefensivePlay" load_steps=13 format=3 uid="uid://kbjfaqbrmkvh"]
+
+[ext_resource type="Script" uid="uid://bsjustje0eywv" path="res://scripts/cpu/PlayAction.gd" id="1_lkhax"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_2nf18"]
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="2_o33tj"]
+[ext_resource type="Script" uid="uid://whwvyytyy6f" path="res://scripts/cpu/ApplyDebuffDefensePlayAction.gd" id="3_l6v7k"]
+[ext_resource type="Script" uid="uid://dr5wbm5rtpor0" path="res://scripts/cpu/BoostDefensePlayAction.gd" id="4_l6v7k"]
+
+[sub_resource type="Resource" id="Resource_c86sp"]
+script = ExtResource("2_2nf18")
+penalty_type = 7
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_dyg18"]
+script = ExtResource("2_2nf18")
+penalty_type = 4
+amount = 3
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_2nf18"]
+script = ExtResource("2_2nf18")
+penalty_type = 2
+amount = 0
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_4odlm"]
+script = ExtResource("3_l6v7k")
+random_select = true
+defend_intent = 1
+debuffs = Array[ExtResource("2_2nf18")]([SubResource("Resource_c86sp"), SubResource("Resource_dyg18"), SubResource("Resource_2nf18")])
+metadata/_custom_type_script = "uid://whwvyytyy6f"
+
+[sub_resource type="Resource" id="Resource_sakkj"]
+script = ExtResource("4_l6v7k")
+boost_amount_low = 1
+boost_amount_high = 5
+defend_intent = 0
+debuffs = Array[ExtResource("2_2nf18")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_l6v7k"]
+script = ExtResource("2_2nf18")
+penalty_type = 8
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_nqh4h"]
+script = ExtResource("3_l6v7k")
+random_select = false
+defend_intent = 1
+debuffs = Array[ExtResource("2_2nf18")]([SubResource("Resource_l6v7k")])
+metadata/_custom_type_script = "uid://whwvyytyy6f"
+
+[resource]
+script = ExtResource("2_o33tj")
+starting_def_low = 5
+starting_def_high = 8
+play_type = 1
+play_actions = Array[ExtResource("1_lkhax")]([SubResource("Resource_4odlm"), SubResource("Resource_sakkj"), SubResource("Resource_nqh4h")])
+metadata/_custom_type_script = "uid://ce4aoo1aetsif"

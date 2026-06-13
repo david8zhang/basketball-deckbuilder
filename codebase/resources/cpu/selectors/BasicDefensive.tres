@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PlaySelector" load_steps=12 format=3 uid="uid://b1pd6nbicigex"]
+
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="1_n376l"]
+[ext_resource type="Resource" uid="uid://csfwvdfy6i83q" path="res://resources/cpu/plays/defense/DefaultDefense.tres" id="2_oogak"]
+[ext_resource type="Resource" uid="uid://d0vbsmj5uwh8l" path="res://resources/cpu/plays/defense/EarlyDefense.tres" id="3_g2r78"]
+[ext_resource type="Resource" uid="uid://d0uerpoiadixb" path="res://resources/cpu/plays/defense/RampingDefense.tres" id="4_kegmk"]
+[ext_resource type="Script" uid="uid://cicv4g20wmput" path="res://scripts/cpu/Play.gd" id="5_06fp1"]
+[ext_resource type="Resource" uid="uid://bc5bh0osbf6ul" path="res://resources/cpu/plays/offense/DefaultOffense.tres" id="6_bbt33"]
+[ext_resource type="Resource" uid="uid://c8rpkdhgyhifr" path="res://resources/cpu/plays/offense/ProbingOffense.tres" id="7_s6lr4"]
+[ext_resource type="Resource" uid="uid://b2igb3hb8fml8" path="res://resources/cpu/plays/offense/Slow2Pointer.tres" id="8_g255x"]
+[ext_resource type="Script" uid="uid://db6fuuq3jq4ah" path="res://scripts/cpu/PlaySelectCompNode.gd" id="9_05x4n"]
+[ext_resource type="Resource" uid="uid://1qwa3dlndw87" path="res://resources/cpu/plays/offense/CrashOffGlass.tres" id="9_oogak"]
+[ext_resource type="Script" uid="uid://bqj3322fo4sx3" path="res://scripts/cpu/PlaySelector.gd" id="10_g6tx5"]
+
+[resource]
+script = ExtResource("10_g6tx5")
+default_off_plays = Array[ExtResource("5_06fp1")]([ExtResource("6_bbt33"), ExtResource("7_s6lr4"), ExtResource("8_g255x"), ExtResource("9_oogak")])
+default_def_plays = Array[ExtResource("1_n376l")]([ExtResource("2_oogak"), ExtResource("3_g2r78"), ExtResource("4_kegmk")])
+play_select_comp_nodes = Array[ExtResource("9_05x4n")]([])
+metadata/_custom_type_script = "uid://bqj3322fo4sx3"

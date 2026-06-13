@@ -1,0 +1,48 @@
+[gd_resource type="Resource" script_class="Play" load_steps=10 format=3 uid="uid://b2igb3hb8fml8"]
+
+[ext_resource type="Script" uid="uid://bsjustje0eywv" path="res://scripts/cpu/PlayAction.gd" id="1_p1ak8"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_iph34"]
+[ext_resource type="Script" uid="uid://cow5spg8iigeb" path="res://scripts/cpu/OffensivePlayAction.gd" id="3_bvnjl"]
+[ext_resource type="Script" uid="uid://cicv4g20wmput" path="res://scripts/cpu/Play.gd" id="4_vip7g"]
+
+[sub_resource type="Resource" id="Resource_vyula"]
+script = ExtResource("2_iph34")
+penalty_type = 1
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_rjgdm"]
+script = ExtResource("3_bvnjl")
+base_power_low = 1
+base_power_high = 5
+score_intent = 0
+debuffs = Array[ExtResource("2_iph34")]([SubResource("Resource_vyula")])
+metadata/_custom_type_script = "uid://cow5spg8iigeb"
+
+[sub_resource type="Resource" id="Resource_n1iba"]
+script = ExtResource("2_iph34")
+penalty_type = 2
+amount = 1
+metadata/_custom_type_script = "uid://d3s7xebxk26vg"
+
+[sub_resource type="Resource" id="Resource_6u6dm"]
+script = ExtResource("3_bvnjl")
+base_power_low = 2
+base_power_high = 6
+score_intent = 0
+debuffs = Array[ExtResource("2_iph34")]([SubResource("Resource_n1iba")])
+metadata/_custom_type_script = "uid://cow5spg8iigeb"
+
+[sub_resource type="Resource" id="Resource_vnyh1"]
+script = ExtResource("3_bvnjl")
+base_power_low = 10
+base_power_high = 15
+score_intent = 1
+debuffs = Array[ExtResource("2_iph34")]([])
+metadata/_custom_type_script = "uid://cow5spg8iigeb"
+
+[resource]
+script = ExtResource("4_vip7g")
+play_type = 0
+play_actions = Array[ExtResource("1_p1ak8")]([SubResource("Resource_rjgdm"), SubResource("Resource_6u6dm"), SubResource("Resource_vnyh1")])
+metadata/_custom_type_script = "uid://cicv4g20wmput"

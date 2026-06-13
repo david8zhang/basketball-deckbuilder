@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="PlaySelector" load_steps=12 format=3 uid="uid://odbe0cp2xck4"]
+
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="1_xbvch"]
+[ext_resource type="Resource" uid="uid://csfwvdfy6i83q" path="res://resources/cpu/plays/defense/DefaultDefense.tres" id="2_3rhds"]
+[ext_resource type="Resource" uid="uid://5g612esek23v" path="res://resources/cpu/plays/defense/EarlyDebuff.tres" id="3_3tfeb"]
+[ext_resource type="Resource" uid="uid://kbjfaqbrmkvh" path="res://resources/cpu/plays/defense/DefenseToOffense.tres" id="4_ks44f"]
+[ext_resource type="Script" uid="uid://cicv4g20wmput" path="res://scripts/cpu/Play.gd" id="5_kyg0x"]
+[ext_resource type="Resource" uid="uid://ctxy37h46ghdb" path="res://resources/cpu/plays/offense/Early2Pointer.tres" id="6_iyswa"]
+[ext_resource type="Resource" uid="uid://cerpguda6qpid" path="res://resources/cpu/plays/offense/Early3Pointer.tres" id="7_caxub"]
+[ext_resource type="Resource" uid="uid://do3sdi485ih28" path="res://resources/cpu/plays/offense/EarlyShotDebuff.tres" id="8_db73t"]
+[ext_resource type="Resource" uid="uid://bc5bh0osbf6ul" path="res://resources/cpu/plays/offense/DefaultOffense.tres" id="9_ehf3l"]
+[ext_resource type="Script" uid="uid://db6fuuq3jq4ah" path="res://scripts/cpu/PlaySelectCompNode.gd" id="10_jrude"]
+[ext_resource type="Script" uid="uid://bqj3322fo4sx3" path="res://scripts/cpu/PlaySelector.gd" id="11_qxvcg"]
+
+[resource]
+script = ExtResource("11_qxvcg")
+default_off_plays = Array[ExtResource("5_kyg0x")]([ExtResource("6_iyswa"), ExtResource("7_caxub"), ExtResource("8_db73t"), ExtResource("9_ehf3l")])
+default_def_plays = Array[ExtResource("1_xbvch")]([ExtResource("2_3rhds"), ExtResource("3_3tfeb"), ExtResource("4_ks44f")])
+play_select_comp_nodes = Array[ExtResource("10_jrude")]([])
+metadata/_custom_type_script = "uid://bqj3322fo4sx3"

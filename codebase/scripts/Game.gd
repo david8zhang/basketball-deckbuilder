@@ -2,6 +2,7 @@ class_name Game
 extends Node2D
 
 enum EnemyScoreIntent {
+	NONE,
 	TWO_POINTER,
 	THREE_POINTER
 }
@@ -32,7 +33,6 @@ static var STARTING_DECK_SIZE := 10
 
 # Bonus trackers
 var switch_phase_after_card := false
-var persist_defense := false
 var card_type_to_cost_reduce_map = {}
 var card_name_to_cost_reduce_map = {}
 var curr_off_boost := 0
@@ -41,6 +41,7 @@ var future_skill_gain := 0
 var future_stam_gain := 0
 var future_off_boost := 0
 var future_def_boost := 0
+var future_shot_clock_gain := 0
 
 # Penalty trackers
 var cpu_debuffs: Array[CardPenalty] = []
@@ -101,7 +102,8 @@ func init_scoreboard():
 	scoreboard.set_scores(GameVariables.curr_player_score, GameVariables.curr_cpu_score)
 
 func init_shot_clock():
-	shot_clock = SHOT_CLOCK_TICKS
+	shot_clock = SHOT_CLOCK_TICKS + future_shot_clock_gain
+	future_shot_clock_gain = 0
 	update_shot_clock(0)
 	tick_shot_clock_button.pressed.connect(tick_shot_clock)
 
@@ -111,7 +113,6 @@ func init_game_clock():
 
 func reset_resource_points():
 	if curr_phase == Phase.OFFENSE:
-		print(future_skill_gain)
 		curr_skill_points = max(0, BASE_SKILL_POINTS - future_skill_reduce + future_skill_gain)
 		future_skill_reduce = 0
 		future_skill_gain = 0
@@ -242,9 +243,6 @@ func start_player_turn(is_first_turn: bool):
 	reset_resource_points()
 	if curr_phase == Phase.DEFENSE:
 		set_new_enemy_score_and_attack_intent()
-		if !persist_defense:
-			persist_defense = false
-			init_player_defense_score()
 	else:
 		set_new_enemy_defend_intent()
 
@@ -322,16 +320,27 @@ func handle_enemy_turn(on_complete: Callable):
 	if is_enemy_on_offense:
 		update_player_defense(-curr_enemy_attack_power)
 		if curr_defense_score < 0:
-			var score_amount = 2 if curr_enemy_score_intent == EnemyScoreIntent.TWO_POINTER else 3
-			scoreboard.update_cpu_score(score_amount)
-			switch_phases()
+			handle_enemy_score_intent(on_complete)
 		else:
 			on_complete.call()
 	else:
-		match curr_enemy_defend_intent:
-			EnemyDefendIntent.DEFENSE_BOOST:
-				update_enemy_defense(next_enemy_defense_boost)
-		on_complete.call()
+		handle_enemy_defend_intent(on_complete)
+
+func handle_enemy_score_intent(cb: Callable):
+	match curr_enemy_score_intent:
+		EnemyScoreIntent.TWO_POINTER:
+			scoreboard.update_cpu_score(2)
+			switch_phases()
+		EnemyScoreIntent.THREE_POINTER:
+			scoreboard.update_cpu_score(3)
+			switch_phases()
+		EnemyScoreIntent.NONE:
+			cb.call()
+
+func handle_enemy_defend_intent(cb: Callable):
+	if curr_enemy_defend_intent == EnemyDefendIntent.DEFENSE_BOOST:
+		update_enemy_defense(next_enemy_defense_boost)
+	cb.call()
 
 func reset_debuffs():
 	cpu_debuffs = []
@@ -417,7 +426,6 @@ func play_card(card: Card):
 	var card_stat = card.card_stat as CardStat
 	var resource = curr_skill_points if curr_phase == Phase.OFFENSE else curr_stamina_points
 	var card_cost = get_card_cost(card_stat)
-	var old_phase = curr_phase
 	if card_cost <= resource and meets_requirements(card_stat.requirements):
 		match card_stat.card_type:
 			CardStat.CardType.OFFENSE:
@@ -511,8 +519,6 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 					update_all_cards()
 				CardStatBonus.BonusType.DRAW:
 					draw_cards(bonus.bonus_amt)
-				CardStatBonus.BonusType.PERSIST_DEF:
-					persist_defense = true
 				CardStatBonus.BonusType.INCR_SHOT_CLOCK:
 					update_shot_clock(bonus.bonus_amt)
 				CardStatBonus.BonusType.REDUCE_SPEC_CARD_COST:
@@ -534,7 +540,9 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 				CardStatBonus.BonusType.FUTURE_SKILL_GAIN:
 					future_skill_gain = bonus.bonus_amt
 				CardStatBonus.BonusType.FUTURE_STAMINA_GAIN:
-					future_stam_gain = bonus.bonus_amt		
+					future_stam_gain = bonus.bonus_amt
+				CardStatBonus.BonusType.FUTURE_INCR_SHOT_CLOCK:
+					future_shot_clock_gain = bonus.bonus_amt
 
 func update_all_cards():
 	for c in player_hand.get_children():
