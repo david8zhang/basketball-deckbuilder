@@ -58,7 +58,7 @@ var player_off_deck_card_names: Array[String] = [
 	# Starting shot cards
 	"Layup",
 	"Layup",
-	"Dunk",
+	"Mid Range Jumper",
 	"Mid Range Jumper",
 	"3-Point Jumper"
 ]
@@ -73,8 +73,8 @@ var player_def_deck_card_names: Array[String] = [
 	"On Ball Pressure",
 	"Switch",
 	"Switch",
-	"Steal",
-	"Steal",
+	"Help Defense",
+	"Help Defense",
 	"Intentional Foul",
 	"Intentional Foul",
 	"Fast Break",
@@ -86,6 +86,7 @@ var player_score_breakdown = [0, 0, 0, 0, 0]
 var cpu_score_breakdown = [0, 0, 0, 0, 0]
 var curr_player_score := 0
 var curr_cpu_score := 0
+var schedule := []
 
 func _ready() -> void:
 	for cname in off_card_file_names:

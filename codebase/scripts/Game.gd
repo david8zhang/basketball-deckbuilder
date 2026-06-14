@@ -54,7 +54,7 @@ var future_def_penalty := 0
 var total_poss_rem := 0
 var shot_clock := 0
 var game_clock := 0
-static var GAME_CLOCK_TICKS := 25
+static var GAME_CLOCK_TICKS := 20
 static var SHOT_CLOCK_TICKS := 3
 
 @onready var cpu_handler = $CPUHandler as CPUHandler
@@ -393,6 +393,7 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 				CardStatBonus.BonusType.SKILL_REGEN:
 					update_skill_points(bonus.bonus_amt)
 				CardStatBonus.BonusType.STAMINA_REGEN:
+					print("Went here!")
 					update_stamina_points(bonus.bonus_amt)
 				CardStatBonus.BonusType.OFF_POWER_BOOST:
 					curr_off_boost += bonus.bonus_amt
@@ -443,6 +444,7 @@ func update_skill_points(amount: int):
 	skill_stamina_label.text = str(curr_skill_points) + "/" + str(BASE_SKILL_POINTS)
 
 func update_stamina_points(amount: int):
+	print("Increasing stamina: " + str(amount))
 	curr_stamina_points = max(0, curr_stamina_points + amount)
 	skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
 

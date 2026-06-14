@@ -6,15 +6,15 @@
 [ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="4_773uc"]
 [ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_rhuox"]
 
-[sub_resource type="Resource" id="Resource_6o3j7"]
+[sub_resource type="Resource" id="Resource_773uc"]
 script = ExtResource("3_773uc")
-target_score_intent = 0
+target_score_intent = 1
 requirement_type = 3
 metadata/_custom_type_script = "uid://c7vnsf1inbdgp"
 
 [sub_resource type="Resource" id="Resource_ovv7r"]
 script = ExtResource("1_ahwtv")
-card_requirements = Array[ExtResource("2_773uc")]([SubResource("Resource_6o3j7")])
+card_requirements = Array[ExtResource("2_773uc")]([SubResource("Resource_773uc")])
 bonus_type = 2
 bonus_amt = 1
 metadata/_custom_type_script = "uid://b5bkuxiloqoes"

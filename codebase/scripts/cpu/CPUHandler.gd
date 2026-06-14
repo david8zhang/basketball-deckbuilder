@@ -26,6 +26,7 @@ func handle_cpu_debuffs():
 func init_enemy_off_play():
 	play_action_index = 0
 	curr_play = play_selector.default_off_plays.pick_random() as Play
+	print(curr_play.resource_path)
 
 func set_new_enemy_score_and_attack_intent():
 	play_action_index = play_action_index % curr_play.play_actions.size()
