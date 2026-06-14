@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckvn22s1adegw"]
+[gd_scene load_steps=6 format=3 uid="uid://ckvn22s1adegw"]
 
 [ext_resource type="Script" uid="uid://dce2tgt7ui4r3" path="res://scripts/Game.gd" id="1_ibkli"]
 [ext_resource type="PackedScene" uid="uid://c8dc8ln86s5ss" path="res://prefabs/Card.tscn" id="2_qbsmt"]
 [ext_resource type="PackedScene" uid="uid://dtw688u6qfc5p" path="res://prefabs/CPUHandler.tscn" id="3_78awf"]
 [ext_resource type="PackedScene" uid="uid://cf8lce6kalxy0" path="res://prefabs/Scoreboard.tscn" id="3_cpr0p"]
+[ext_resource type="PackedScene" uid="uid://by2y8i0jl7fcp" path="res://prefabs/DebugMenu.tscn" id="3_s0nni"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ibkli")
@@ -277,3 +278,5 @@ vertical_alignment = 1
 layout_mode = 2
 text = "1"
 vertical_alignment = 1
+
+[node name="DebugMenu" parent="CanvasLayer" instance=ExtResource("3_s0nni")]

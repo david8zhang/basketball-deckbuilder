@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="PlaySelector" load_steps=13 format=3 uid="uid://bgki53dil2rtg"]
+
+[ext_resource type="Script" uid="uid://ce4aoo1aetsif" path="res://scripts/cpu/DefensivePlay.gd" id="1_4gf5o"]
+[ext_resource type="Script" uid="uid://bsjustje0eywv" path="res://scripts/cpu/PlayAction.gd" id="2_lwwld"]
+[ext_resource type="Script" uid="uid://cicv4g20wmput" path="res://scripts/cpu/Play.gd" id="2_tbg62"]
+[ext_resource type="Script" uid="uid://db6fuuq3jq4ah" path="res://scripts/cpu/PlaySelectCompNode.gd" id="3_ft0d0"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="3_pk860"]
+[ext_resource type="Script" uid="uid://bqj3322fo4sx3" path="res://scripts/cpu/PlaySelector.gd" id="4_f1rnm"]
+[ext_resource type="Script" uid="uid://dr5wbm5rtpor0" path="res://scripts/cpu/BoostDefensePlayAction.gd" id="4_y27a3"]
+[ext_resource type="Resource" uid="uid://bc5bh0osbf6ul" path="res://resources/cpu/plays/offense/DefaultOffense.tres" id="6_4y1ro"]
+
+[sub_resource type="Resource" id="Resource_ychko"]
+script = ExtResource("4_y27a3")
+boost_amount_low = 1
+boost_amount_high = 1
+defend_intent = 0
+debuffs = Array[ExtResource("3_pk860")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_lwwld"]
+script = ExtResource("4_y27a3")
+boost_amount_low = 1
+boost_amount_high = 1
+defend_intent = 0
+debuffs = Array[ExtResource("3_pk860")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_pk860"]
+script = ExtResource("4_y27a3")
+boost_amount_low = 1
+boost_amount_high = 1
+defend_intent = 0
+debuffs = Array[ExtResource("3_pk860")]([])
+metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
+
+[sub_resource type="Resource" id="Resource_t1uev"]
+script = ExtResource("1_4gf5o")
+starting_def_low = 0
+starting_def_high = 0
+play_type = 1
+play_actions = Array[ExtResource("2_lwwld")]([SubResource("Resource_ychko"), SubResource("Resource_lwwld"), SubResource("Resource_pk860")])
+metadata/_custom_type_script = "uid://ce4aoo1aetsif"
+
+[resource]
+script = ExtResource("4_f1rnm")
+default_off_plays = Array[ExtResource("2_tbg62")]([ExtResource("6_4y1ro")])
+default_def_plays = Array[ExtResource("1_4gf5o")]([SubResource("Resource_t1uev")])
+play_select_comp_nodes = Array[ExtResource("3_ft0d0")]([])
+metadata/_custom_type_script = "uid://bqj3322fo4sx3"

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://by2y8i0jl7fcp"]
+
+[ext_resource type="Script" uid="uid://bevmgjjblgnoh" path="res://scripts/DebugMenu.gd" id="1_8as82"]
+
+[node name="DebugMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8as82")
+
+[node name="TextEdit" type="TextEdit" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 71.0
+grow_horizontal = 2
+placeholder_text = "Enter a command here"

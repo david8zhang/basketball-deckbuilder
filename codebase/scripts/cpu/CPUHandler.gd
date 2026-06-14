@@ -98,7 +98,6 @@ func set_new_enemy_defend_intent():
 			debuff = play_action.debuffs[0]
 		show_penalty_preview(debuff, game.enemy_defense_intent_label)
 		cpu_debuffs.append(debuff)
-	update_enemy_defense_score()
 
 func update_enemy_defense_score():
 	game.enemy_defense_label.text = "Defense"

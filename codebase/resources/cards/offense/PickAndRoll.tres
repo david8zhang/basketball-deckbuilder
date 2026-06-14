@@ -21,6 +21,7 @@ card_name = "Pick and Roll"
 card_description = "Deal {power} damage to CPU defense. All shot card costs are reduced by 1."
 cost = 2
 power = 3
+bonus_after_penalty = false
 bonuses = Array[ExtResource("1_big7t")]([SubResource("Resource_b0v7t")])
 penalties = Array[ExtResource("4_b0v7t")]([])
 requirements = Array[ExtResource("2_4ujss")]([])

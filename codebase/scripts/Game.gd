@@ -54,7 +54,7 @@ var future_def_penalty := 0
 var total_poss_rem := 0
 var shot_clock := 0
 var game_clock := 0
-static var GAME_CLOCK_TICKS := 30
+static var GAME_CLOCK_TICKS := 25
 static var SHOT_CLOCK_TICKS := 3
 
 @onready var cpu_handler = $CPUHandler as CPUHandler
@@ -406,11 +406,17 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 					update_shot_clock(bonus.bonus_amt)
 				CardStatBonus.BonusType.REDUCE_SPEC_CARD_COST:
 					var rsc_cost_bonus = bonus as ReduceSpecificCardCostBonus
-					card_name_to_cost_reduce_map[rsc_cost_bonus.card_to_match.card_name] = bonus.bonus_amt
+					if !card_name_to_cost_reduce_map.has(rsc_cost_bonus.card_to_match.card_name):
+						card_name_to_cost_reduce_map[rsc_cost_bonus.card_to_match.card_name] = bonus.bonus_amt
+					else:
+						card_name_to_cost_reduce_map[rsc_cost_bonus.card_to_match.card_name] += bonus.bonus_amt
 					update_all_cards()
 				CardStatBonus.BonusType.REDUCE_CARD_TYPE_COST:
 					var rsc_cost_bonus = bonus as ReduceCardTypeCostBonus
-					card_type_to_cost_reduce_map[rsc_cost_bonus.card_type] = bonus.bonus_amt
+					if !card_type_to_cost_reduce_map.has(rsc_cost_bonus.card_type):
+						card_type_to_cost_reduce_map[rsc_cost_bonus.card_type] = bonus.bonus_amt
+					else:
+						card_type_to_cost_reduce_map[rsc_cost_bonus.card_type]= bonus.bonus_amt
 					update_all_cards()
 				CardStatBonus.BonusType.SWITCH_PHASE:
 					switch_phase_after_card = true
