@@ -8,7 +8,7 @@
 
 [sub_resource type="Resource" id="Resource_05csw"]
 script = ExtResource("4_7d1an")
-target_score_intent = 1
+target_score_intent = 2
 requirement_type = 3
 metadata/_custom_type_script = "uid://c7vnsf1inbdgp"
 
@@ -18,7 +18,8 @@ card_type = 1
 card_name = "Perimeter Defense"
 card_description = "If the enemy intends to score 3 points, gain {power} defense."
 cost = 1
-power = 5
+power = 7
+bonus_after_penalty = false
 bonuses = Array[ExtResource("1_ij840")]([])
 penalties = Array[ExtResource("2_7d1an")]([])
 requirements = Array[ExtResource("3_05csw")]([SubResource("Resource_05csw")])

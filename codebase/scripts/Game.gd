@@ -22,6 +22,7 @@ enum Phase {
 # Player stats
 var draw_pile: Array[String] = []
 var discard_pile: Array[String] = []
+var curr_hype_points := 0
 var curr_skill_points := 0
 var curr_stamina_points := 0
 var curr_defense_score := 0
@@ -72,12 +73,14 @@ static var SHOT_CLOCK_TICKS := 3
 @onready var enemy_attack_label = $CanvasLayer/EnemyAttack/Label as Label
 @onready var enemy_attack_power_label = $CanvasLayer/EnemyAttack/Value as Label
 @onready var enemy_attack_intent_label = $CanvasLayer/EnemyAttack/Intent as Label
-# Player Defense
+# Player labels
 @onready var player_defense_container = $CanvasLayer/PlayerDefense as VBoxContainer
 @onready var player_defense_score_label = $CanvasLayer/PlayerDefense/DefenseScore as Label
 @onready var skill_stamina_label = $CanvasLayer/StaminaSkill as Label
 @onready var draw_amount_label = $CanvasLayer/HBoxContainer/DrawContainer/VBoxContainer/Amount as Label
 @onready var discard_amount_label = $CanvasLayer/HBoxContainer/DiscardContainer/VBoxContainer/Amount as Label
+@onready var hype_meter_label = $CanvasLayer/HypeMeter as Label
+# Game labels
 @onready var shot_clock_label = $CanvasLayer/ShotClock/Value as Label
 @onready var game_clock_label = $CanvasLayer/GameClock/Value as Label
 @onready var scoreboard = $CanvasLayer/Scoreboard as Scoreboard
@@ -393,7 +396,6 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 				CardStatBonus.BonusType.SKILL_REGEN:
 					update_skill_points(bonus.bonus_amt)
 				CardStatBonus.BonusType.STAMINA_REGEN:
-					print("Went here!")
 					update_stamina_points(bonus.bonus_amt)
 				CardStatBonus.BonusType.OFF_POWER_BOOST:
 					curr_off_boost += bonus.bonus_amt
@@ -444,7 +446,6 @@ func update_skill_points(amount: int):
 	skill_stamina_label.text = str(curr_skill_points) + "/" + str(BASE_SKILL_POINTS)
 
 func update_stamina_points(amount: int):
-	print("Increasing stamina: " + str(amount))
 	curr_stamina_points = max(0, curr_stamina_points + amount)
 	skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
 

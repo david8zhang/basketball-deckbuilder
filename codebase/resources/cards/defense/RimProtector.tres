@@ -8,7 +8,7 @@
 
 [sub_resource type="Resource" id="Resource_3b64g"]
 script = ExtResource("4_u2pg4")
-target_score_intent = 0
+target_score_intent = 1
 requirement_type = 3
 metadata/_custom_type_script = "uid://c7vnsf1inbdgp"
 
@@ -18,7 +18,8 @@ card_type = 1
 card_name = "Rim Protector"
 card_description = "If the enemy intends to score 2 points, gain {power} defense."
 cost = 1
-power = 5
+power = 7
+bonus_after_penalty = false
 bonuses = Array[ExtResource("1_bm7eu")]([])
 penalties = Array[ExtResource("2_u2pg4")]([])
 requirements = Array[ExtResource("3_3b64g")]([SubResource("Resource_3b64g")])
