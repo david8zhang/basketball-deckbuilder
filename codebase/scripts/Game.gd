@@ -22,7 +22,7 @@ enum Phase {
 # Player stats
 var draw_pile: Array[String] = []
 var discard_pile: Array[String] = []
-var curr_hype_points := 0
+var curr_hype_points := 18
 var curr_skill_points := 0
 var curr_stamina_points := 0
 var curr_defense_score := 0
@@ -115,12 +115,12 @@ func init_game_clock():
 
 func reset_resource_points():
 	if curr_phase == Phase.OFFENSE:
-		curr_skill_points = max(0, BASE_SKILL_POINTS - future_skill_reduce + future_skill_gain)
+		curr_skill_points = get_skill_points()
 		future_skill_reduce = 0
 		future_skill_gain = 0
 		skill_stamina_label.text = str(curr_skill_points) + "/" + str(BASE_SKILL_POINTS)
 	elif curr_phase == Phase.DEFENSE:
-		curr_stamina_points = max(0, BASE_STAMINA_POINTS - future_stam_reduce + future_stam_gain)
+		curr_stamina_points = get_stamina_points()
 		future_stam_reduce = 0
 		future_stam_gain = 0
 		skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
@@ -138,7 +138,7 @@ func get_stamina_points():
 	stamina_points -= future_stam_reduce
 	stamina_points += future_stam_gain
 	if is_takeover_mode:
-		stamina_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.STAM_REGEN]
+		stamina_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.STAMINA_REGEN]
 	return max(0, stamina_points)
 
 func decrement_takeover_mode():
@@ -146,6 +146,9 @@ func decrement_takeover_mode():
 	if takeover_turns_remaining == 0:
 		is_takeover_mode = false
 		hype_meter_label.text = "Hype: " + str(curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)
+		update_all_cards()
+	else:
+		hype_meter_label.text = "TAKEOVER! (" + str(takeover_turns_remaining) + " turns remaining)"
 
 func init_enemy_defense_score():
 	cpu_handler.curr_enemy_defense_score = randi_range(5, 15)
@@ -510,6 +513,8 @@ func update_player_defense(amount: int):
 	player_defense_score_label.text = str(curr_defense_score)
 
 func update_hype_points(amount: int):
+	if is_takeover_mode:
+		return
 	curr_hype_points = max(0, curr_hype_points + amount)
 	if curr_hype_points >= TAKEOVER_HYPE_THRESHOLD:
 		# Start takeover mode
