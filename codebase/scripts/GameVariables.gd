@@ -11,7 +11,8 @@ var off_card_file_names = [
 	"Pass",
 	"PickAndRoll",
 	"PumpFake",
-	"TripleThreat",
+	"PumpUpTheCrowd",
+	"TripleThreat"
 ]
 var def_card_file_names = [
 	"ActiveHands",
@@ -87,6 +88,20 @@ var cpu_score_breakdown = [0, 0, 0, 0, 0]
 var curr_player_score := 0
 var curr_cpu_score := 0
 var schedule := []
+
+const TakeoverBonusKey = {
+	SKILL_REGEN = "SKILL_REGEN",
+	STAMINA_REGEN = "STAMINA_REGEN",
+	OFF_CARD_POWER = "OFF_CARD_POWER",
+	DEF_CARD_POWER = "DEF_CARD_POWER"
+}
+
+var takeover_bonuses = {
+	TakeoverBonusKey.SKILL_REGEN: 1,
+	TakeoverBonusKey.STAMINA_REGEN: 1,
+	TakeoverBonusKey.OFF_CARD_POWER: 3,
+	TakeoverBonusKey.DEF_CARD_POWER: 3
+}
 
 func _ready() -> void:
 	for cname in off_card_file_names:

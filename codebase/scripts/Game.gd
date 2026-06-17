@@ -27,10 +27,14 @@ var curr_skill_points := 0
 var curr_stamina_points := 0
 var curr_defense_score := 0
 var curr_phase := Phase.OFFENSE
+var is_takeover_mode := false
+var takeover_turns_remaining := 0
 static var BASE_SKILL_POINTS := 3
 static var BASE_STAMINA_POINTS := 3
 static var DRAW_PER_TURN := 5
 static var STARTING_DECK_SIZE := 10
+static var TAKEOVER_HYPE_THRESHOLD = 20
+static var TAKEOVER_TURN_DURATION = 3
 
 # Bonus trackers
 var switch_phase_after_card := false
@@ -94,6 +98,7 @@ func _ready() -> void:
 	init_scoreboard()
 	init_quarter_number()
 	start_player_turn(true)
+	print(GameVariables.takeover_bonuses)
 
 func init_scoreboard():
 	scoreboard.set_scores(GameVariables.curr_player_score, GameVariables.curr_cpu_score)
@@ -119,6 +124,28 @@ func reset_resource_points():
 		future_stam_reduce = 0
 		future_stam_gain = 0
 		skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
+
+func get_skill_points():
+	var skill_points = BASE_SKILL_POINTS
+	skill_points -= future_skill_reduce
+	skill_points += future_skill_gain
+	if is_takeover_mode:
+		skill_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.SKILL_REGEN]
+	return max(0, skill_points)
+
+func get_stamina_points():
+	var stamina_points = BASE_STAMINA_POINTS
+	stamina_points -= future_stam_reduce
+	stamina_points += future_stam_gain
+	if is_takeover_mode:
+		stamina_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.STAM_REGEN]
+	return max(0, stamina_points)
+
+func decrement_takeover_mode():
+	takeover_turns_remaining = max(0, takeover_turns_remaining - 1)
+	if takeover_turns_remaining == 0:
+		is_takeover_mode = false
+		hype_meter_label.text = "Hype: " + str(curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)
 
 func init_enemy_defense_score():
 	cpu_handler.curr_enemy_defense_score = randi_range(5, 15)
@@ -153,6 +180,7 @@ func start_player_turn(is_first_turn: bool):
 	var draw_amount = max(0, DRAW_PER_TURN - future_draw_reduce)
 	draw_cards(draw_amount)
 	reset_resource_points()
+	decrement_takeover_mode()
 	if curr_phase == Phase.DEFENSE:
 		cpu_handler.set_new_enemy_score_and_attack_intent()
 	else:
@@ -317,7 +345,7 @@ func play_card(card: Card):
 	if card_cost <= resource and meets_requirements(card_stat.requirements):
 		match card_stat.card_type:
 			CardStat.CardType.OFFENSE:
-				var amount = card_stat.power + curr_off_boost + future_off_boost - future_off_penalty
+				var amount = get_card_off_power(card_stat)
 				reset_off_modifiers()
 				update_skill_points(-card_cost)
 				cpu_handler.update_enemy_defense(-amount)
@@ -328,7 +356,7 @@ func play_card(card: Card):
 					handle_card_bonuses(card_stat.bonuses)
 					handle_card_penalties(card_stat.penalties)
 			CardStat.CardType.DEFENSE:
-				var amount = card_stat.power + curr_def_boost + future_def_boost - future_def_penalty
+				var amount = get_card_def_power(card_stat)
 				reset_def_modifiers()
 				update_stamina_points(-card_cost)
 				update_player_defense(amount)
@@ -340,6 +368,12 @@ func play_card(card: Card):
 					handle_card_penalties(card_stat.penalties)
 			CardStat.CardType.SHOT:
 				var shot_card_stat = card_stat as ShotCardStat
+				if shot_card_stat.bonus_after_penalty:
+					handle_card_penalties(shot_card_stat.penalties)
+					handle_card_bonuses(shot_card_stat.bonuses)
+				else:
+					handle_card_bonuses(shot_card_stat.bonuses)
+					handle_card_penalties(shot_card_stat.penalties)
 				scoreboard.update_player_score(shot_card_stat.points)
 				tick_game_clock()
 		discard_pile.append(card_stat.card_name)
@@ -348,6 +382,26 @@ func play_card(card: Card):
 		if game_clock != 0 and (switch_phase_after_card or card_stat.card_type == CardStat.CardType.SHOT or shot_clock == 0):
 			switch_phase_after_card = false
 			switch_phases()
+
+func get_card_off_power(card_stat: CardStat):
+	var final_power = card_stat.power
+	final_power += curr_off_boost
+	final_power += future_off_boost
+	final_power -= future_off_penalty
+	if is_takeover_mode:
+		final_power += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.OFF_CARD_POWER]
+	final_power = max(final_power, 0)
+	return final_power
+
+func get_card_def_power(card_stat: CardStat):
+	var final_power = card_stat.power
+	final_power += curr_def_boost
+	final_power += future_def_boost
+	final_power -= future_def_penalty
+	if is_takeover_mode:
+		final_power += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.DEF_CARD_POWER]
+	final_power = max(final_power, 0)
+	return final_power
 
 func get_card_cost(card_stat: CardStat):
 	var cost = card_stat.cost
@@ -435,6 +489,8 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 					future_stam_gain = bonus.bonus_amt
 				CardStatBonus.BonusType.FUTURE_INCR_SHOT_CLOCK:
 					future_shot_clock_gain = bonus.bonus_amt
+				CardStatBonus.BonusType.INCR_HYPE:
+					update_hype_points(bonus.bonus_amt)
 
 func update_all_cards():
 	for c in player_hand.get_children():
@@ -452,3 +508,15 @@ func update_stamina_points(amount: int):
 func update_player_defense(amount: int):
 	curr_defense_score = curr_defense_score + amount
 	player_defense_score_label.text = str(curr_defense_score)
+
+func update_hype_points(amount: int):
+	curr_hype_points = max(0, curr_hype_points + amount)
+	if curr_hype_points >= TAKEOVER_HYPE_THRESHOLD:
+		# Start takeover mode
+		curr_hype_points = 0
+		takeover_turns_remaining = TAKEOVER_TURN_DURATION
+		is_takeover_mode = true
+		hype_meter_label.text = "TAKEOVER! (" + str(takeover_turns_remaining) + " turns remaining)"
+		update_all_cards()
+	else:
+		hype_meter_label.text = "Hype: " + str(curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)

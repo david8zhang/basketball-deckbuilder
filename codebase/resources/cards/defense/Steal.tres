@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardStat" load_steps=8 format=3 uid="uid://ul0ve24hvkmx"]
+[gd_resource type="Resource" script_class="CardStat" load_steps=9 format=3 uid="uid://ul0ve24hvkmx"]
 
 [ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_y8rrj"]
 [ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="2_uktvg"]
@@ -13,6 +13,13 @@ bonus_type = 10
 bonus_amt = 0
 metadata/_custom_type_script = "uid://b5bkuxiloqoes"
 
+[sub_resource type="Resource" id="Resource_bm34g"]
+script = ExtResource("1_y8rrj")
+card_requirements = Array[ExtResource("2_uktvg")]([])
+bonus_type = 17
+bonus_amt = 2
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
 [sub_resource type="Resource" id="Resource_e3rpp"]
 script = ExtResource("3_uktvg")
 comparator = 1
@@ -23,11 +30,11 @@ metadata/_custom_type_script = "uid://nggaew6sgke6"
 script = ExtResource("3_e3rpp")
 card_type = 1
 card_name = "Steal"
-card_description = "If you currently have more defense than the enemy has offense, switch phases"
+card_description = "Generate 2 hype. If you currently have more defense than the enemy has offense, switch phases"
 cost = 3
 power = 0
 bonus_after_penalty = false
-bonuses = Array[ExtResource("1_y8rrj")]([SubResource("Resource_y8rrj")])
+bonuses = Array[ExtResource("1_y8rrj")]([SubResource("Resource_y8rrj"), SubResource("Resource_bm34g")])
 penalties = Array[ExtResource("3_bm34g")]([])
 requirements = Array[ExtResource("2_uktvg")]([SubResource("Resource_e3rpp")])
 metadata/_custom_type_script = "uid://gmr1leuut5u3"

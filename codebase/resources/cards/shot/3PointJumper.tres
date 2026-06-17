@@ -21,6 +21,7 @@ card_name = "3-Point Jumper"
 card_description = "Scores 3 Points. Can only be played if off. advantage is 2 or more"
 cost = 2
 power = 0
+bonus_after_penalty = false
 bonuses = Array[ExtResource("1_db2t3")]([])
 penalties = Array[ExtResource("2_k2gwa")]([])
 requirements = Array[ExtResource("2_e5rwa")]([SubResource("Resource_uhh1f")])

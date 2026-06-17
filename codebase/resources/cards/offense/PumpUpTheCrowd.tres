@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardStat" load_steps=6 format=3 uid="uid://bh22ojiyfo8p3"]
+
+[ext_resource type="Script" uid="uid://b5bkuxiloqoes" path="res://scripts/cards/bonus/CardStatBonus.gd" id="1_jr1ey"]
+[ext_resource type="Script" uid="uid://d3s7xebxk26vg" path="res://scripts/cards/CardPenalty.gd" id="2_7xilx"]
+[ext_resource type="Script" uid="uid://ifl64h3acjxt" path="res://scripts/cards/requirement/CardRequirement.gd" id="3_bx4mw"]
+[ext_resource type="Script" uid="uid://gmr1leuut5u3" path="res://scripts/cards/CardStat.gd" id="4_mrgs3"]
+
+[sub_resource type="Resource" id="Resource_jr1ey"]
+script = ExtResource("1_jr1ey")
+card_requirements = Array[ExtResource("3_bx4mw")]([])
+bonus_type = 17
+bonus_amt = 3
+metadata/_custom_type_script = "uid://b5bkuxiloqoes"
+
+[resource]
+script = ExtResource("4_mrgs3")
+card_type = 0
+card_name = "Pump Up the Crowd"
+card_description = "Generate 3 hype"
+cost = 1
+power = 0
+bonus_after_penalty = false
+bonuses = Array[ExtResource("1_jr1ey")]([SubResource("Resource_jr1ey")])
+penalties = Array[ExtResource("2_7xilx")]([])
+requirements = Array[ExtResource("3_bx4mw")]([])
+metadata/_custom_type_script = "uid://gmr1leuut5u3"

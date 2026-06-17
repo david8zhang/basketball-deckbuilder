@@ -18,7 +18,8 @@ enum BonusType {
 	FUTURE_STAMINA_GAIN,
 	FUTURE_OFF_BOOST,
 	FUTURE_DEF_BOOST,
-	FUTURE_INCR_SHOT_CLOCK
+	FUTURE_INCR_SHOT_CLOCK,
+	INCR_HYPE
 }
 
 # TODO: currently, all bonuses last the duration of the phase. Add bonuses that only apply for current tick

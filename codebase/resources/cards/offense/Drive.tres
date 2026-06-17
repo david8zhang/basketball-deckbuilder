@@ -12,6 +12,7 @@ card_name = "Drive"
 card_description = "Deal {power} to enemy defense."
 cost = 1
 power = 4
+bonus_after_penalty = false
 bonuses = Array[ExtResource("1_x4u5e")]([])
 penalties = Array[ExtResource("2_1vb0g")]([])
 requirements = Array[ExtResource("2_vdete")]([])

@@ -29,21 +29,23 @@ func update_card():
 
 func apply_off_boost():
 	if card_stat.card_type == CardStat.CardType.OFFENSE:
-		if game.curr_off_boost != 0:
-			var new_power = max(0, card_stat.power + game.curr_off_boost)
-			var color = "red" if new_power < card_stat.power else "green"
-			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(new_power) + "[/color]")
+		var base_power = card_stat.power
+		var power_with_modifiers = game.get_card_off_power(card_stat)
+		if base_power != power_with_modifiers:
+			var color = "red" if power_with_modifiers < base_power else "green"
+			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(power_with_modifiers) + "[/color]")
 		else:
-			description_label.text = card_stat.card_description.replace("{power}", str(card_stat.power))
+			description_label.text = card_stat.card_description.replace("{power}", str(base_power))
 
 func apply_def_boost():
 	if card_stat.card_type == CardStat.CardType.DEFENSE:
-		if game.curr_def_boost != 0:
-			var new_power = max(0, card_stat.power + game.curr_def_boost)
-			var color = "red" if new_power < card_stat.power else "green"
-			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(new_power) + "[/color]")
+		var base_power = card_stat.power
+		var power_with_modifiers = game.get_card_def_power(card_stat)
+		if power_with_modifiers != base_power:
+			var color = "red" if power_with_modifiers < base_power else "green"
+			description_label.text = card_stat.card_description.replace("{power}", "[color=" + color + "]" + str(power_with_modifiers) + "[/color]")
 		else:
-			description_label.text = card_stat.card_description.replace("{power}", str(card_stat.power))
+			description_label.text = card_stat.card_description.replace("{power}", str(base_power))
 
 func apply_cost_reduce():
 	cost_label.text = str(game.get_card_cost(card_stat))
