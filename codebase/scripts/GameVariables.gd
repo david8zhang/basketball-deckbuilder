@@ -87,7 +87,17 @@ var player_score_breakdown = [0, 0, 0, 0, 0]
 var cpu_score_breakdown = [0, 0, 0, 0, 0]
 var curr_player_score := 0
 var curr_cpu_score := 0
-var schedule := []
+
+# Calendar of events. 3 weeks of 7 days. Each week has 4 games (3 regular games, 1 boss). 
+# In between games are events, which can be good or bad
+# If the player manages to make it far enough, a 4th week will be added, representing the playoffs
+enum ScheduleDay {
+	GAME,
+	GOOD_EVENT,
+	BAD_EVENT
+}
+
+var schedule: Array[ScheduleDay] = []
 
 const TakeoverBonusKey = {
 	SKILL_REGEN = "SKILL_REGEN",
