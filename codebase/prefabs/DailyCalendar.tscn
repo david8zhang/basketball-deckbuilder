@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dbmc5abqr1sbw"]
+
+[node name="Calendar" type="HBoxContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2

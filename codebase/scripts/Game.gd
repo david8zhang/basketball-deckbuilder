@@ -22,7 +22,7 @@ enum Phase {
 # Player stats
 var draw_pile: Array[String] = []
 var discard_pile: Array[String] = []
-var curr_hype_points := 18
+var curr_hype_points := 0
 var curr_skill_points := 0
 var curr_stamina_points := 0
 var curr_defense_score := 0
@@ -98,7 +98,7 @@ func _ready() -> void:
 	init_scoreboard()
 	init_quarter_number()
 	start_player_turn(true)
-	print(GameVariables.takeover_bonuses)
+	GameVariables.generate_schedule()
 
 func init_scoreboard():
 	scoreboard.set_scores(GameVariables.curr_player_score, GameVariables.curr_cpu_score)
@@ -460,6 +460,11 @@ func handle_card_bonuses(bonuses: Array[CardStatBonus]):
 				CardStatBonus.BonusType.DEF_POWER_BOOST:
 					curr_def_boost += bonus.bonus_amt
 					update_all_cards()
+				CardStatBonus.BonusType.STATIC_POWER:
+					if curr_phase == Phase.OFFENSE:
+						cpu_handler.update_enemy_defense(-bonus.bonus_amt)
+					elif curr_phase == Phase.DEFENSE:
+						update_player_defense(bonus.bonus_amt)
 				CardStatBonus.BonusType.DRAW:
 					draw_cards(bonus.bonus_amt)
 				CardStatBonus.BonusType.INCR_SHOT_CLOCK:

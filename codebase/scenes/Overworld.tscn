@@ -1,13 +1,64 @@
-[gd_scene load_steps=2 format=3 uid="uid://b88h0e3oyku2"]
+[gd_scene load_steps=5 format=3 uid="uid://b88h0e3oyku2"]
 
 [ext_resource type="Script" uid="uid://xspbrx85dkkw" path="res://scripts/Overworld.gd" id="1_c3gql"]
+[ext_resource type="PackedScene" uid="uid://cxpq8s8ah7ups" path="res://prefabs/EventCard.tscn" id="2_gacct"]
+[ext_resource type="PackedScene" uid="uid://dbmc5abqr1sbw" path="res://prefabs/DailyCalendar.tscn" id="2_rfscu"]
+[ext_resource type="PackedScene" uid="uid://dwrynx71omqqp" path="res://prefabs/CalendarDay.tscn" id="3_puia7"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_c3gql")
+event_scene = ExtResource("2_gacct")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Calendar" type="HBoxContainer" parent="CanvasLayer"]
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -28.5
+offset_right = 28.5
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 25
+text = "Week 2"
+
+[node name="DailyCalendar" parent="CanvasLayer" instance=ExtResource("2_rfscu")]
+offset_left = -233.0
+offset_top = 50.0
+offset_right = 233.0
+offset_bottom = 135.0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Monday" parent="CanvasLayer/DailyCalendar" instance=ExtResource("3_puia7")]
+layout_mode = 2
+day_name = "Mon"
+
+[node name="Tuesday" parent="CanvasLayer/DailyCalendar" instance=ExtResource("3_puia7")]
+layout_mode = 2
+day_name = "Tues"
+
+[node name="Wednesday" parent="CanvasLayer/DailyCalendar" instance=ExtResource("3_puia7")]
+layout_mode = 2
+day_name = "Wed"
+
+[node name="Thursday" parent="CanvasLayer/DailyCalendar" instance=ExtResource("3_puia7")]
+layout_mode = 2
+day_name = "Thur"
+
+[node name="Friday" parent="CanvasLayer/DailyCalendar" instance=ExtResource("3_puia7")]
+layout_mode = 2
+day_name = "Fri"
+
+[node name="Saturday" parent="CanvasLayer/DailyCalendar" instance=ExtResource("3_puia7")]
+layout_mode = 2
+day_name = "Sat"
+
+[node name="Sunday" parent="CanvasLayer/DailyCalendar" instance=ExtResource("3_puia7")]
+layout_mode = 2
+day_name = "Sun"
+
+[node name="EventPicker" type="HBoxContainer" parent="CanvasLayer"]
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0

@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwrynx71omqqp"]
+
+[ext_resource type="Script" uid="uid://bdm4sqy7mnpel" path="res://scripts/overworld/CalendarDay.gd" id="1_yspfi"]
+[ext_resource type="Texture2D" uid="uid://dy6fy7qwe013b" path="res://assets/icons/event.png" id="2_fwooi"]
+
+[node name="CalendarDay" type="VBoxContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = -30.0
+offset_right = 17.5
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("1_yspfi")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Mon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_fwooi")
+expand_mode = 2
+stretch_mode = 5
