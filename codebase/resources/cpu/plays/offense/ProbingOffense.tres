@@ -47,6 +47,7 @@ metadata/_custom_type_script = "uid://blb0gqveumld6"
 
 [resource]
 script = ExtResource("5_26gmo")
+play_name = "Probing Offense"
 play_type = 0
 play_actions = Array[ExtResource("1_e6ihp")]([SubResource("Resource_8ktju"), SubResource("Resource_nstw5"), SubResource("Resource_ey2ft")])
 metadata/_custom_type_script = "uid://cicv4g20wmput"

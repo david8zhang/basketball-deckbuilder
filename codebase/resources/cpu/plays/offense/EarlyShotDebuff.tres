@@ -46,6 +46,7 @@ metadata/_custom_type_script = "uid://blb0gqveumld6"
 
 [resource]
 script = ExtResource("4_umuge")
+play_name = "Early Shot Debuffs"
 play_type = 0
 play_actions = Array[ExtResource("1_v1ctp")]([SubResource("Resource_8u371"), SubResource("Resource_xx0km"), SubResource("Resource_enm74")])
 metadata/_custom_type_script = "uid://cicv4g20wmput"

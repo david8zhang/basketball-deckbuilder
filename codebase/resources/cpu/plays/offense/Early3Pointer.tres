@@ -31,6 +31,7 @@ metadata/_custom_type_script = "uid://cow5spg8iigeb"
 
 [resource]
 script = ExtResource("4_b1jxj")
+play_name = "Early 3-Pointers"
 play_type = 0
 play_actions = Array[ExtResource("1_rah80")]([SubResource("Resource_oqj2v"), SubResource("Resource_xe7iv"), SubResource("Resource_4fh7p")])
 metadata/_custom_type_script = "uid://cicv4g20wmput"

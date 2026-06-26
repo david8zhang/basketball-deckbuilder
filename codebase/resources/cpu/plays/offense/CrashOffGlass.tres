@@ -51,6 +51,7 @@ metadata/_custom_type_script = "uid://cow5spg8iigeb"
 
 [resource]
 script = ExtResource("4_ibtt8")
+play_name = "Crash Offensive Glass"
 play_type = 0
 play_actions = Array[ExtResource("1_o1et2")]([SubResource("Resource_lbe7k"), SubResource("Resource_ilt00"), SubResource("Resource_blmqh"), SubResource("Resource_dakkj")])
 metadata/_custom_type_script = "uid://cicv4g20wmput"

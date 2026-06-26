@@ -59,7 +59,7 @@ var future_def_penalty := 0
 var total_poss_rem := 0
 var shot_clock := 0
 var game_clock := 0
-static var GAME_CLOCK_TICKS := 20
+static var GAME_CLOCK_TICKS := 3
 static var SHOT_CLOCK_TICKS := 3
 
 @onready var cpu_handler = $CPUHandler as CPUHandler
@@ -156,7 +156,10 @@ func init_enemy_defense_score():
 	enemy_defense_score_label.text = str(cpu_handler.curr_enemy_defense_score)
 
 func init_quarter_number():
-	quarter_number_label.text = str(GameVariables.quarter_number)
+	if GameVariables.num_overtimes >= 1:
+		quarter_number_label.text = "OT" + str(GameVariables.num_overtimes)
+	else:
+		quarter_number_label.text = "Q" + str(GameVariables.quarter_number)
 
 func init_player_defense_score():
 	curr_defense_score = 0

@@ -280,15 +280,9 @@ grow_horizontal = 2
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/Quarter"]
-layout_mode = 2
-text = "Q"
-horizontal_alignment = 2
-vertical_alignment = 1
-
 [node name="Value" type="Label" parent="CanvasLayer/Quarter"]
 layout_mode = 2
-text = "1"
+text = "Q1"
 vertical_alignment = 1
 
 [node name="DebugMenu" parent="CanvasLayer" instance=ExtResource("3_s0nni")]

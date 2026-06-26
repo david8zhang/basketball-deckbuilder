@@ -7,6 +7,14 @@ enum CardType {
 	SHOT
 }
 
+enum CardRarity {
+	COMMON,
+	UNCOMMON,
+	RARE,
+	LEGENDARY
+}
+
+@export var card_rarity: CardRarity
 @export var card_type: CardType
 @export var card_name := ""
 @export var card_description := ""

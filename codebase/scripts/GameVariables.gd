@@ -87,6 +87,7 @@ var player_score_breakdown = [0, 0, 0, 0, 0]
 var cpu_score_breakdown = [0, 0, 0, 0, 0]
 var curr_player_score := 0
 var curr_cpu_score := 0
+var num_overtimes := 0
 
 # Calendar of events. 3 weeks of 7 days. Each week has 4 games (3 regular games, 1 boss). 
 # In between games are events, which can be good or bad
