@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AddStatEvent" load_steps=2 format=3 uid="uid://l5mamiv65dfc"]
+
+[ext_resource type="Script" uid="uid://7f2rtionotd1" path="res://scripts/overworld/events/AddStatEvent.gd" id="1_hy8r6"]
+
+[resource]
+script = ExtResource("1_hy8r6")
+stat_to_add = 1
+amount = 1
+num_games = 1
+event_bonus_type = 2
+event_name = "Rest Day"
+event_description = "Take a rest day and regain some stamina for the next game"
+metadata/_custom_type_script = "uid://7f2rtionotd1"

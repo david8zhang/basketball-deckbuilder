@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LoseStatEvent" load_steps=2 format=3 uid="uid://dpc3f72dwp1jg"]
+
+[ext_resource type="Script" uid="uid://b4rxdri4hx7dn" path="res://scripts/overworld/events/LoseStatEvent.gd" id="1_45odj"]
+
+[resource]
+script = ExtResource("1_45odj")
+stat_to_lose = 0
+amount = 1
+num_games = 1
+bad_event_penalty_type = 2
+event_name = "Pre-Game Pressure"
+event_description = "Pre-game pressure is getting to your players mentally, causing them to be less confident on offense"
+metadata/_custom_type_script = "uid://b4rxdri4hx7dn"

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="TeamConfig" load_steps=2 format=3 uid="uid://nllhym33i3x5"]
+
+[ext_resource type="Script" uid="uid://ciwgi6i5cofss" path="res://scripts/overworld/TeamConfig.gd" id="1_wl1bo"]
+
+[resource]
+script = ExtResource("1_wl1bo")
+team_name = "Sample Team"
+metadata/_custom_type_script = "uid://ciwgi6i5cofss"

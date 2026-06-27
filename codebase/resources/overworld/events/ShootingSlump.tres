@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LoseCardEvent" load_steps=2 format=3 uid="uid://c2tvmak04olte"]
+
+[ext_resource type="Script" uid="uid://bsphy71it5nf4" path="res://scripts/overworld/events/LoseCardEvent.gd" id="1_aew7t"]
+
+[resource]
+script = ExtResource("1_aew7t")
+card_type = 2
+num_to_lose = 1
+bad_event_penalty_type = 0
+event_name = "Shooting Slump"
+event_description = "Your sharpshooting guard is in a bit of a slump"
+metadata/_custom_type_script = "uid://bsphy71it5nf4"

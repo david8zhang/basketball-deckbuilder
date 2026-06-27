@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AddCardEvent" load_steps=2 format=3 uid="uid://crrc1w4nwv288"]
+
+[ext_resource type="Script" uid="uid://dw7xgvmbvdltl" path="res://scripts/overworld/events/AddCardEvent.gd" id="1_dovyb"]
+
+[resource]
+script = ExtResource("1_dovyb")
+card_type = 0
+num_to_select = 1
+num_total = 3
+event_bonus_type = 0
+event_name = "Offensive Drills"
+event_description = "Spend the day doing offensive drills"
+metadata/_custom_type_script = "uid://dw7xgvmbvdltl"

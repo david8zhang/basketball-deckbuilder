@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AddStatEvent" load_steps=2 format=3 uid="uid://ctf0qrqyupyj1"]
+
+[ext_resource type="Script" uid="uid://7f2rtionotd1" path="res://scripts/overworld/events/AddStatEvent.gd" id="1_kde4i"]
+
+[resource]
+script = ExtResource("1_kde4i")
+stat_to_add = 6
+amount = 1
+num_games = 1
+event_bonus_type = 2
+event_name = "Coaching Adjustment"
+event_description = "Strategize about how to make adjustments after each quarter"
+metadata/_custom_type_script = "uid://7f2rtionotd1"

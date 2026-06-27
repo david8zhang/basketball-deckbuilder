@@ -44,43 +44,6 @@ var cpu_play_selector_file_names = [
 	"BasicBalanced"
 ]
 
-var player_off_deck_card_names: Array[String] = [
-	# Starting Offensive cards
-	"Drive",
-	"Drive",
-	"Handles",
-	"Handles",
-	"Pick and Roll",
-	"Pick and Roll",
-	"Pass",
-	"Pass",
-	"Drive and Kick",
-	"Drive and Kick",
-	# Starting shot cards
-	"Layup",
-	"Layup",
-	"Mid Range Jumper",
-	"Mid Range Jumper",
-	"3-Point Jumper"
-]
-var player_def_deck_card_names: Array[String] = [
-	# Starting Defensive cards
-	"Conditioning",
-	"Conditioning",
-	"On Ball Pressure",
-	"On Ball Pressure",
-	"On Ball Pressure",
-	"On Ball Pressure",
-	"On Ball Pressure",
-	"Switch",
-	"Switch",
-	"Help Defense",
-	"Help Defense",
-	"Intentional Foul",
-	"Intentional Foul",
-	"Fast Break",
-	"Fast Break"
-]
 var quarter_number := 1
 
 var player_score_breakdown = [0, 0, 0, 0, 0]
@@ -103,11 +66,25 @@ var takeover_bonuses = {
 	TakeoverBonusKey.DEF_CARD_POWER: 3
 }
 
+# Manager player state
+var player_manager: PlayerManager
+
 # Manage overworld events
 var overworld_manager: OverworldManager
 
+# Bonuses or Penalties from events
+var event_bonus_penalty_manager: EventBonusPenaltyManager
+
 func _ready() -> void:
+	player_manager = PlayerManager.new()
 	overworld_manager = OverworldManager.new()
+	event_bonus_penalty_manager = EventBonusPenaltyManager.new()
+	add_child(player_manager)
+	add_child(overworld_manager)
+	add_child(event_bonus_penalty_manager)
+	load_all_card_resources()
+
+func load_all_card_resources():
 	for cname in off_card_file_names:
 		var card = load("res://resources/cards/offense/" + cname + ".tres")
 		all_card_resources.append(card)
@@ -142,22 +119,6 @@ func get_all_defensive_cards():
 func get_all_shot_cards():
 	return all_card_resources.filter(func (cr: CardStat): return cr.card_type == CardStat.CardType.SHOT)
 
-func generate_player_off_deck():
-	var off_cards = get_all_offensive_cards()
-	var shot_cards = get_all_shot_cards()
-	for i in range(0, 10):
-		var rand_off_card = off_cards.pick_random() as CardStat
-		player_off_deck_card_names.append(rand_off_card.card_name)
-	for i in range(0, 5):
-		var rand_shot_card = shot_cards.pick_random() as CardStat
-		player_off_deck_card_names.append(rand_shot_card.card_name)
-
-func generate_player_def_deck():
-	var def_cards = get_all_defensive_cards()
-	for i in range(0, 15):
-		var rand_def_card = def_cards.pick_random() as CardStat
-		player_def_deck_card_names.append(rand_def_card.card_name)
-
 func reset_scores():
 	player_score_breakdown = []
 	cpu_score_breakdown = []
@@ -190,3 +151,28 @@ func increment_day_of_week():
 
 func get_day_of_week():
 	return overworld_manager.day_num
+
+func get_day_event() -> OverworldManager.ScheduleDay:
+	var curr_week_schedule = get_curr_week_schedule()
+	return curr_week_schedule[overworld_manager.day_num] as OverworldManager.ScheduleDay
+
+func get_player_off_deck():
+	var all_off_cards: Array[String] = []
+	all_off_cards.append_array(player_manager.off_deck)
+	all_off_cards.append_array(player_manager.shot_deck)
+	return all_off_cards
+
+func get_player_def_deck():
+	return player_manager.def_deck as Array[String]
+
+func select_event(event_config):
+	event_bonus_penalty_manager.select_event(event_config)
+
+func get_random_team_config():
+	return overworld_manager.get_random_team_config()
+
+func get_random_good_events(num_events: int):
+	return overworld_manager.get_random_good_events(num_events)
+
+func get_random_bad_events(num_events: int):
+	return overworld_manager.get_random_bad_events(num_events)

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AddStatEvent" load_steps=2 format=3 uid="uid://diivt6aif4pxi"]
+
+[ext_resource type="Script" uid="uid://7f2rtionotd1" path="res://scripts/overworld/events/AddStatEvent.gd" id="1_jae4m"]
+
+[resource]
+script = ExtResource("1_jae4m")
+stat_to_add = 2
+amount = 3
+num_games = 3
+event_bonus_type = 2
+event_name = "Social Media Outreach"
+event_description = "Film some videos for social media to pump up your fans"
+metadata/_custom_type_script = "uid://7f2rtionotd1"

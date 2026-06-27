@@ -165,15 +165,11 @@ func init_player_defense_score():
 	player_defense_score_label.text = str(curr_defense_score)
 
 func init_deck():
-	if GameVariables.player_off_deck_card_names.is_empty():
-		GameVariables.generate_player_off_deck()
-	if GameVariables.player_def_deck_card_names.is_empty():
-		GameVariables.generate_player_def_deck()
 	if curr_phase == Phase.OFFENSE:
-		draw_pile = GameVariables.player_off_deck_card_names.duplicate()
+		draw_pile = GameVariables.get_player_off_deck().duplicate()
 		draw_pile.shuffle()
 	elif curr_phase == Phase.DEFENSE:
-		draw_pile = GameVariables.player_def_deck_card_names.duplicate()
+		draw_pile = GameVariables.get_player_def_deck().duplicate()
 		draw_pile.shuffle()
 	discard_pile = []
 	discard_amount_label.text = str(discard_pile.size())

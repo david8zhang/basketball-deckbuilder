@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AddStatEvent" load_steps=2 format=3 uid="uid://bln7wkkg7f1pl"]
+
+[ext_resource type="Script" uid="uid://7f2rtionotd1" path="res://scripts/overworld/events/AddStatEvent.gd" id="1_eng0s"]
+
+[resource]
+script = ExtResource("1_eng0s")
+stat_to_add = 2
+amount = 5
+num_games = 2
+event_bonus_type = 2
+event_name = "Discounted Tickets"
+event_description = "Offer discounted tickets at the arena"
+metadata/_custom_type_script = "uid://7f2rtionotd1"

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://md7c1pagftay"]
 
 [ext_resource type="StyleBox" uid="uid://beos4xm14c3hm" path="res://assets/styles/Panel.tres" id="1_td1h0"]
-[ext_resource type="Script" uid="uid://dwiow3s7v444d" path="res://scripts/GamePreview.gd" id="2_jn1vi"]
+[ext_resource type="Script" uid="uid://dwiow3s7v444d" path="res://scripts/overworld/GamePreview.gd" id="2_jn1vi"]
 
 [node name="GamePreview" type="Panel"]
 custom_minimum_size = Vector2(680, 340)

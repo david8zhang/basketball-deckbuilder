@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AddStatEvent" load_steps=2 format=3 uid="uid://bbjoddcby3jp7"]
+
+[ext_resource type="Script" uid="uid://7f2rtionotd1" path="res://scripts/overworld/events/AddStatEvent.gd" id="1_d2iqx"]
+
+[resource]
+script = ExtResource("1_d2iqx")
+stat_to_add = 0
+amount = 1
+num_games = 1
+event_bonus_type = 2
+event_name = "Veteran Player Coaching"
+event_description = "Have your vets coach the young guys on how to be more effective on offense"
+metadata/_custom_type_script = "uid://7f2rtionotd1"

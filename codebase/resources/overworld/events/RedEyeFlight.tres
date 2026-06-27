@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LoseStatEvent" load_steps=2 format=3 uid="uid://dwo3pqwj026eo"]
+
+[ext_resource type="Script" uid="uid://b4rxdri4hx7dn" path="res://scripts/overworld/events/LoseStatEvent.gd" id="1_o4s4e"]
+
+[resource]
+script = ExtResource("1_o4s4e")
+stat_to_lose = 1
+amount = 1
+num_games = 1
+bad_event_penalty_type = 2
+event_name = "Red Eye Flight"
+event_description = "Your players weren't able to get a good night's sleep because of the flight"
+metadata/_custom_type_script = "uid://b4rxdri4hx7dn"

@@ -1,44 +1,64 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxpq8s8ah7ups"]
+[gd_scene load_steps=4 format=3 uid="uid://cxpq8s8ah7ups"]
 
 [ext_resource type="StyleBox" uid="uid://beos4xm14c3hm" path="res://assets/styles/Panel.tres" id="1_losnw"]
+[ext_resource type="Script" uid="uid://cdmf2w25i5pim" path="res://scripts/overworld/EventCard.gd" id="2_1wgdp"]
+[ext_resource type="Resource" uid="uid://bln7wkkg7f1pl" path="res://resources/overworld/events/DiscountedTickets.tres" id="3_3k0kw"]
 
 [node name="EventCard" type="Panel"]
-custom_minimum_size = Vector2(205, 220)
+custom_minimum_size = Vector2(275, 250)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -137.5
+offset_top = -125.0
+offset_right = 137.5
+offset_bottom = 125.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_losnw")
+script = ExtResource("2_1wgdp")
+event_config = ExtResource("3_3k0kw")
 
-[node name="Title" type="Label" parent="."]
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 15
 anchor_right = 1.0
-offset_top = 25.0
-offset_bottom = 48.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 20
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
 text = "Film Study"
 horizontal_alignment = 1
 
-[node name="Description" type="RichTextLabel" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -74.0
-offset_top = -81.0
-offset_right = 74.0
-offset_bottom = -18.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Description" type="RichTextLabel" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/italics_font_size = 15
+bbcode_enabled = true
+text = "[i]Your team spent a day in the film room and picked up some new things[/i]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bonus" type="RichTextLabel" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 18
 bbcode_enabled = true
 text = "[center]Gain 1 of 3 random plays[/center]"
 fit_content = true
 horizontal_alignment = 1
-vertical_alignment = 1
+vertical_alignment = 2
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
