@@ -89,22 +89,6 @@ var curr_player_score := 0
 var curr_cpu_score := 0
 var num_overtimes := 0
 
-# Calendar of events. 3 weeks of 7 days. Each week has 4 games (3 regular games, 1 boss). 
-# In between games are events, which can be good or bad
-# If the player manages to make it far enough, a 4th week will be added, representing the playoffs
-enum ScheduleDay {
-	REGULAR_GAME,
-	BOSS_GAME,
-	PO_FIRST_ROUND_GAME,
-	PO_SEMIFINALS_GAME,
-	PO_CONF_FINALS_GAME,
-	PO_FINALS_GAME,
-	GOOD_EVENT,
-	BAD_EVENT
-}
-
-var schedule: Array[ScheduleDay] = []
-
 const TakeoverBonusKey = {
 	SKILL_REGEN = "SKILL_REGEN",
 	STAMINA_REGEN = "STAMINA_REGEN",
@@ -119,7 +103,11 @@ var takeover_bonuses = {
 	TakeoverBonusKey.DEF_CARD_POWER: 3
 }
 
+# Manage overworld events
+var overworld_manager: OverworldManager
+
 func _ready() -> void:
+	overworld_manager = OverworldManager.new()
 	for cname in off_card_file_names:
 		var card = load("res://resources/cards/offense/" + cname + ".tres")
 		all_card_resources.append(card)
@@ -178,13 +166,27 @@ func get_all_card_names():
 	return all_card_resources.map(func (cr: CardStat): return cr.card_name)
 
 func generate_schedule():
-	for _i in range(0, 3):
-		var week = []		
-		for _j in range(0, 3):
-			week.append(ScheduleDay.REGULAR_GAME)
-		for _j in range(0, 3):
-			var rand_event = ScheduleDay.BAD_EVENT if randi_range(0, 2) == 0 else ScheduleDay.GOOD_EVENT
-			week.append(rand_event)
-		week.shuffle()
-		week.append(ScheduleDay.BOSS_GAME)
-		schedule.append_array(week)
+	overworld_manager.generate_schedule()
+
+func get_overall_schedule():
+	return overworld_manager.schedule
+
+func get_curr_week_schedule():
+	var week_num = overworld_manager.week_num
+	var schedule = overworld_manager.schedule
+	assert(week_num < schedule.size(), "Week number exceeds scheduled weeks size!")
+	return schedule[week_num]
+
+func increment_day_of_week():
+	var curr_week = get_curr_week_schedule()
+	if overworld_manager.day_num == curr_week.size():
+		if overworld_manager.week_num == overworld_manager.schedule.size():
+			# Handle playoff progression here
+			print("Reached end of regular season!")
+			return
+		else:
+			overworld_manager.week_num += 1
+	overworld_manager.day_num = (overworld_manager.day_num + 1) % 7
+
+func get_day_of_week():
+	return overworld_manager.day_num

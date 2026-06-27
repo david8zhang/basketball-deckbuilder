@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2jbxib2ib6w0"]
+
+[ext_resource type="Texture2D" uid="uid://cs3eom1388pt1" path="res://assets/icons/caret-up.png" id="1_rxnuk"]
+
+[node name="CalendarCaret" type="TextureRect"]
+custom_minimum_size = Vector2(20, 20)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_rxnuk")
+expand_mode = 3

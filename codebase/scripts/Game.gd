@@ -98,7 +98,6 @@ func _ready() -> void:
 	init_scoreboard()
 	init_quarter_number()
 	start_player_turn(true)
-	GameVariables.generate_schedule()
 
 func init_scoreboard():
 	scoreboard.set_scores(GameVariables.curr_player_score, GameVariables.curr_cpu_score)
