@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b88h0e3oyku2"]
+[gd_scene load_steps=10 format=3 uid="uid://b88h0e3oyku2"]
 
 [ext_resource type="Script" uid="uid://xspbrx85dkkw" path="res://scripts/Overworld.gd" id="1_c3gql"]
 [ext_resource type="PackedScene" uid="uid://cxpq8s8ah7ups" path="res://prefabs/EventCard.tscn" id="2_gacct"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dwrynx71omqqp" path="res://prefabs/CalendarDay.tscn" id="3_puia7"]
 [ext_resource type="Texture2D" uid="uid://11n88da0whjg" path="res://assets/icons/game.png" id="4_i5y0i"]
 [ext_resource type="Texture2D" uid="uid://cqq8gwinqmxvd" path="res://assets/icons/boss-game.png" id="5_i5y0i"]
+[ext_resource type="PackedScene" uid="uid://bwgbvrkwtwun3" path="res://prefabs/CardToAddPicker.tscn" id="7_0n4wa"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_c3gql")
@@ -87,3 +88,6 @@ offset_right = 39.5
 grow_horizontal = 2
 grow_vertical = 0
 text = "Continue"
+
+[node name="CardToAddPicker" parent="CanvasLayer" instance=ExtResource("7_0n4wa")]
+visible = false

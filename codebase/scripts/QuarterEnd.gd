@@ -47,15 +47,7 @@ func init_card_rewards(player_score: int, cpu_score: int):
 		c.card_button.pressed.connect(cb)
 	
 func on_select_reward(c: Card):
-	if GameVariables.player_off_deck_card_names.is_empty():
-		GameVariables.generate_player_off_deck()
-	if GameVariables.player_def_deck_card_names.is_empty():
-		GameVariables.generate_player_def_deck()
-	match c.card_stat.card_type:
-		CardStat.CardType.OFFENSE, CardStat.CardType.SHOT:
-			GameVariables.player_off_deck_card_names.append(c.card_stat.card_name)
-		CardStat.CardType.DEFENSE:
-			GameVariables.player_def_deck_card_names.append(c.card_stat.card_name)
+	GameVariables.add_card(c.card_stat)
 	on_continue()
 
 func on_continue():
@@ -68,6 +60,6 @@ func on_continue():
 			GameVariables.quarter_number = 4
 			get_tree().change_scene_to_file("res://scenes/Game.tscn")
 		else:
-			GameVariables.quarter_number = 0
+			GameVariables.quarter_number = 1
 			GameVariables.reset_scores()
 			get_tree().change_scene_to_file("res://scenes/Overworld.tscn")

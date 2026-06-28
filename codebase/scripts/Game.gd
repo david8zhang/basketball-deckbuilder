@@ -59,7 +59,7 @@ var future_def_penalty := 0
 var total_poss_rem := 0
 var shot_clock := 0
 var game_clock := 0
-static var GAME_CLOCK_TICKS := 3
+static var GAME_CLOCK_TICKS := 20
 static var SHOT_CLOCK_TICKS := 3
 
 @onready var cpu_handler = $CPUHandler as CPUHandler

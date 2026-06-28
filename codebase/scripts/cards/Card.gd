@@ -2,6 +2,7 @@ class_name Card
 extends Control
 
 @onready var game = get_node("/root/Game") as Game
+@onready var card_panel = $PanelContainer as PanelContainer
 @onready var cost_label = $Cost as Label
 @onready var name_label = $PanelContainer/HBoxContainer/Name as Label
 @onready var description_label = $PanelContainer/HBoxContainer/Description as RichTextLabel
@@ -49,3 +50,11 @@ func apply_def_boost():
 
 func apply_cost_reduce():
 	cost_label.text = str(game.get_card_cost(card_stat))
+
+func highlight():
+	var stylebox = card_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	stylebox.border_color.a = 1
+
+func dehighlight():
+	var stylebox = card_panel.get_theme_stylebox("panel") as StyleBoxFlat
+	stylebox.border_color.a = 0

@@ -22,7 +22,7 @@ class EventPenalty:
 var event_bonuses := []
 var event_penalties := []
 
-func select_event(e):
+func select_modify_stat_event(e):
 	if e is AddStatEvent:
 		var new_bonus = EventBonus.new(e.stat_to_add, e.amount, e.num_games)
 		event_bonuses.append(new_bonus)

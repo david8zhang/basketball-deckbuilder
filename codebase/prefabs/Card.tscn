@@ -1,7 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8dc8ln86s5ss"]
+[gd_scene load_steps=4 format=3 uid="uid://c8dc8ln86s5ss"]
 
 [ext_resource type="Script" uid="uid://bki2s74pl7ho0" path="res://scripts/cards/Card.gd" id="1_231n0"]
 [ext_resource type="Resource" uid="uid://dl0nkf4mb44j3" path="res://resources/cards/defense/OnBallPressure.tres" id="2_ranrt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ranrt"]
+resource_local_to_scene = true
+bg_color = Color(0.221302, 0.221302, 0.221302, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1, 0, 0)
 
 [node name="Card" type="Control"]
 custom_minimum_size = Vector2(160, 215)
@@ -35,6 +44,7 @@ offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ranrt")
 
 [node name="HBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 layout_mode = 2

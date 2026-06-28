@@ -39,3 +39,12 @@ var def_deck: Array[String] = [
 	"Fast Break",
 	"Fast Break"
 ]
+
+func add_card(c: CardStat):
+	match c.card_type:
+		CardStat.CardType.OFFENSE:
+			off_deck.append(c.card_name)
+		CardStat.CardType.SHOT:
+			shot_deck.append(c.card_name)
+		CardStat.CardType.DEFENSE:
+			def_deck.append(c.card_name)

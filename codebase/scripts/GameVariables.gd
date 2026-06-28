@@ -120,8 +120,10 @@ func get_all_shot_cards():
 	return all_card_resources.filter(func (cr: CardStat): return cr.card_type == CardStat.CardType.SHOT)
 
 func reset_scores():
-	player_score_breakdown = []
-	cpu_score_breakdown = []
+	player_score_breakdown = [0, 0, 0, 0, 0]
+	cpu_score_breakdown = [0, 0, 0, 0, 0]
+	curr_player_score = 0
+	curr_cpu_score = 0
 
 func get_all_card_names():
 	return all_card_resources.map(func (cr: CardStat): return cr.card_name)
@@ -165,8 +167,8 @@ func get_player_off_deck():
 func get_player_def_deck():
 	return player_manager.def_deck as Array[String]
 
-func select_event(event_config):
-	event_bonus_penalty_manager.select_event(event_config)
+func select_modify_stat_event(event_config: Event):
+	event_bonus_penalty_manager.select_modify_stat_event(event_config)
 
 func get_random_team_config():
 	return overworld_manager.get_random_team_config()
@@ -176,3 +178,6 @@ func get_random_good_events(num_events: int):
 
 func get_random_bad_events(num_events: int):
 	return overworld_manager.get_random_bad_events(num_events)
+
+func add_card(card_stat: CardStat):
+	player_manager.add_card(card_stat)
