@@ -48,3 +48,11 @@ func add_card(c: CardStat):
 			shot_deck.append(c.card_name)
 		CardStat.CardType.DEFENSE:
 			def_deck.append(c.card_name)
+
+func lose_card(card_stat: CardStat):
+	if off_deck.has(card_stat.card_name):
+		off_deck.erase(card_stat.card_name)
+	elif def_deck.has(card_stat.card_name):
+		def_deck.erase(card_stat.card_name)
+	elif shot_deck.has(card_stat.card_name):
+		shot_deck.erase(card_stat.card_name)

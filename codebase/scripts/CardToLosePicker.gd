@@ -1,15 +1,17 @@
-class_name CardToAddPicker
+class_name CardToLosePicker
 extends PanelContainer
 
-@onready var card_container = $VBoxContainer/HBoxContainer as HBoxContainer
+@onready var card_container = $VBoxContainer/ScrollContainer/HFlowContainer as HFlowContainer
 @onready var confirm_button = $VBoxContainer/Button as Button
 @export var card_scene: PackedScene
-var selected_cards: Array[Card] = []
+
+var selected_cards = []
 var num_to_select := 0
 
 signal on_confirm_selections(selected_card_stats)
 
 func _ready() -> void:
+	confirm_button.hide()
 	confirm_button.pressed.connect(confirm_selections)
 
 func confirm_selections():
@@ -17,7 +19,7 @@ func confirm_selections():
 	on_confirm_selections.emit(selected_card_stats)
 	selected_cards = []
 
-func show_cards_to_pick_from(card_stats: Array[CardStat]):
+func show_cards_to_pick_from(card_stats: Array):
 	for c in card_container.get_children():
 		c.queue_free()
 	for c in card_stats:
@@ -27,7 +29,7 @@ func show_cards_to_pick_from(card_stats: Array[CardStat]):
 		card.card_stat = c_stat
 		card_container.add_child(card)
 		card.toggle_play_button(false)
-		card.card_button.pressed.connect(cb)		
+		card.card_button.pressed.connect(cb)
 
 func on_select_card(card: Card):
 	if selected_cards.has(card):
@@ -40,21 +42,21 @@ func on_select_card(card: Card):
 		card.highlight()
 		selected_cards.append(card)
 	if selected_cards.size() > 0:
+		confirm_button.show()
 		confirm_button.text = "Confirm"
 	else:
-		confirm_button.text = "Skip"
+		confirm_button.hide()	
 
-func handle_add_card_event(add_card_event: AddCardEvent):
+func handle_lose_card_event(lose_card_event: LoseCardEvent):
 	show()
-	var all_cards_of_type: Array[CardStat] = []
-	match add_card_event.card_type:
-		AddCardEvent.CardType.OFFENSE:
-			all_cards_of_type = GameVariables.get_all_offensive_cards() as Array[CardStat]
-		AddCardEvent.CardType.DEFENSE:
-			all_cards_of_type = GameVariables.get_all_defensive_cards() as Array[CardStat]
-		AddCardEvent.CardType.SHOT:
-			all_cards_of_type = GameVariables.get_all_shot_cards() as Array[CardStat]
-	all_cards_of_type.shuffle()
-	var cards_to_pick_from = all_cards_of_type.slice(0, add_card_event.num_total)
-	num_to_select = add_card_event.num_to_select
-	show_cards_to_pick_from(cards_to_pick_from)
+	var all_card_names_of_type: Array[String] = []
+	num_to_select = lose_card_event.num_to_lose
+	match lose_card_event.card_type:
+		LoseCardEvent.CardType.OFFENSE:
+			all_card_names_of_type = GameVariables.get_player_offense_cards()
+		LoseCardEvent.CardType.DEFENSE:
+			all_card_names_of_type = GameVariables.get_player_def_deck()
+		LoseCardEvent.CardType.SHOT:
+			all_card_names_of_type = GameVariables.get_player_shot_cards()
+	var all_cards_of_type = all_card_names_of_type.map(func (cname): return GameVariables.load_card_stat_from_name(cname))
+	show_cards_to_pick_from(all_cards_of_type)

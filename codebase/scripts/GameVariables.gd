@@ -164,6 +164,12 @@ func get_player_off_deck():
 	all_off_cards.append_array(player_manager.shot_deck)
 	return all_off_cards
 
+func get_player_offense_cards():
+	return player_manager.off_deck
+
+func get_player_shot_cards():
+	return player_manager.shot_deck
+
 func get_player_def_deck():
 	return player_manager.def_deck as Array[String]
 
@@ -181,3 +187,6 @@ func get_random_bad_events(num_events: int):
 
 func add_card(card_stat: CardStat):
 	player_manager.add_card(card_stat)
+
+func lose_card(card_stat: CardStat):
+	player_manager.lose_card(card_stat)

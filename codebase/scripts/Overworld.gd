@@ -5,6 +5,7 @@ extends Node2D
 @onready var calendar = $CanvasLayer/DailyCalendar as HBoxContainer
 @onready var continue_or_skip_button = $CanvasLayer/ContinueOrSkip as Button
 @onready var card_to_add_picker = $CanvasLayer/CardToAddPicker as CardToAddPicker
+@onready var card_to_lose_picker = $CanvasLayer/CardToLosePicker as CardToLosePicker
 
 @export var event_card_scene: PackedScene
 @export var game_preview_scene: PackedScene
@@ -18,6 +19,7 @@ func _ready() -> void:
 	render_schedule_events()
 	render_curr_day_event()
 	card_to_add_picker.on_confirm_selections.connect(add_selected_cards_from_event)
+	card_to_lose_picker.on_confirm_selections.connect(remove_selected_cards_from_event)
 
 func render_schedule_events():
 	var curr_week = GameVariables.get_curr_week_schedule()
@@ -43,11 +45,12 @@ func render_curr_day_event():
 	curr_calendar_day.select()
 	var curr_day_event = GameVariables.get_day_event()
 	match curr_day_event:
-		OverworldManager.ScheduleDay.REGULAR_GAME:
+		OverworldManager.ScheduleDay.REGULAR_GAME, OverworldManager.ScheduleDay.BOSS_GAME:
 			var game_preview = game_preview_scene.instantiate() as GamePreview
 			var rand_team_config = GameVariables.get_random_team_config()
 			game_preview.team_config = rand_team_config
 			event_picker.add_child(game_preview)
+			continue_or_skip_button.show()
 			continue_or_skip_button.text = "Play Game"
 			continue_or_skip_button.pressed.connect(start_game, CONNECT_ONE_SHOT)
 		OverworldManager.ScheduleDay.GOOD_EVENT:
@@ -60,6 +63,7 @@ func render_curr_day_event():
 					event_card.on_pressed.connect(render_card_to_add_picker)
 				event_card.event_config = ec
 				event_picker.add_child(event_card)
+			continue_or_skip_button.show()				
 			continue_or_skip_button.text = "Skip"
 			continue_or_skip_button.pressed.connect(skip_event, CONNECT_ONE_SHOT)
 		OverworldManager.ScheduleDay.BAD_EVENT:
@@ -68,13 +72,15 @@ func render_curr_day_event():
 			var event_card = event_card_scene.instantiate() as EventCard
 			if ec is LoseStatEvent:
 				event_card.on_pressed.connect(select_add_stat_event)
+				continue_or_skip_button.show()
+				continue_or_skip_button.text = "Continue"
+				var callable = Callable(self, "select_add_stat_event").bind(ec)
+				continue_or_skip_button.pressed.connect(callable, CONNECT_ONE_SHOT)				
 			elif ec is LoseCardEvent:
 				event_card.on_pressed.connect(render_card_to_lose_picker)
+				continue_or_skip_button.hide()
 			event_card.event_config = ec
 			event_picker.add_child(event_card)
-			continue_or_skip_button.text = "Continue"
-			var callable = Callable(self, "select_add_stat_event").bind(ec)
-			continue_or_skip_button.pressed.connect(callable, CONNECT_ONE_SHOT)
 
 func select_add_stat_event(event_config: Event):
 	GameVariables.select_modify_stat_event(event_config)
@@ -83,10 +89,11 @@ func select_add_stat_event(event_config: Event):
 
 func render_card_to_add_picker(event_config: Event):
 	var add_card_event = event_config as AddCardEvent
-	card_to_add_picker.display_card_options(add_card_event)
+	card_to_add_picker.handle_add_card_event(add_card_event)
 
 func render_card_to_lose_picker(event_config: Event):
-	pass
+	var lose_card_event = event_config as LoseCardEvent
+	card_to_lose_picker.handle_lose_card_event(lose_card_event)
 
 func skip_event():
 	GameVariables.increment_day_of_week()
@@ -100,5 +107,12 @@ func add_selected_cards_from_event(card_stats):
 	card_to_add_picker.hide()
 	for c in card_stats:
 		GameVariables.add_card(c)
+	GameVariables.increment_day_of_week()
+	render_curr_day_event()
+
+func remove_selected_cards_from_event(card_stats):
+	card_to_lose_picker.hide()
+	for c in card_stats:
+		GameVariables.lose_card(c)
 	GameVariables.increment_day_of_week()
 	render_curr_day_event()

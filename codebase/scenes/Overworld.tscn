@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b88h0e3oyku2"]
+[gd_scene load_steps=11 format=3 uid="uid://b88h0e3oyku2"]
 
 [ext_resource type="Script" uid="uid://xspbrx85dkkw" path="res://scripts/Overworld.gd" id="1_c3gql"]
 [ext_resource type="PackedScene" uid="uid://cxpq8s8ah7ups" path="res://prefabs/EventCard.tscn" id="2_gacct"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://11n88da0whjg" path="res://assets/icons/game.png" id="4_i5y0i"]
 [ext_resource type="Texture2D" uid="uid://cqq8gwinqmxvd" path="res://assets/icons/boss-game.png" id="5_i5y0i"]
 [ext_resource type="PackedScene" uid="uid://bwgbvrkwtwun3" path="res://prefabs/CardToAddPicker.tscn" id="7_0n4wa"]
+[ext_resource type="PackedScene" uid="uid://nnj8qljk0nnx" path="res://prefabs/CardToLosePicker.tscn" id="10_666lb"]
 
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_c3gql")
@@ -90,4 +91,7 @@ grow_vertical = 0
 text = "Continue"
 
 [node name="CardToAddPicker" parent="CanvasLayer" instance=ExtResource("7_0n4wa")]
+visible = false
+
+[node name="CardToLosePicker" parent="CanvasLayer" instance=ExtResource("10_666lb")]
 visible = false
