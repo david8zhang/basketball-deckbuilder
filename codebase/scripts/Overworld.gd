@@ -6,9 +6,9 @@ extends Node2D
 @onready var continue_or_skip_button = $CanvasLayer/ContinueOrSkip as Button
 @onready var card_to_add_picker = $CanvasLayer/CardToAddPicker as CardToAddPicker
 @onready var card_to_lose_picker = $CanvasLayer/CardToLosePicker as CardToLosePicker
+@onready var game_preview = $CanvasLayer/GamePreview as GamePreview
 
 @export var event_card_scene: PackedScene
-@export var game_preview_scene: PackedScene
 @export var event_calendar_texture: Texture2D
 @export var game_calendar_texture: Texture2D
 @export var boss_game_calendar_texture: Texture2D
@@ -46,10 +46,7 @@ func render_curr_day_event():
 	var curr_day_event = GameVariables.get_day_event()
 	match curr_day_event:
 		OverworldManager.ScheduleDay.REGULAR_GAME, OverworldManager.ScheduleDay.BOSS_GAME:
-			var game_preview = game_preview_scene.instantiate() as GamePreview
-			var rand_team_config = GameVariables.get_random_team_config()
-			game_preview.team_config = rand_team_config
-			event_picker.add_child(game_preview)
+			render_team_config_preview()
 			continue_or_skip_button.show()
 			continue_or_skip_button.text = "Play Game"
 			continue_or_skip_button.pressed.connect(start_game, CONNECT_ONE_SHOT)
@@ -94,6 +91,11 @@ func render_card_to_add_picker(event_config: Event):
 func render_card_to_lose_picker(event_config: Event):
 	var lose_card_event = event_config as LoseCardEvent
 	card_to_lose_picker.handle_lose_card_event(lose_card_event)
+
+func render_team_config_preview():
+	GameVariables.set_reg_team_config()
+	game_preview.show_team_and_selector_config(GameVariables.get_curr_team_and_selector_config())
+	game_preview.show()
 
 func skip_event():
 	GameVariables.increment_day_of_week()

@@ -190,3 +190,9 @@ func add_card(card_stat: CardStat):
 
 func lose_card(card_stat: CardStat):
 	player_manager.lose_card(card_stat)
+
+func set_reg_team_config():
+	overworld_manager.set_reg_team_config()
+
+func get_curr_team_and_selector_config():
+	return overworld_manager.curr_cpu_team_plus_selector_config

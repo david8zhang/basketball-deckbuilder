@@ -44,6 +44,15 @@ var schedule = []
 var week_num := 0
 var day_num := 0
 
+class TeamPlusSelectorConfig:
+	var team_config: TeamConfig
+	var selector: PlaySelector
+	func _init(_team_config: TeamConfig, _selector: PlaySelector):
+		team_config = _team_config
+		selector = _selector
+
+var curr_cpu_team_plus_selector_config: TeamPlusSelectorConfig
+
 func _ready() -> void:
 	load_all_team_config_resources()
 	load_all_event_resources()
@@ -91,3 +100,8 @@ func get_random_bad_events(num_events: int):
 	print("Num bad events: " + str(all_bad_events.size()))
 	return all_bad_events.slice(0, num_events)
 
+func set_reg_team_config():
+	var team_config = get_random_team_config()
+	var play_selector = GameVariables.load_random_cpu_play_selector()
+	curr_cpu_team_plus_selector_config = TeamPlusSelectorConfig.new(team_config, play_selector)
+	

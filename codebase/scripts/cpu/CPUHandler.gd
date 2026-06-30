@@ -17,7 +17,7 @@ var curr_play: Play
 var play_action_index := 0
 
 func _ready() -> void:
-	play_selector = GameVariables.load_random_cpu_play_selector()
+	play_selector = GameVariables.load_curr_cpu_handler()
 
 func handle_cpu_debuffs():
 	game.handle_card_penalties(cpu_debuffs)

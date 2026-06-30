@@ -14,7 +14,6 @@
 [node name="Overworld" type="Node2D"]
 script = ExtResource("1_c3gql")
 event_card_scene = ExtResource("2_gacct")
-game_preview_scene = ExtResource("3_b5655")
 event_calendar_texture = ExtResource("3_bos8a")
 game_calendar_texture = ExtResource("4_i5y0i")
 boss_game_calendar_texture = ExtResource("5_i5y0i")
@@ -89,6 +88,9 @@ offset_right = 39.5
 grow_horizontal = 2
 grow_vertical = 0
 text = "Continue"
+
+[node name="GamePreview" parent="CanvasLayer" instance=ExtResource("3_b5655")]
+visible = false
 
 [node name="CardToAddPicker" parent="CanvasLayer" instance=ExtResource("7_0n4wa")]
 visible = false
