@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1_wl1bo")
 team_name = "Sample Team"
+team_abbrev = "Sample"
 metadata/_custom_type_script = "uid://ciwgi6i5cofss"

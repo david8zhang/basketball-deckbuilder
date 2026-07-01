@@ -17,7 +17,10 @@ var curr_play: Play
 var play_action_index := 0
 
 func _ready() -> void:
-	play_selector = GameVariables.load_curr_cpu_handler()
+	var cpu_config = GameVariables.get_curr_team_and_selector_config()
+	play_selector = cpu_config.selector
+	await game.ready
+	game.scoreboard.set_cpu_team_abbrev(cpu_config.team_config.team_abbrev)
 
 func handle_cpu_debuffs():
 	game.handle_card_penalties(cpu_debuffs)
