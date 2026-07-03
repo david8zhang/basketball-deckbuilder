@@ -5,6 +5,7 @@ class EventBonus:
 	var bonus_stat: AddStatEvent.StatToAdd
 	var amount := 0
 	var num_games := 0
+	var num_turns := 1
 	func _init(_bonus_stat, _amount, _num_games) -> void:
 		bonus_stat = _bonus_stat
 		amount = _amount
@@ -14,6 +15,7 @@ class EventPenalty:
 	var penalty_stat: LoseStatEvent.StatToLose
 	var amount := 0
 	var num_games := 0
+	var num_turns := 1
 	func _init(_penalty_stat, _amount, _num_games):
 		penalty_stat = _penalty_stat
 		amount = _amount

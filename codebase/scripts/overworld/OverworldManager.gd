@@ -73,8 +73,7 @@ func generate_schedule():
 		for _j in range(0, 3):
 			week.append(ScheduleDay.REGULAR_GAME)
 		for _j in range(0, 3):
-			# var rand_event = ScheduleDay.BAD_EVENT if randi_range(0, 2) == 0 else ScheduleDay.GOOD_EVENT
-			var rand_event = ScheduleDay.BAD_EVENT
+			var rand_event = ScheduleDay.BAD_EVENT if randi_range(0, 2) == 0 else ScheduleDay.GOOD_EVENT
 			week.append(rand_event)
 		week.shuffle()
 		week.append(ScheduleDay.BOSS_GAME)
@@ -106,3 +105,5 @@ func set_reg_team_config():
 	var play_selector = GameVariables.load_random_cpu_play_selector()
 	curr_cpu_team_plus_selector_config = TeamPlusSelectorConfig.new(team_config, play_selector)
 	
+func load_event_from_name(event_name: String):
+	return load("res://resources/overworld/events/" + event_name + ".tres")

@@ -110,42 +110,68 @@ func _ready() -> void:
 	start_player_turn(true)
 
 func apply_event_bonuses_and_penalties():
+	apply_bonuses()
+	apply_penalties()
+	GameVariables.event_bonus_penalty_manager.clear_expired_bonuses_and_penalties()	
+
+func apply_bonuses():
 	var event_bonuses = GameVariables.event_bonus_penalty_manager.event_bonuses
-	var event_penalties = GameVariables.event_bonus_penalty_manager.event_penalties
 	for b in event_bonuses:
 		var bonus = b as EventBonusPenaltyManager.EventBonus
+		if bonus.num_turns == 0:
+			continue
+		var should_decr_bonus: bool = bonus.bonus_stat != AddStatEvent.StatToAdd.NUM_CARD_REWARDS
 		match bonus.bonus_stat:
 			AddStatEvent.StatToAdd.SKILL:
-				future_skill_gain = bonus.amount
+				if curr_phase == Phase.OFFENSE:
+					future_skill_gain += bonus.amount
+				else:
+					should_decr_bonus = false
 			AddStatEvent.StatToAdd.STAMINA:
-				future_stam_gain = bonus.amount
+				if curr_phase == Phase.DEFENSE:
+					future_stam_gain += bonus.amount
+				else:
+					should_decr_bonus = false
 			AddStatEvent.StatToAdd.HYPE:
 				update_hype_points(bonus.amount)
 			AddStatEvent.StatToAdd.DRAW:
-				curr_draw_boost = bonus.amount
+				curr_draw_boost += bonus.amount
 			AddStatEvent.StatToAdd.OFF_POWER:
-				curr_off_boost = bonus.amount
+				curr_off_boost += bonus.amount
 			AddStatEvent.StatToAdd.DEF_POWER:
-				curr_def_boost = bonus.amount
+				curr_def_boost += bonus.amount
 		# Card reward bonus applies at the end of the quarter
-		if bonus.bonus_stat != AddStatEvent.StatToAdd.NUM_CARD_REWARDS:
+		if should_decr_bonus:
 			bonus.num_games -= 1
+			bonus.num_turns -= 1
+
+func apply_penalties():
+	var event_penalties = GameVariables.event_bonus_penalty_manager.event_penalties
 	for p in event_penalties:
 		var penalty = p as EventBonusPenaltyManager.EventPenalty
+		if penalty.num_turns == 0:
+			continue
+		var should_decr_penalty: bool = penalty.penalty_stat != LoseStatEvent.StatToLose.NUM_CARD_REWARDS
 		match penalty.penalty_stat:
 			LoseStatEvent.StatToLose.SKILL:
-				future_skill_reduce = penalty.amount
+				if curr_phase == Phase.OFFENSE:
+					future_skill_reduce += penalty.amount
+				else:
+					should_decr_penalty = false
 			LoseStatEvent.StatToLose.STAMINA:
-				future_stam_reduce = penalty.amount
+				if curr_phase == Phase.DEFENSE:
+					future_stam_reduce += penalty.amount
+				else:
+					should_decr_penalty = false
 			LoseStatEvent.StatToLose.DRAW:
-				curr_draw_penalty = penalty.amount
+				curr_draw_penalty += penalty.amount
 			LoseStatEvent.StatToLose.OFF_POWER:
-				curr_off_penalty = penalty.amount
+				curr_off_penalty += penalty.amount
 			LoseStatEvent.StatToLose.DEF_POWER:
-				curr_def_penalty = penalty.amount
-		if penalty.penalty_stat != LoseStatEvent.StatToLose.NUM_CARD_REWARDS:
+				curr_def_penalty += penalty.amount
+		if should_decr_penalty:
 			penalty.num_games -= 1
-	GameVariables.event_bonus_penalty_manager.clear_expired_bonuses_and_penalties()	
+			penalty.num_turns -= 1
 
 func init_scoreboard():
 	scoreboard.set_scores(GameVariables.curr_player_score, GameVariables.curr_cpu_score)
@@ -210,6 +236,7 @@ func start_player_turn(is_first_turn: bool):
 	if !is_first_turn:
 		discard_current_hand()
 		cpu_handler.handle_cpu_debuffs()
+	apply_event_bonuses_and_penalties()
 	draw_cards(get_draw_amount())
 	reset_resource_points()
 	decrement_takeover_mode()

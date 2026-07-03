@@ -10,6 +10,9 @@ func show_team_and_selector_config(team_plus_selector: OverworldManager.TeamPlus
 	team_config = team_plus_selector.team_config as TeamConfig
 	team_name_label.text = team_config.team_name
 	var play_selector = team_plus_selector.selector as PlaySelector
+	for i in range(0, intel_container.get_children().size()):
+		if i > 0:
+			intel_container.get_child(i).queue_free()
 	show_play_tendencies(play_selector.default_off_plays)
 	show_play_tendencies(play_selector.default_def_plays)
 

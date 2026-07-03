@@ -7,6 +7,7 @@ extends Node2D
 @onready var card_to_add_picker = $CanvasLayer/CardToAddPicker as CardToAddPicker
 @onready var card_to_lose_picker = $CanvasLayer/CardToLosePicker as CardToLosePicker
 @onready var game_preview = $CanvasLayer/GamePreview as GamePreview
+@onready var week_label = $CanvasLayer/Label as Label
 
 @export var event_card_scene: PackedScene
 @export var event_calendar_texture: Texture2D
@@ -22,6 +23,7 @@ func _ready() -> void:
 	card_to_lose_picker.on_confirm_selections.connect(remove_selected_cards_from_event)
 
 func render_schedule_events():
+	week_label.text = "Week " + str(GameVariables.overworld_manager.week_num + 1)
 	var curr_week = GameVariables.get_curr_week_schedule()
 	var calendar_days = calendar.get_children() as Array[CalendarDay]
 	for i in range(0, curr_week.size()):
@@ -118,3 +120,30 @@ func remove_selected_cards_from_event(card_stats):
 		GameVariables.lose_card(c)
 	GameVariables.increment_day_of_week()
 	render_curr_day_event()
+
+func set_curr_event(event: Event):
+	game_preview.hide()
+	if event is GoodEvent:
+		var event_card = event_card_scene.instantiate() as EventCard
+		if event is AddStatEvent:
+			event_card.on_pressed.connect(select_add_stat_event)
+		elif event is AddCardEvent:
+			event_card.on_pressed.connect(render_card_to_add_picker)
+		event_card.event_config = event
+		event_picker.add_child(event_card)
+		continue_or_skip_button.show()				
+		continue_or_skip_button.text = "Skip"
+		continue_or_skip_button.pressed.connect(skip_event, CONNECT_ONE_SHOT)
+	elif event is BadEvent:
+		var event_card = event_card_scene.instantiate() as EventCard
+		if event is LoseStatEvent:
+			event_card.on_pressed.connect(select_add_stat_event)
+			continue_or_skip_button.show()
+			continue_or_skip_button.text = "Continue"
+			var callable = Callable(self, "select_add_stat_event").bind(event)
+			continue_or_skip_button.pressed.connect(callable, CONNECT_ONE_SHOT)				
+		elif event is LoseCardEvent:
+			event_card.on_pressed.connect(render_card_to_lose_picker)
+			continue_or_skip_button.hide()
+		event_card.event_config = event
+		event_picker.add_child(event_card)		
