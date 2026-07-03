@@ -29,3 +29,7 @@ func select_modify_stat_event(e):
 	elif e is LoseStatEvent:
 		var new_penalty = EventPenalty.new(e.stat_to_lose, e.amount, e.num_games)
 		event_penalties.append(new_penalty)
+
+func clear_expired_bonuses_and_penalties():
+	event_bonuses = event_bonuses.filter(func (e): return e.num_games > 0)
+	event_penalties = event_penalties.filter(func (e): return e.num_games > 0)

@@ -73,7 +73,8 @@ func generate_schedule():
 		for _j in range(0, 3):
 			week.append(ScheduleDay.REGULAR_GAME)
 		for _j in range(0, 3):
-			var rand_event = ScheduleDay.BAD_EVENT if randi_range(0, 2) == 0 else ScheduleDay.GOOD_EVENT
+			# var rand_event = ScheduleDay.BAD_EVENT if randi_range(0, 2) == 0 else ScheduleDay.GOOD_EVENT
+			var rand_event = ScheduleDay.BAD_EVENT
 			week.append(rand_event)
 		week.shuffle()
 		week.append(ScheduleDay.BOSS_GAME)

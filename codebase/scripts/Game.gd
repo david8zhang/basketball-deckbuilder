@@ -40,12 +40,21 @@ static var TAKEOVER_TURN_DURATION = 3
 var switch_phase_after_card := false
 var card_type_to_cost_reduce_map = {}
 var card_name_to_cost_reduce_map = {}
+
+# Current bonuses (apply on this turn)
 var curr_off_boost := 0
 var curr_def_boost := 0
+var curr_draw_boost := 0
+var curr_off_penalty := 0
+var curr_def_penalty := 0
+var curr_draw_penalty := 0
+
+# Future bonuses (apply on next turn)
 var future_skill_gain := 0
 var future_stam_gain := 0
 var future_off_boost := 0
 var future_def_boost := 0
+var future_draw_boost := 0
 var future_shot_clock_gain := 0
 
 # Penalty trackers
@@ -97,13 +106,52 @@ func _ready() -> void:
 	cpu_handler.init_enemy_def_play_and_score()
 	init_scoreboard()
 	init_quarter_number()
+	apply_event_bonuses_and_penalties()
 	start_player_turn(true)
+
+func apply_event_bonuses_and_penalties():
+	var event_bonuses = GameVariables.event_bonus_penalty_manager.event_bonuses
+	var event_penalties = GameVariables.event_bonus_penalty_manager.event_penalties
+	for b in event_bonuses:
+		var bonus = b as EventBonusPenaltyManager.EventBonus
+		match bonus.bonus_stat:
+			AddStatEvent.StatToAdd.SKILL:
+				future_skill_gain = bonus.amount
+			AddStatEvent.StatToAdd.STAMINA:
+				future_stam_gain = bonus.amount
+			AddStatEvent.StatToAdd.HYPE:
+				update_hype_points(bonus.amount)
+			AddStatEvent.StatToAdd.DRAW:
+				curr_draw_boost = bonus.amount
+			AddStatEvent.StatToAdd.OFF_POWER:
+				curr_off_boost = bonus.amount
+			AddStatEvent.StatToAdd.DEF_POWER:
+				curr_def_boost = bonus.amount
+		# Card reward bonus applies at the end of the quarter
+		if bonus.bonus_stat != AddStatEvent.StatToAdd.NUM_CARD_REWARDS:
+			bonus.num_games -= 1
+	for p in event_penalties:
+		var penalty = p as EventBonusPenaltyManager.EventPenalty
+		match penalty.penalty_stat:
+			LoseStatEvent.StatToLose.SKILL:
+				future_skill_reduce = penalty.amount
+			LoseStatEvent.StatToLose.STAMINA:
+				future_stam_reduce = penalty.amount
+			LoseStatEvent.StatToLose.DRAW:
+				curr_draw_penalty = penalty.amount
+			LoseStatEvent.StatToLose.OFF_POWER:
+				curr_off_penalty = penalty.amount
+			LoseStatEvent.StatToLose.DEF_POWER:
+				curr_def_penalty = penalty.amount
+		if penalty.penalty_stat != LoseStatEvent.StatToLose.NUM_CARD_REWARDS:
+			penalty.num_games -= 1
+	GameVariables.event_bonus_penalty_manager.clear_expired_bonuses_and_penalties()	
 
 func init_scoreboard():
 	scoreboard.set_scores(GameVariables.curr_player_score, GameVariables.curr_cpu_score)
 
 func init_shot_clock():
-	shot_clock = SHOT_CLOCK_TICKS + future_shot_clock_gain
+	shot_clock = get_shot_clock_ticks()
 	future_shot_clock_gain = 0
 	update_shot_clock(0)
 	tick_shot_clock_button.pressed.connect(tick_shot_clock)
@@ -123,22 +171,6 @@ func reset_resource_points():
 		future_stam_reduce = 0
 		future_stam_gain = 0
 		skill_stamina_label.text = str(curr_stamina_points) + "/" + str(BASE_STAMINA_POINTS)
-
-func get_skill_points():
-	var skill_points = BASE_SKILL_POINTS
-	skill_points -= future_skill_reduce
-	skill_points += future_skill_gain
-	if is_takeover_mode:
-		skill_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.SKILL_REGEN]
-	return max(0, skill_points)
-
-func get_stamina_points():
-	var stamina_points = BASE_STAMINA_POINTS
-	stamina_points -= future_stam_reduce
-	stamina_points += future_stam_gain
-	if is_takeover_mode:
-		stamina_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.STAMINA_REGEN]
-	return max(0, stamina_points)
 
 func decrement_takeover_mode():
 	takeover_turns_remaining = max(0, takeover_turns_remaining - 1)
@@ -178,8 +210,7 @@ func start_player_turn(is_first_turn: bool):
 	if !is_first_turn:
 		discard_current_hand()
 		cpu_handler.handle_cpu_debuffs()
-	var draw_amount = max(0, DRAW_PER_TURN - future_draw_reduce)
-	draw_cards(draw_amount)
+	draw_cards(get_draw_amount())
 	reset_resource_points()
 	decrement_takeover_mode()
 	if curr_phase == Phase.DEFENSE:
@@ -222,12 +253,21 @@ func tick_game_clock():
 	if game_clock == 0:
 		handle_end_of_quarter()
 
-func tick_shot_clock():
-	tick_game_clock()
-	card_name_to_cost_reduce_map = {}
-	card_type_to_cost_reduce_map = {}
+func transfer_boosts_and_penalties_btwn_ticks():
 	curr_off_boost = future_off_boost
 	curr_def_boost = future_def_boost
+	curr_off_penalty = future_off_penalty
+	curr_def_penalty = future_def_penalty
+	future_off_penalty = 0
+	future_def_penalty = 0
+	future_off_boost = 0
+	future_def_boost = 0
+
+func tick_shot_clock():
+	tick_game_clock()
+	transfer_boosts_and_penalties_btwn_ticks()
+	card_name_to_cost_reduce_map = {}
+	card_type_to_cost_reduce_map = {}
 	if game_clock != 0:
 		# Reset bonuses after ending current turn
 		if shot_clock == 1:
@@ -289,11 +329,11 @@ func meets_requirements(requirements: Array[CardRequirement]) -> bool:
 		match req.requirement_type:
 			CardRequirement.ReqType.ENEMY_DEF_SCORE:
 				var thres_req = req as ThresholdCardRequirement
-				if !satisfies_threshold(thres_req.comparator, thres_req.threshold, cpu_handler.curr_enemy_defense_score):
+				if !satisfies_threshold(thres_req.comparator, thres_req.threshold, cpu_handler.get_curr_enemy_defense_score()):
 					return false
 			CardRequirement.ReqType.OFF_ADV_AMOUNT:
 				var thres_req = req as ThresholdCardRequirement
-				var enemy_defense_score = cpu_handler.curr_enemy_defense_score
+				var enemy_defense_score = cpu_handler.get_curr_enemy_defense_score()
 				if enemy_defense_score > 0 or !satisfies_threshold(thres_req.comparator, thres_req.threshold, abs(enemy_defense_score)):
 					return false
 			CardRequirement.ReqType.PLAYER_DEF_SCORE:
@@ -383,26 +423,6 @@ func play_card(card: Card):
 		if game_clock != 0 and (switch_phase_after_card or card_stat.card_type == CardStat.CardType.SHOT or shot_clock == 0):
 			switch_phase_after_card = false
 			switch_phases()
-
-func get_card_off_power(card_stat: CardStat):
-	var final_power = card_stat.power
-	final_power += curr_off_boost
-	final_power += future_off_boost
-	final_power -= future_off_penalty
-	if is_takeover_mode:
-		final_power += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.OFF_CARD_POWER]
-	final_power = max(final_power, 0)
-	return final_power
-
-func get_card_def_power(card_stat: CardStat):
-	var final_power = card_stat.power
-	final_power += curr_def_boost
-	final_power += future_def_boost
-	final_power -= future_def_penalty
-	if is_takeover_mode:
-		final_power += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.DEF_CARD_POWER]
-	final_power = max(final_power, 0)
-	return final_power
 
 func get_card_cost(card_stat: CardStat):
 	var cost = card_stat.cost
@@ -528,3 +548,46 @@ func update_hype_points(amount: int):
 		update_all_cards()
 	else:
 		hype_meter_label.text = "Hype: " + str(curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)
+
+# Get stamina, skill points, card off, def power
+func get_card_off_power(card_stat: CardStat):
+	var final_power = card_stat.power
+	final_power += curr_off_boost
+	final_power -= curr_off_penalty
+	if is_takeover_mode:
+		final_power += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.OFF_CARD_POWER]
+	final_power = max(final_power, 0)
+	return final_power
+
+func get_card_def_power(card_stat: CardStat):
+	var final_power = card_stat.power
+	final_power += curr_def_boost
+	final_power -= curr_def_penalty
+	if is_takeover_mode:
+		final_power += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.DEF_CARD_POWER]
+	final_power = max(final_power, 0)
+	return final_power
+
+func get_skill_points():
+	var skill_points = BASE_SKILL_POINTS
+	skill_points -= future_skill_reduce
+	skill_points += future_skill_gain
+	if is_takeover_mode:
+		skill_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.SKILL_REGEN]
+	return max(0, skill_points)
+
+func get_stamina_points():
+	var stamina_points = BASE_STAMINA_POINTS
+	stamina_points -= future_stam_reduce
+	stamina_points += future_stam_gain
+	if is_takeover_mode:
+		stamina_points += GameVariables.takeover_bonuses[GameVariables.TakeoverBonusKey.STAMINA_REGEN]
+	return max(0, stamina_points)
+
+func get_shot_clock_ticks():
+	var ticks = SHOT_CLOCK_TICKS + future_shot_clock_gain
+	return ticks
+
+func get_draw_amount():
+	var draw_amount = max(0, DRAW_PER_TURN - future_draw_reduce)
+	return draw_amount

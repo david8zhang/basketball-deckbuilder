@@ -163,3 +163,6 @@ func handle_enemy_turn(on_complete: Callable):
 			on_complete.call()
 	else:
 		handle_enemy_defend_intent(on_complete)
+
+func get_curr_enemy_defense_score():
+	return curr_enemy_defense_score
