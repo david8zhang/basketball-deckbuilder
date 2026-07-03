@@ -13,8 +13,8 @@ metadata/_custom_type_script = "uid://d3s7xebxk26vg"
 
 [sub_resource type="Resource" id="Resource_rjgdm"]
 script = ExtResource("3_bvnjl")
-base_power_low = 1
-base_power_high = 5
+base_power_low = 5
+base_power_high = 10
 score_intent = 0
 debuffs = Array[ExtResource("2_iph34")]([SubResource("Resource_vyula")])
 metadata/_custom_type_script = "uid://cow5spg8iigeb"
@@ -27,16 +27,16 @@ metadata/_custom_type_script = "uid://d3s7xebxk26vg"
 
 [sub_resource type="Resource" id="Resource_6u6dm"]
 script = ExtResource("3_bvnjl")
-base_power_low = 3
-base_power_high = 7
+base_power_low = 10
+base_power_high = 15
 score_intent = 0
 debuffs = Array[ExtResource("2_iph34")]([SubResource("Resource_n1iba")])
 metadata/_custom_type_script = "uid://cow5spg8iigeb"
 
 [sub_resource type="Resource" id="Resource_vnyh1"]
 script = ExtResource("3_bvnjl")
-base_power_low = 10
-base_power_high = 15
+base_power_low = 13
+base_power_high = 18
 score_intent = 1
 debuffs = Array[ExtResource("2_iph34")]([])
 metadata/_custom_type_script = "uid://cow5spg8iigeb"

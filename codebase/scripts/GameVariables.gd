@@ -51,6 +51,7 @@ var cpu_score_breakdown = [0, 0, 0, 0, 0]
 var curr_player_score := 0
 var curr_cpu_score := 0
 var num_overtimes := 0
+var curr_hype_points := 0
 
 const TakeoverBonusKey = {
 	SKILL_REGEN = "SKILL_REGEN",

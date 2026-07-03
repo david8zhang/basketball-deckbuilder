@@ -33,8 +33,8 @@ metadata/_custom_type_script = "uid://whwvyytyy6f"
 
 [sub_resource type="Resource" id="Resource_sakkj"]
 script = ExtResource("4_l6v7k")
-boost_amount_low = 1
-boost_amount_high = 5
+boost_amount_low = 3
+boost_amount_high = 8
 defend_intent = 0
 debuffs = Array[ExtResource("2_2nf18")]([])
 metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
@@ -56,6 +56,7 @@ metadata/_custom_type_script = "uid://whwvyytyy6f"
 script = ExtResource("2_o33tj")
 starting_def_low = 5
 starting_def_high = 8
+play_name = ""
 play_type = 1
 play_actions = Array[ExtResource("1_lkhax")]([SubResource("Resource_4odlm"), SubResource("Resource_sakkj"), SubResource("Resource_nqh4h")])
 metadata/_custom_type_script = "uid://ce4aoo1aetsif"

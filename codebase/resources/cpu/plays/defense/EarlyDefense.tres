@@ -21,22 +21,22 @@ metadata/_custom_type_script = "uid://d3s7xebxk26vg"
 [sub_resource type="Resource" id="Resource_10yd0"]
 script = ExtResource("3_xpmak")
 random_select = true
-defend_intent = 0
+defend_intent = 1
 debuffs = Array[ExtResource("2_47522")]([SubResource("Resource_sc7n1"), SubResource("Resource_rgtwi")])
 metadata/_custom_type_script = "uid://whwvyytyy6f"
 
 [sub_resource type="Resource" id="Resource_1fxgw"]
 script = ExtResource("4_xpmak")
-boost_amount_low = 1
-boost_amount_high = 3
+boost_amount_low = 3
+boost_amount_high = 5
 defend_intent = 0
 debuffs = Array[ExtResource("2_47522")]([])
 metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
 
 [sub_resource type="Resource" id="Resource_xpmak"]
 script = ExtResource("4_xpmak")
-boost_amount_low = 1
-boost_amount_high = 3
+boost_amount_low = 3
+boost_amount_high = 5
 defend_intent = 0
 debuffs = Array[ExtResource("2_47522")]([])
 metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
@@ -45,6 +45,7 @@ metadata/_custom_type_script = "uid://dr5wbm5rtpor0"
 script = ExtResource("2_8nboe")
 starting_def_low = 15
 starting_def_high = 20
+play_name = ""
 play_type = 1
 play_actions = Array[ExtResource("1_68hwp")]([SubResource("Resource_10yd0"), SubResource("Resource_1fxgw"), SubResource("Resource_xpmak")])
 metadata/_custom_type_script = "uid://ce4aoo1aetsif"

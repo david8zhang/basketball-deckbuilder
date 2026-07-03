@@ -7,7 +7,7 @@
 
 [sub_resource type="Resource" id="Resource_oqj2v"]
 script = ExtResource("3_4pa52")
-base_power_low = 10
+base_power_low = 12
 base_power_high = 15
 score_intent = 2
 debuffs = Array[ExtResource("2_j6n10")]([])
@@ -15,16 +15,16 @@ metadata/_custom_type_script = "uid://cow5spg8iigeb"
 
 [sub_resource type="Resource" id="Resource_xe7iv"]
 script = ExtResource("3_4pa52")
-base_power_low = 5
-base_power_high = 10
+base_power_low = 10
+base_power_high = 15
 score_intent = 2
 debuffs = Array[ExtResource("2_j6n10")]([])
 metadata/_custom_type_script = "uid://cow5spg8iigeb"
 
 [sub_resource type="Resource" id="Resource_4fh7p"]
 script = ExtResource("3_4pa52")
-base_power_low = 2
-base_power_high = 6
+base_power_low = 8
+base_power_high = 12
 score_intent = 2
 debuffs = Array[ExtResource("2_j6n10")]([])
 metadata/_custom_type_script = "uid://cow5spg8iigeb"

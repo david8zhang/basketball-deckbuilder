@@ -22,7 +22,6 @@ enum Phase {
 # Player stats
 var draw_pile: Array[String] = []
 var discard_pile: Array[String] = []
-var curr_hype_points := 0
 var curr_skill_points := 0
 var curr_stamina_points := 0
 var curr_defense_score := 0
@@ -202,7 +201,7 @@ func decrement_takeover_mode():
 	takeover_turns_remaining = max(0, takeover_turns_remaining - 1)
 	if takeover_turns_remaining == 0:
 		is_takeover_mode = false
-		hype_meter_label.text = "Hype: " + str(curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)
+		hype_meter_label.text = "Hype: " + str(GameVariables.curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)
 		update_all_cards()
 	else:
 		hype_meter_label.text = "TAKEOVER! (" + str(takeover_turns_remaining) + " turns remaining)"
@@ -565,16 +564,16 @@ func update_player_defense(amount: int):
 func update_hype_points(amount: int):
 	if is_takeover_mode:
 		return
-	curr_hype_points = max(0, curr_hype_points + amount)
-	if curr_hype_points >= TAKEOVER_HYPE_THRESHOLD:
+	GameVariables.curr_hype_points = max(0, GameVariables.curr_hype_points + amount)
+	if GameVariables.curr_hype_points >= TAKEOVER_HYPE_THRESHOLD:
 		# Start takeover mode
-		curr_hype_points = 0
+		GameVariables.curr_hype_points = 0
 		takeover_turns_remaining = TAKEOVER_TURN_DURATION
 		is_takeover_mode = true
 		hype_meter_label.text = "TAKEOVER! (" + str(takeover_turns_remaining) + " turns remaining)"
 		update_all_cards()
 	else:
-		hype_meter_label.text = "Hype: " + str(curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)
+		hype_meter_label.text = "Hype: " + str(GameVariables.curr_hype_points) + " / " + str(TAKEOVER_HYPE_THRESHOLD)
 
 # Get stamina, skill points, card off, def power
 func get_card_off_power(card_stat: CardStat):
